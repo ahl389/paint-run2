@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.0/workbox-sw.js");
 
 importScripts(
-  "/paint-run2/precache-manifest.99f02753b1fce941f976cd834c71a56f.js"
+  "/paint-run2/precache-manifest.41f2ca9574ec68dc74dd629eccc0b24e.js"
 );
 
 self.addEventListener('message', (event) => {
