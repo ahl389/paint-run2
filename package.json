@@ -2,7 +2,7 @@
   "name": "paint-run2",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ahl389.github.io/paint-run2/",
+  "homepage": ".",
   "dependencies": {
     "gh-pages": "^2.0.1",
     "react": "^16.8.6",
