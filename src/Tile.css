@@ -22,9 +22,10 @@
 	border-radius: 3px;
 	z-index: 5;
 	box-shadow: inset 2px 2px 1px 0px #000000;
+	text-align: center;
 }
 
-.target:before {
+/*.target:before {
 	content: '';
 	position: absolute;
 	width: 20px;
@@ -35,28 +36,59 @@
 	top: 50%;
 	transform: translate(-50%,-50%);
 	z-index: 1;
-	
-}
+
+}*/
 
 .avatar, .monster {
 	text-align: center;
 	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
-	text-align: center;
 	width: 100%;
 	font-size: 2em;
+	border-radius: 100%;
+	width: 12px;
+	height: 12px;
+	margin: 0 auto;
+	left: 2px;
+	right: 0px;
+}
+
+.avatar {
+	animation: orb 1.5s infinite;
+	background-color: #225d5d;
+	border: 5px solid rgba(255,255,255,.6);
+}
+
+.monster {
+	animation: orb2 2s infinite;
+	background-color: #8c7d51;
+}
+
+@keyframes orb {
+	0% { background-color: #225d5d;}
+	50% { background-color: #4d807f; }
+	100% { background-color: #225d5d;}
+}
+
+@keyframes orb2 {
+	0% { background-color: #8c7d51;}
+	50% { background-color: #5c5134; }
+	100% { background-color: #8c7d51;}
+}
+
+.avatarT.monsterT {
+	opacity: .6;
 }
 
 
-
-.tile.touchedA {
+.tile.touchedA, .avatarT {
 	background-color: #79cdcd;
 }
 
 
-.tile.touchedM {
-	background-color: red;
+.tile.touchedM, .monsterT {
+	background-color: #cdb979;
 }
 
 

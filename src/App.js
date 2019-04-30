@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import './App.css';
 import './Tile.css';
 import './button.css';
+import './Tutorial.css';
 import Game from './Game.js';
 import levels from './levels.js'
 

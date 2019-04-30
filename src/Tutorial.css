@@ -1,0 +1,19 @@
+.level {
+	position: relative;
+}
+
+.tbutton {
+	cursor: pointer;
+}
+
+h3 {
+	margin-top: 25px;
+	margin-bottom: 10px;
+	color: #79cdcd;
+}
+
+.tutorial {
+	width: 100%;
+	position: absolute;
+	top: 50px;
+}

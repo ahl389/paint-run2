@@ -7,6 +7,7 @@ button, .button {
 	border: none;
 	font-size: 2em;
 	margin-top: 25px;
+	margin-bottom: 25px;
 	box-sizing: border-box;
 	cursor: pointer;
 }

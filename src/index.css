@@ -1,4 +1,4 @@
-body, h1, h2, p, button, li {
+body, h1, h2, h3, p, button, li {
 	color: white;
 	padding: 0px;
 	margin: 0px;
@@ -61,6 +61,11 @@ body, h1, h2, p, button, li {
 	80% {opacity: 0}
 	100% {opacity: 1}
 }
+
+.tutorial {
+	cursor: pointer;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Board from './Board.js';
 import Button from './Button.js';
 import Time from './Time.js';
+import Tutorial from './Tutorial.js';
 
 
 class Game extends React.Component {
@@ -13,11 +14,13 @@ class Game extends React.Component {
 			touched: 1,
 			buttonMessage: "Begin Game!",
 			seconds: this.props.level.time,
-			statusCode: 'new-game'
+			statusCode: 'new-game',
+			tutorial: false
 		}
 		
 		this.endLevel = this.endLevel.bind(this);
 		this.handleClick = this.handleClick.bind(this);
+		this.showTutorial = this.showTutorial.bind(this);
 	}	
 	
 	handleClick(e) {
@@ -53,6 +56,11 @@ class Game extends React.Component {
 		} 
 	}
 	
+	showTutorial(){
+		this.setState({
+			tutorial: !this.state.tutorial
+		})
+	}
 
 	updateGameStatus(gameOver, sm, bm, sc, lives=this.state.lives){
 		this.setState({
@@ -179,7 +187,14 @@ class Game extends React.Component {
 		return (
 			<div className="game-board">
 				<div className = "header-content">
-					<div className="level"><h1>Level {level.levelNum}</h1></div>
+					<div className="level">
+						<h1>Level {level.levelNum}</h1>
+						<div className="tbutton" onClick={this.showTutorial}>See tutorial</div>
+						{ this.state.tutorial
+						  ? <Tutorial />
+						  : ''
+						}
+					</div>
 					<div className = "details-tab">
 						<div className="lives">{this.state.lives}<br></br><span>lives</span></div>
 						<div className="status">{this.state.touched}/{level.tiles}<br></br><span>tiles</span></div>
@@ -188,9 +203,7 @@ class Game extends React.Component {
 				</div><div className = "clear"></div>
 			
 				{ ! gameOver 
-				  ? <div>
-					
-					<Board
+				  ? <Board
 						monsters={monsterState}
 						rowData={tileState}
 						lives={this.state.lives}
@@ -199,7 +212,6 @@ class Game extends React.Component {
 						lowerTouchCount={ltc.bind(this)}
 						level={this.props.level}
 						/> 
-					</div>
 		  		  : <div className = "gameover">
 						<h1>{this.state.statusMessage}</h1>
 						<button className="button" onClick={this.handleClick} data-statuscode={this.state.statusCode}>
