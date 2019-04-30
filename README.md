@@ -1,3 +1,78 @@
+# Paint Run
+
+## Game Overview
+
+Paint Run is a 2D game written in React. The objective of the game is to "paint" all the tiles on a level blue before opposing forces paint them gold, and before the timer runs out.
+
+### Game Controls
+
+Players move around the level using the arrow keys.
+
+### Opposing Forces
+
+Opposing forces are busy painting the level gold while the player paints it blue. If a player moves to the same tile as an opposing force three times, that opposing force will be neutralized and disappear.
+
+
+## Contributing
+
+Any and all help is appreciated on this game. If you contribute, please update the `contributors.md` file. Look at the issues tab for any features or things you want to work on and comment. First timers, women, and new contributors especially welcome.
+
+## Getting Started & Workflow
+
+Clone the repo
+
+```bash
+git clone https://github.com/ahl389/paint-run2.git
+```
+
+In your terminal, navigate to the project's root
+
+```bash
+cd paint-run2
+```
+
+Create a new branch for yourself
+
+```bash
+git checkout -b <your-branch-name>
+```
+
+To see the app locally, from the project's root directory run:
+
+```bash
+npm start
+```
+
+Then visit http://localhost:3000/
+
+When you're ready to stage and commit your changes, do so with:
+
+```bash
+git add .
+git commit -m '<your commit message here>'
+```
+
+Push them to your branch:
+
+```bash
+git push origin <your-branch-name>
+
+
+Come back to the repo here, and create a pull request by hitting the `New Pull Request` button toward the top. Select your branch from the list.
+
+
+
+
+
+
+
+
+
+
+
+
+# Boilerplate React Stuff Below
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

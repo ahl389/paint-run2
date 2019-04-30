@@ -48,18 +48,21 @@ body, h1, h2, h3, p, button, li {
 }
 
 .flasher {
-	animation-name: flash;
-	animation-duration: 3s;
-	animation-iteration-count: 1;
+	animation: flash 1s infinite;
+	/*animation-duration: 3s;
+	animation-iteration-count: 1;*/
 }
 
 @keyframes flash {
+/*	0% {opacity: 1}
+	25% {opacity: 0}
+	50% {opacity: 1}
+	75% {opacity: 0}
+	100% {opacity: 1}*/
+/*	100% {opacity: }*/
 	0% {opacity: 0}
-	20% {opacity: 1}
-	40% {opacity: 0}
-	60% {opacity: 1}
-	80% {opacity: 0}
-	100% {opacity: 1}
+	50% {opacity: 1}
+	100% {opacity: 0}
 }
 
 .tutorial {

@@ -15,6 +15,7 @@ class Game extends React.Component {
 			buttonMessage: "Begin Game!",
 			seconds: this.props.level.time,
 			statusCode: 'new-game',
+			statusMessage: 'Paint Run',
 			tutorial: false
 		}
 		
