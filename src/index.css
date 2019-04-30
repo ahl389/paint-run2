@@ -1,0 +1,66 @@
+body, h1, h2, p, button, li {
+	color: white;
+	padding: 0px;
+	margin: 0px;
+	font-family: 'Luckiest Guy';
+}
+
+.body {
+	background: rgb(2,0,36);
+	background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(46,4,69,1) 50%, rgba(51,4,101,1) 100%);
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+.game-board {
+	width: 100%;
+	padding: 25px;
+	box-sizing: border-box;
+	text-align: center;
+}
+
+.level {
+	width: 25%;
+	text-align: left;
+	float: left;
+}
+
+.header-content {
+	width: 100%;
+}
+
+.details-tab {
+	float: right;
+	width: 75px;
+	margin-right: 25px;
+}
+
+.lives, .status, .time {
+	background-color: #dedede;
+	border-radius: 50px;
+	padding: 15px;
+	width: 100%;
+	margin-bottom: 15px;
+	color: #555;
+}
+
+.flasher {
+	animation-name: flash;
+	animation-duration: 3s;
+	animation-iteration-count: 1;
+}
+
+@keyframes flash {
+	0% {opacity: 0}
+	20% {opacity: 1}
+	40% {opacity: 0}
+	60% {opacity: 1}
+	80% {opacity: 0}
+	100% {opacity: 1}
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
