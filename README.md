@@ -2,7 +2,7 @@
 
 ## Game Overview
 
-Paint Run is a 2D game written in React. The objective of the game is to "paint" all the tiles on a level blue before opposing forces paint them gold, and before the timer runs out.
+Paint Run is a 2D game written in React. The objective of the game is to "paint" all the tiles on a level blue before opposing forces paint them gold, and before the timer runs out. Play the game in it's current form at https://ahl389.github.io/paint-run2/.
 
 ### Game Controls
 
