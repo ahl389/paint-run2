@@ -7,7 +7,7 @@ class Tutorial extends Component {
 				<h3>Objective</h3>
 				<p>Turn all the tiles blue before the timer runs out.</p>
 				<h3>Movement</h3>
-				<p>Move with your arrow keys - every tile you touch will turn blue.</p>
+				<p>You're the blue dot, on the blue tile in the top left corner. Move with your arrow keys - every tile you touch will turn blue.</p>
 				<h3>Watch Out</h3>
 				<p>Opposing forces are turning tiles gold. Undo their work by moving over them. If you touch your rivals three times, they disappear.</p>
 			</div>

@@ -35,10 +35,9 @@ class Time extends Component {
 	
 	render(){
 		var classes = 'countdown-timer flasher';
-		var color = '#79cdcd';
+		var color = '#4d807f';
 		
 		if (this.state.remaining <= 3) {
-			//classes = classes + ' flasher';
 			color = 'red'
 		}
 		
