@@ -45,6 +45,7 @@ npm start
 
 Then visit http://localhost:3000/
 
+
 When you're ready to stage and commit your changes, do so with:
 
 ```bash
@@ -56,6 +57,7 @@ Push them to your branch:
 
 ```bash
 git push origin <your-branch-name>
+```
 
 
 Come back to the repo here, and create a pull request by hitting the `New Pull Request` button toward the top. Select your branch from the list.
