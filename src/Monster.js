@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 
 class Monster extends Component {
 	render(){
-		var classes = `monster dir${this.props.prevDir}`;
+		var mon = this.props.mon
+		var classes = `monster prevDir${mon.prevDir} dir${mon.dir}`;
 		return (
-			<div className = {classes} data-x={this.props.x} data-y={this.props.y} data-prevdir={this.props.prevDir} data-id={this.props.mon.id}></div>
+			<div className = {classes} data-x={this.props.x} data-y={this.props.y} data-prevdir={mon.dir} data-id={this.props.mon.id}></div>
 		)
 	}
 }
