@@ -67,21 +67,24 @@ class Board extends React.Component {
 	calculateTargetLoc(dir, currentx, currenty) {
 		var targetx;
 		var targety;
-
-	    if (dir == 1 || dir == "ArrowRight") { // moving right
- 			targetx = parseInt(currentx) + 1;
- 			targety = parseInt(currenty);
-        } else if (dir == 2 || dir == "ArrowDown") { // moving down
- 			targetx = parseInt(currentx);
- 			targety = parseInt(currenty)+1;
- 		} else if (dir == 3 || dir == "ArrowLeft") { // moving left
- 			targetx = parseInt(currentx) - 1;
- 			targety = parseInt(currenty);
- 		} else if (dir == 4 || dir == "ArrowUp") { // moving up
- 			targetx = parseInt(currentx);
- 			targety = parseInt(currenty) - 1;
- 		}
-		
+		if (dir == 1 || dir == "ArrowRight" || dir == 'd' || dir =='D') {
+			// moving right
+			targetx = parseInt(currentx) + 1;
+			targety = parseInt(currenty);
+		  } else if (dir == 2 || dir == "ArrowDown" || dir == 's' || dir =='S') {
+			// moving down
+			targetx = parseInt(currentx);
+			targety = parseInt(currenty) + 1;
+		  } else if (dir == 3 || dir == "ArrowLeft" || dir == 'a' || dir =='A') {
+			// moving left
+			targetx = parseInt(currentx) - 1;
+			targety = parseInt(currenty);
+		  } else if (dir == 4 || dir == "ArrowUp" || dir == 'w' || dir =='W') {
+			// moving up
+			targetx = parseInt(currentx);
+			targety = parseInt(currenty) - 1;
+		  }
+			  
 		return({targetx: targetx, targety: targety})
 	}
 	
