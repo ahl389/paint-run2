@@ -21,7 +21,7 @@ class Board extends React.Component {
 		//this.timeLeft = this.props.level.time
 	}
 
-	paint(targetx, targety){
+	paint(targetx, targety, monster){
 		var tiles = this.state.tiles;
 
 		for (let row of tiles) {
@@ -30,10 +30,12 @@ class Board extends React.Component {
 					tile.target = true;
 
 					if (!tile.touchedA) {
-						tile.touchedA = true;
-						tile.touchedM = false;
-						var utc = this.props.updateTouchCount;
-						utc();
+						if (!monster) {
+							tile.touchedA = true;
+							tile.touchedM = false;
+							var utc = this.props.updateTouchCount;
+							utc();	
+						}
 					}
 				} else {
 					tile.target = false;
@@ -111,14 +113,19 @@ class Board extends React.Component {
 			var targetx = targetLoc.targetx;
 			var targety = targetLoc.targety;
 			
-			if (target != null) {
-				this.updateBoardStateM(targetx, targety);
+			if (target != null) { // if target exists
+				if (!updated.some(mon => mon.mtargetx == targetx && mon.mtargety == targety)) { // if no other monster is aleady heading to this target
+					this.updateBoardStateM(targetx, targety);
+				} else {
+					dir = Math.ceil(Math.random() * 4); // proposed tile isn't valid, pick a random new direction
+					targetx = currentx;
+					targety = currenty;
+				}
 			} else {
 				dir = Math.ceil(Math.random() * 4); // proposed tile isn't valid, pick a random new direction
 				targetx = currentx;
 				targety = currenty;
 			}
-			
 			
 			var rm = this.monsters.find(mon => mon.id == id);
 			rm.mtargetx = targetx;
@@ -137,17 +144,21 @@ class Board extends React.Component {
 	
 	updateMonster(id){
 		var allMons = this.monsters;
+		var stillAlive = true;
+		
+		var monster = allMons.find(mon => mon.id == id);
+		monster.lives = monster.lives - 1
+		
+		if (monster.lives == 0) {
+			stillAlive = false;
+		} 
 
-		for (let monster of allMons) {
-			if (monster.id == id) {
-				monster.lives = monster.lives - 1
-			}
-		}
-
-		this.monsters = allMons.filter(mon => mon.lives > 0)
+		this.monsters = allMons.filter(mon => mon.lives > 0);
+		return stillAlive;
 	}
 	
 	move(e) {
+		var monster = false;
 		var avatar = document.querySelector('.avatar');
 		var currentx = avatar.getAttribute('data-x');
 		var currenty = avatar.getAttribute('data-y');
@@ -159,14 +170,15 @@ class Board extends React.Component {
 			var hasMonster = target.querySelector('.monster');
 			if (hasMonster != null) { // you smooshed the monster!
 				var id = hasMonster.getAttribute('data-id');
-				this.updateMonster(id)
+				monster = this.updateMonster(id)
+				//monster = true;
 			}
 			
-			this.updateBoardState(targetLoc.targetx, targetLoc.targety);
+			this.updateBoardState(targetLoc.targetx, targetLoc.targety, monster);
 		}
 	}
 	
-	updateBoardState(targetx, targety){
+	updateBoardState(targetx, targety, monster){
 		// avatar moved, updating board
 		var x = parseInt(targetx);
 		var y = parseInt(targety);
@@ -174,7 +186,7 @@ class Board extends React.Component {
 		this.setState({
 			targetx: x,
 			targety: y,
-			tiles: this.paint(x, y)
+			tiles: this.paint(x, y, monster)
 		});
 	}
 	
