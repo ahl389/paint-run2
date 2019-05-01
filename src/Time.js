@@ -6,7 +6,7 @@ class Time extends Component {
 		this.state = {
 			endTime: new Date().getTime() + parseInt(this.props.time),
 			remaining: Math.ceil(parseInt(this.props.time)/1000)
-		}
+		};
 		
 		this.countdown = this.countdown.bind(this)
 	}

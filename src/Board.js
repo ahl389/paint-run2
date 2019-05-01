@@ -9,13 +9,13 @@ class Board extends React.Component {
 			targety: 0,
 			monsters: this.props.monsters,
 			tiles: this.props.rowData
-		}
+		};
 		
 		this.monsters = this.props.monsters;
 		//this.tileState = this.props.rowData;
 		
 		this.move = this.move.bind(this);
-		this.monsterRun = this.monsterRun.bind(this)
+		this.monsterRun = this.monsterRun.bind(this);
 		this.updateMonster = this.updateMonster.bind(this)
 		//this.countdown = this.countdown.bind(this)
 		//this.timeLeft = this.props.level.time
@@ -91,7 +91,7 @@ class Board extends React.Component {
 	}
 	
 	createOpts(dir) {
-		var right = dir == 4 ? 1 : dir + 1
+		var right = dir == 4 ? 1 : dir + 1;
 		var opts = [dir, dir, dir, dir, dir, dir, right, right, right, Math.ceil(Math.random() * 4)];
 		return opts;
 	}
@@ -104,7 +104,7 @@ class Board extends React.Component {
 			
 			var dir = parseInt(monster.getAttribute('data-prevdir'));
 			var prevDir = dir;
-			var id = monster.getAttribute('data-id')
+			var id = monster.getAttribute('data-id');
 			var currentx = monster.getAttribute('data-x');
 			var currenty = monster.getAttribute('data-y');
 
@@ -147,7 +147,7 @@ class Board extends React.Component {
 		var stillAlive = true;
 		
 		var monster = allMons.find(mon => mon.id == id);
-		monster.lives = monster.lives - 1
+		monster.lives = monster.lives - 1;
 		
 		if (monster.lives == 0) {
 			stillAlive = false;
