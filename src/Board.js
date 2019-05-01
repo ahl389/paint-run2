@@ -98,10 +98,11 @@ class Board extends React.Component {
 		for (let monster of monsters) {
 			
 			var dir = parseInt(monster.getAttribute('data-prevdir'));
+			var prevDir = dir;
 			var id = monster.getAttribute('data-id')
-			var dirOpts = this.createOpts(dir);
-			var rand = Math.floor(Math.random() * 9);
-			dir = dirOpts[rand]
+			// var dirOpts = this.createOpts(dir);
+// 			var rand = Math.floor(Math.random() * 9);
+// 			dir = dirOpts[rand]
 			var currentx = monster.getAttribute('data-x');
 			var currenty = monster.getAttribute('data-y');
 
@@ -115,7 +116,8 @@ class Board extends React.Component {
 				this.updateBoardStateM(targetx, targety);
 			} else {
 				dir = Math.ceil(Math.random() * 4); // proposed tile isn't valid, pick a random new direction
-				dir = dir + 1 // turn right
+				//dir = dir == 4 ? 1 : dir + 1
+				// dir = parseInt(dir) + 1 // turn right
 				targetx = currentx;
 				targety = currenty;
 			}
@@ -124,7 +126,9 @@ class Board extends React.Component {
 			var rm = this.monsters.find(mon => mon.id == id);
 			rm.mtargetx = targetx;
 			rm.mtargety = targety;
-			rm.prevDir = dir;
+			rm.prevDir = prevDir;
+			rm.dir = dir;
+
 			updated.push(rm);
 
 		}

@@ -12,11 +12,11 @@ class Time extends Component {
 	}
 	
 	componentDidMount(){	
-		this.timer = setInterval(this.countdown, 1000)
+		//this.timer = setInterval(this.countdown, 1000)
 	}
 
 	componentWillUnmount(){
-		clearInterval(this.timer);
+		//clearInterval(this.timer);
 	}
 	
 	countdown() {
