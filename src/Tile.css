@@ -7,7 +7,6 @@
 	    box-sizing: border-box;
 	    flex: 0 1 auto;
 	    position: relative;
-	    /* padding: 11px; */
 	    text-align: center;
 	    display: flex;
 	    justify-content: center;
@@ -49,26 +48,16 @@
 .avatar {
 	animation: orb 1.5s infinite;
 	background-color: #225d5d;
-	border: 5px solid rgba(255,255,255,.6);
+/*	border: 5px solid rgba(255,255,255,.6);*/
 }
 
 .monster {
-    /* position: absolute; */
-    /* top: 50%; */
-    /* transform: translateY(-50%); */
-    /* width: 0; */
-    /* height: 0; */
-    /* margin: 0 auto; */
-    /* margin-top: 11px; */
-    /* margin-bottom: 11px; */
-    /* border-top: 11px solid transparent; */
-    border-left: 11px solid transparent;
-    border-right: 11px solid transparent;
-    border-bottom: 11px solid black;
-    border-radius: 3px;
-    /* left: 0; */
-    /* right: 0; */
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 12px solid #5c5134;
+    border-radius: 12px;
     flex: 0 1 auto;
+	animation: orb2 1.5s infinite;
 }
 
 @keyframes orb {
@@ -78,9 +67,9 @@
 }
 
 @keyframes orb2 {
-	0% { background-color: #8c7d51;}
-	50% { background-color: #5c5134; }
-	100% { background-color: #8c7d51;}
+	0% {  border-bottom: 12px solid #8c7d51; }
+	50% { border-bottom: 12px solid #5c5134; }
+	100% { border-bottom: 12px solid #8c7d51;}
 }
 
 .avatarT.monsterT {
