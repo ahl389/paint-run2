@@ -17,7 +17,7 @@ class Game extends React.Component {
 			statusCode: 'new-game',
 			statusMessage: 'Paint Run',
 			tutorial: false
-		}
+		};
 		
 		this.endLevel = this.endLevel.bind(this);
 		this.handleClick = this.handleClick.bind(this);
@@ -94,7 +94,7 @@ class Game extends React.Component {
 	}
 	
 	endLevel() {
-		var lives = this.state.lives - 1
+		var lives = this.state.lives - 1;
 		var gameOver = true;
 		
 		if (lives > 0) {
@@ -150,7 +150,7 @@ class Game extends React.Component {
 	}
 	
 	getMonsterState(){
-		var monsters = []
+		var monsters = [];
 		var num = this.props.level.monsters;
 
 		for (let i = 0; i < num; i++) {
@@ -170,7 +170,7 @@ class Game extends React.Component {
 	}
 	
 	render() {
-		var locs = [{t:'a', x:0, y:0}]
+		var locs = [{t:'a', x:0, y:0}];
 		var monsterState = this.getMonsterState();
 		var tileState = this.getTileState(locs);
 		

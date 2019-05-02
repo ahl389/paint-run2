@@ -59,7 +59,7 @@ class Tile extends Component {
 			var i = 0;
 
 			for (let mon of this.props.rm){
-				monsters.push(this.renderMonster(i, mon))
+				monsters.push(this.renderMonster(i, mon));
 				i++;
 			}
 			
@@ -72,7 +72,7 @@ class Tile extends Component {
 		
 		const loc = tile.x + '-' + tile.y;
 		const target = this.props.target ? 'target' : '';
-		const monsterTarget = this.props.monsterTarget ? 'targetM' : ''
+		const monsterTarget = this.props.monsterTarget ? 'targetM' : '';
 		const touchedA = tile.touchedA ? 'touchedA' : '';
 		const touchedM = tile.touchedM ? 'touchedM' : '';
 		const type = tile.type;
