@@ -149,18 +149,20 @@ class Game extends React.Component {
 		return tiles;
 	}
 	
-	getMonsterState(){
+	getMonsterState(tiles){
 		var monsters = [];
 		var num = this.props.level.monsters;
+		var flat = tiles.reduce(function(a,b) { return a.concat(b);  });
+
 
 		for (let i = 0; i < num; i++) {
-			var row = Math.floor(Math.random() * this.props.level.rows/2) + Math.floor(this.props.level.rows/2);
-			var col = Math.floor(Math.random() * this.props.level.cols/2) + Math.floor(this.props.level.cols/2);
+			var target = flat[Math.floor(Math.random() * this.props.level.tiles/2) + Math.floor(this.props.level.tiles/2)];
 			
 			monsters.push({
-				mtargetx: col,
-				mtargety: row,
-				prevDir: 1,
+				mtargetx: target.x,
+				mtargety: target.y,
+				dir: 4,
+				prevDir: 4,
 				lives: 3,
 				id: i
 			});
@@ -171,8 +173,9 @@ class Game extends React.Component {
 	
 	render() {
 		var locs = [{t:'a', x:0, y:0}];
-		var monsterState = this.getMonsterState();
 		var tileState = this.getTileState(locs);
+		var monsterState = this.getMonsterState(tileState);
+
 		
 		for (let monster of monsterState) {
 			locs.push({t:'m', x:monster.mtargetx, y:monster.mtargety})
