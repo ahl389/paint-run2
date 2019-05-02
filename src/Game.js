@@ -8,8 +8,8 @@ class Game extends React.Component {
 		super(props);
 		this.state = {
 			version: '1.0.0-alpha.2',
-            name: 'Paint Run',
-            home: 'https://github.com/ahl389/paint-run2',
+			name: 'Paint Run',
+			home: 'https://github.com/ahl389/paint-run2',
 			lives: 3,
 			gameOver: true,
 			touched: 1,
