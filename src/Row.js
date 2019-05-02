@@ -26,7 +26,7 @@ class Row extends Component {
 			var y = this.props.rid;
 			var x = id;
 			var key = x + "-" + y;
-			var monsters = this.props.monsters
+			var monsters = this.props.monsters;
 			var monsterTarget = false;
 			var mc = 0;
 			var rm = [];

@@ -22,8 +22,8 @@ class App extends Component {
 	}
 	
 	processLevelData(){
-		console.log(this.state.level - 1)
-		var data = levels[this.state.level - 1].tiles
+		console.log(this.state.level - 1);
+		var data = levels[this.state.level - 1].tiles;
 		var tiles = data.reduce(function(a,b) { return a.concat(b);  })
   	 				.filter(function(elem) { return elem })
 					.length;
@@ -36,12 +36,11 @@ class App extends Component {
 			tiles: tiles,
 			time: tiles * 750,
 			monsters: this.state.level + 1
-		}
+		};
 	
 		return level;
 	}
 
-	
 	increaseLevel(){
 		this.setState({
 			level: this.state.level+1
@@ -66,6 +65,4 @@ class App extends Component {
 	}
 }
 
-
 export default App;
-
