@@ -44,7 +44,7 @@ class App extends Component {
 		if (this.state.level < 5) {
 			return this.state.level + 1
 		} else {
-			return Math.floor(this.state.level/5)
+			return Math.floor(this.state.level/5 + 5)
 		}
 	}
 
