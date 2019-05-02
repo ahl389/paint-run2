@@ -12,17 +12,16 @@ class App extends Component {
 		super(props);
 		this.state = {
 			level: 1,
-		}
+		};
 	}
 	
 	restart(){
 		this.setState({
 			level: 1
-		})
+		});
 	}
 	
 	processLevelData(){
-		console.log(this.state.level - 1);
 		var data = levels[this.state.level - 1].tiles;
 		var tiles = data.reduce(function(a,b) { return a.concat(b);  })
   	 				.filter(function(elem) { return elem })
@@ -35,10 +34,18 @@ class App extends Component {
 			cols: data[0].length,
 			tiles: tiles,
 			time: tiles * 750,
-			monsters: this.state.level + 1
+			monsters: this.getMonsterNum()
 		};
 	
 		return level;
+	}
+	
+	getMonsterNum(){
+		if (this.state.level < 5) {
+			return this.state.level + 1
+		} else {
+			return Math.floor(this.state.level/5 + 5)
+		}
 	}
 
 	increaseLevel(){

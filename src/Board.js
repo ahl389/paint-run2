@@ -9,13 +9,13 @@ class Board extends React.Component {
 			targety: 0,
 			monsters: this.props.monsters,
 			tiles: this.props.rowData
-		};
+		}
 		
 		this.monsters = this.props.monsters;
 		//this.tileState = this.props.rowData;
 		
 		this.move = this.move.bind(this);
-		this.monsterRun = this.monsterRun.bind(this);
+		this.monsterRun = this.monsterRun.bind(this)
 		this.updateMonster = this.updateMonster.bind(this)
 		//this.countdown = this.countdown.bind(this)
 		//this.timeLeft = this.props.level.time
@@ -30,12 +30,12 @@ class Board extends React.Component {
 					tile.target = true;
 
 					if (!tile.touchedA) {
-						if (!monster) {
+						//if (!monster) {
 							tile.touchedA = true;
 							tile.touchedM = false;
 							var utc = this.props.updateTouchCount;
 							utc();	
-						}
+							//}
 					}
 				} else {
 					tile.target = false;
@@ -90,12 +90,6 @@ class Board extends React.Component {
 		return({targetx: targetx, targety: targety})
 	}
 	
-	createOpts(dir) {
-		var right = dir == 4 ? 1 : dir + 1;
-		var opts = [dir, dir, dir, dir, dir, dir, right, right, right, Math.ceil(Math.random() * 4)];
-		return opts;
-	}
-	
 	monsterRun(){
 		var monsters = document.querySelectorAll('.monster');
 		var updated = [];
@@ -104,7 +98,7 @@ class Board extends React.Component {
 			
 			var dir = parseInt(monster.getAttribute('data-prevdir'));
 			var prevDir = dir;
-			var id = monster.getAttribute('data-id');
+			var id = monster.getAttribute('data-id')
 			var currentx = monster.getAttribute('data-x');
 			var currenty = monster.getAttribute('data-y');
 
@@ -114,13 +108,11 @@ class Board extends React.Component {
 			var targety = targetLoc.targety;
 			
 			if (target != null) { // if target exists
-				if (!updated.some(mon => mon.mtargetx == targetx && mon.mtargety == targety)) { // if no other monster is aleady heading to this target
-					this.updateBoardStateM(targetx, targety);
-				} else {
+				if (updated.some(mon => mon.mtargetx == targetx && mon.mtargety == targety)) { // if no other monster is aleady heading to this target
 					dir = Math.ceil(Math.random() * 4); // proposed tile isn't valid, pick a random new direction
 					targetx = currentx;
 					targety = currenty;
-				}
+				} 
 			} else {
 				dir = Math.ceil(Math.random() * 4); // proposed tile isn't valid, pick a random new direction
 				targetx = currentx;
@@ -134,6 +126,7 @@ class Board extends React.Component {
 			rm.dir = dir;
 
 			updated.push(rm);
+			this.updateBoardStateM(targetx, targety);
 
 		}
 
@@ -147,7 +140,7 @@ class Board extends React.Component {
 		var stillAlive = true;
 		
 		var monster = allMons.find(mon => mon.id == id);
-		monster.lives = monster.lives - 1;
+		monster.lives = monster.lives - 1
 		
 		if (monster.lives == 0) {
 			stillAlive = false;
@@ -171,7 +164,6 @@ class Board extends React.Component {
 			if (hasMonster != null) { // you smooshed the monster!
 				var id = hasMonster.getAttribute('data-id');
 				monster = this.updateMonster(id)
-				//monster = true;
 			}
 			
 			this.updateBoardState(targetLoc.targetx, targetLoc.targety, monster);

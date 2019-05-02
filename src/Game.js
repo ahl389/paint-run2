@@ -21,7 +21,6 @@ class Game extends React.Component {
 		
 		this.endLevel = this.endLevel.bind(this);
 		this.handleClick = this.handleClick.bind(this);
-		this.showTutorial = this.showTutorial.bind(this);
 	}	
 	
 	handleClick(e) {
@@ -55,12 +54,6 @@ class Game extends React.Component {
 			var restart = this.props.restart;
 			restart();
 		} 
-	}
-	
-	showTutorial(){
-		this.setState({
-			tutorial: !this.state.tutorial
-		})
 	}
 
 	updateGameStatus(gameOver, sm, bm, sc, lives=this.state.lives){
@@ -149,18 +142,20 @@ class Game extends React.Component {
 		return tiles;
 	}
 	
-	getMonsterState(){
+	getMonsterState(tiles){
 		var monsters = [];
 		var num = this.props.level.monsters;
+		var flat = tiles.reduce(function(a,b) { return a.concat(b);  });
+
 
 		for (let i = 0; i < num; i++) {
-			var row = Math.floor(Math.random() * this.props.level.rows/2) + Math.floor(this.props.level.rows/2);
-			var col = Math.floor(Math.random() * this.props.level.cols/2) + Math.floor(this.props.level.cols/2);
+			var target = flat[Math.floor(Math.random() * this.props.level.tiles/2) + Math.floor(this.props.level.tiles/2)];
 			
 			monsters.push({
-				mtargetx: col,
-				mtargety: row,
-				prevDir: 1,
+				mtargetx: target.x,
+				mtargety: target.y,
+				dir: 4,
+				prevDir: 4,
 				lives: 3,
 				id: i
 			});
@@ -171,8 +166,9 @@ class Game extends React.Component {
 	
 	render() {
 		var locs = [{t:'a', x:0, y:0}];
-		var monsterState = this.getMonsterState();
 		var tileState = this.getTileState(locs);
+		var monsterState = this.getMonsterState(tileState);
+
 		
 		for (let monster of monsterState) {
 			locs.push({t:'m', x:monster.mtargetx, y:monster.mtargety})
@@ -190,18 +186,16 @@ class Game extends React.Component {
 				<div className = "header-content">
 					<div className="level">
 						<h1>Level {level.levelNum}</h1>
-						<div className="tbutton" onClick={this.showTutorial}>See tutorial</div>
-						{ this.state.tutorial
-						  ? <Tutorial />
-						  : ''
-						}
+						<Tutorial/>
+						
 					</div>
 					<div className = "details-tab">
 						<div className="lives">{this.state.lives}<br></br><span>lives</span></div>
 						<div className="status">{this.state.touched}/{level.tiles}<br></br><span>tiles</span></div>
 						{ ! gameOver ? <Time time={this.props.level.time} endLevel={endLevel.bind(this)}/> : '' }
 					</div>
-				</div><div className = "clear"></div>
+				</div>
+				<div className = "clear"></div>
 			
 				{ ! gameOver 
 				  ? <Board
