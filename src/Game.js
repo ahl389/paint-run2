@@ -21,7 +21,6 @@ class Game extends React.Component {
 		
 		this.endLevel = this.endLevel.bind(this);
 		this.handleClick = this.handleClick.bind(this);
-		this.showTutorial = this.showTutorial.bind(this);
 	}	
 	
 	handleClick(e) {
@@ -55,12 +54,6 @@ class Game extends React.Component {
 			var restart = this.props.restart;
 			restart();
 		} 
-	}
-	
-	showTutorial(){
-		this.setState({
-			tutorial: !this.state.tutorial
-		})
 	}
 
 	updateGameStatus(gameOver, sm, bm, sc, lives=this.state.lives){
@@ -193,18 +186,16 @@ class Game extends React.Component {
 				<div className = "header-content">
 					<div className="level">
 						<h1>Level {level.levelNum}</h1>
-						<div className="tbutton" onClick={this.showTutorial}>See tutorial</div>
-						{ this.state.tutorial
-						  ? <Tutorial />
-						  : ''
-						}
+						<Tutorial/>
+						
 					</div>
 					<div className = "details-tab">
 						<div className="lives">{this.state.lives}<br></br><span>lives</span></div>
 						<div className="status">{this.state.touched}/{level.tiles}<br></br><span>tiles</span></div>
 						{ ! gameOver ? <Time time={this.props.level.time} endLevel={endLevel.bind(this)}/> : '' }
 					</div>
-				</div><div className = "clear"></div>
+				</div>
+				<div className = "clear"></div>
 			
 				{ ! gameOver 
 				  ? <Board
