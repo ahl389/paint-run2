@@ -64,3 +64,13 @@ body, h1, h2, h3, p, button, li {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+
+.about, .about a {
+	color: #435397;
+	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+	font-size: 90%;
+	text-decoration: none;
+}
+.about a:hover {
+	color: yellow;
+}
