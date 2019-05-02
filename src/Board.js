@@ -90,11 +90,11 @@ class Board extends React.Component {
 		return({targetx: targetx, targety: targety})
 	}
 	
-	createOpts(dir) {
-		var right = dir == 4 ? 1 : dir + 1
-		var opts = [dir, dir, dir, dir, dir, dir, right, right, right, Math.ceil(Math.random() * 4)];
-		return opts;
-	}
+	// createOpts(dir) {
+// 		var right = dir == 4 ? 1 : dir + 1
+// 		var opts = [dir, dir, dir, dir, dir, dir, right, right, right, Math.ceil(Math.random() * 4)];
+// 		return opts;
+// 	}
 	
 	monsterRun(){
 		var monsters = document.querySelectorAll('.monster');
@@ -114,13 +114,11 @@ class Board extends React.Component {
 			var targety = targetLoc.targety;
 			
 			if (target != null) { // if target exists
-				if (!updated.some(mon => mon.mtargetx == targetx && mon.mtargety == targety)) { // if no other monster is aleady heading to this target
-					this.updateBoardStateM(targetx, targety);
-				} else {
+				if (updated.some(mon => mon.mtargetx == targetx && mon.mtargety == targety)) { // if no other monster is aleady heading to this target
 					dir = Math.ceil(Math.random() * 4); // proposed tile isn't valid, pick a random new direction
 					targetx = currentx;
 					targety = currenty;
-				}
+				} 
 			} else {
 				dir = Math.ceil(Math.random() * 4); // proposed tile isn't valid, pick a random new direction
 				targetx = currentx;
@@ -134,6 +132,7 @@ class Board extends React.Component {
 			rm.dir = dir;
 
 			updated.push(rm);
+			this.updateBoardStateM(targetx, targety);
 
 		}
 
