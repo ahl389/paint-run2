@@ -140,6 +140,7 @@ class Game extends React.Component {
 
 			tiles.push(r)
 		}
+		
 		return tiles;
 	}
 	

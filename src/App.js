@@ -41,10 +41,12 @@ class App extends Component {
 	}
 	
 	getMonsterNum(){
-		if (this.state.level < 5) {
-			return this.state.level + 1
-		} else {
+		if (this.state.level > 4) {
 			return Math.floor(this.state.level/5 + 5)
+		} else if (this.state.level > 3) {
+			return this.state.level - 1;
+		} else {
+			return this.state.level;
 		}
 	}
 
