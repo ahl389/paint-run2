@@ -1,14 +1,15 @@
-import React, { Component } from 'react'; 
+import React, { Component } from 'react';
 import Board from './Board.js';
-import Button from './Button.js';
 import Time from './Time.js';
 import Tutorial from './Tutorial.js';
-
 
 class Game extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			version: '1.0.0-alpha.2',
+			name: 'Paint Run',
+			home: 'https://github.com/ahl389/paint-run2',
 			lives: 3,
 			gameOver: true,
 			touched: 1,
@@ -148,7 +149,6 @@ class Game extends React.Component {
 		var num = this.props.level.monsters;
 		var flat = tiles.reduce(function(a,b) { return a.concat(b);  });
 
-
 		for (let i = 0; i < num; i++) {
 			var target = flat[Math.floor(Math.random() * this.props.level.tiles/2) + Math.floor(this.props.level.tiles/2)];
 			
@@ -170,7 +170,6 @@ class Game extends React.Component {
 		var tileState = this.getTileState(locs);
 		var monsterState = this.getMonsterState(tileState);
 
-		
 		for (let monster of monsterState) {
 			locs.push({t:'m', x:monster.mtargetx, y:monster.mtargety})
 		}
@@ -194,6 +193,9 @@ class Game extends React.Component {
 						<div className="lives">{this.state.lives}<br></br><span>lives</span></div>
 						<div className="status">{this.state.touched}/{level.tiles}<br></br><span>tiles</span></div>
 						{ ! gameOver ? <Time time={this.props.level.time} endLevel={endLevel.bind(this)}/> : '' }
+					</div>
+					<div className = "about">
+						<a href={this.state.home} target="_blank">{this.state.name} v{this.state.version}</a>
 					</div>
 				</div>
 				<div className = "clear"></div>
