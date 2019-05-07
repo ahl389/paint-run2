@@ -2,6 +2,8 @@
 
 Any and all help is appreciated on this game. If you contribute, please update the `contributors.md` file. Look at the issues tab for any features or things you want to work on and comment. First timers, women, and new contributors especially welcome.
 
+Nic Hampton (@nicolasjhampton on github)
+
 ## Getting Started & Workflow
 
 Clone the repo
