@@ -23,22 +23,16 @@ class App extends Component {
 	
 	processLevelData(){
 		console.log(this.state.level - 1)
-		var data = levels[this.state.level - 1].tiles
-		var tiles = data.reduce(function(a,b) { return a.concat(b);  })
-  	 				.filter(function(elem) { return elem })
-					.length;
-		
-		var level = {
+		var data = levels[this.state.level - 1]
+		return {
+			...data,
 			levelNum: this.state.level,
-			grid: data,
-			rows: data.length,
-			cols: data[0].length,
-			tiles: tiles,
-			time: tiles * 750,
+			rows: data.grid.length,
+			cols: data.grid[0].length,
+			tiles: data.path.length,
+			time: data.path.length * 750,
 			monsters: this.state.level + 1
 		}
-	
-		return level;
 	}
 
 	

@@ -1,163 +1,233 @@
+// Paint Run - Level Maps
+// 1 = tile
+// 0 = empty
+
 // var levels = [{
-// 	tiles: [
-// 		[true,	true, 	true,	true, 	false, 	true],
-// 		[false, false, 	false,	true, 	true, 	true],
-// 		[false,	false, 	true,	true, 	true,	true],
-// 		[true, 	false, 	true,	true, 	false,	true],
-// 		[true,	true, 	true,	true, 	false,	true],
-// 		[false, true, 	false,	true, 	true,	true]
-// 	]
+//     // 4x4
+//     tiles: [
+//         [1, 1, 1, 0],
+//         [1, 0, 1, 1],
+//         [1, 0, 1, 0],
+//         [1, 1, 1, 1],
+//     ]
 // }, {
-// 	tiles: [
-// 		[true,	true, 	true,	true, 	true, 	true],
-// 		[false, false, 	false,	true, 	true, 	true],
-// 		[false,	false, 	true,	true, 	false,	true],
-// 		[true, 	false, 	false,	true, 	false,	true],
-// 		[true,	true, 	true,	true, 	false,	true],
-// 		[false, true, 	true,	true, 	true,	true],
-// 		[true,  true, 	true,	false, 	true,	true]
-// 	]
-// },
-// {
-// 	tiles: [
-// 		[true,	false, 	true,	true, 	false, 	true,	false],
-// 		[true, 	false, 	false,	true, 	true, 	true,	true],
-// 		[true,	false, 	true,	true, 	false,	true, 	true],
-// 		[true, 	false, 	true,	true, 	false,	true, 	false],
-// 		[true,	true, 	true,	false, 	false,	true,	false],
-// 		[false, true, 	true,	false, 	true,	true,	true],
-// 		[false, true, 	false,	true, 	true,	true,	false],
-// 		[false, true, 	false,	true, 	false,	true,	false],
-// 		[false, true, 	true,	true, 	true,	true,	true]
-// 	]
+//     // 5x5
+//     tiles: [
+//         [1, 1, 1, 1, 0],
+//         [1, 0, 0, 1, 1],
+//         [1, 0, 1, 1, 1],
+//         [1, 0, 1, 0, 0],
+//         [1, 1, 1, 1, 0],
+//     ]
+// }, {
+//     // 6x6
+//     tiles: [
+//         [1, 1, 1, 1, 0, 1],
+//         [0, 0, 0, 1, 1, 1],
+//         [0, 0, 1, 1, 1, 1],
+//         [1, 0, 1, 1, 0, 1],
+//         [1, 1, 1, 1, 0, 1],
+//         [0, 1, 0, 1, 1, 1]
+//     ]
+// }, {
+//     // 6x7
+//     tiles: [
+//         [1, 1, 1, 1, 1, 1],
+//         [0, 0, 0, 1, 1, 1],
+//         [0, 0, 1, 1, 0, 1],
+//         [1, 0, 0, 1, 0, 1],
+//         [1, 1, 1, 1, 0, 1],
+//         [0, 1, 1, 1, 1, 1],
+//         [1, 1, 1, 0, 1, 1]
+//     ]
+// }, {
+//     // 7x9
+//     tiles: [
+//         [1, 0, 1, 1, 0, 1, 0],
+//         [1, 0, 0, 1, 1, 1, 1],
+//         [1, 0, 1, 1, 0, 1, 1],
+//         [1, 0, 1, 1, 0, 1, 0],
+//         [1, 1, 1, 0, 0, 1, 0],
+//         [0, 1, 1, 0, 1, 1, 1],
+//         [0, 1, 0, 1, 1, 1, 0],
+//         [0, 1, 0, 1, 0, 1, 0],
+//         [0, 1, 1, 1, 1, 1, 1]
+//     ]
+// }, {
+//     // 8x8
+//     tiles: [
+//         [1, 0, 1, 1, 1, 0, 1, 0],
+//         [1, 0, 0, 0, 1, 1, 1, 1],
+//         [1, 0, 1, 1, 1, 0, 1, 1],
+//         [1, 0, 1, 1, 1, 1, 0, 1],
+//         [1, 1, 1, 0, 0, 0, 1, 1],
+//         [0, 1, 1, 0, 0, 0, 1, 1],
+//         [0, 1, 1, 1, 0, 0, 0, 0],
+//         [0, 1, 0, 1, 1, 1, 1, 1],
+//     ]
+// }, {
+//     // 10x4
+//     tiles: [
+//         [1, 1, 1, 1, 1, 1, 0, 1, 0, 1],
+//         [0, 1, 0, 0, 1, 0, 1, 1, 1, 1],
+//         [1, 1, 1, 1, 1, 1, 1, 0, 1, 0],
+//         [0, 0, 1, 0, 0, 1, 1, 1, 1, 1],
+//     ]
 // }];
 
+/*
+    This is an implementation of a randomized depth-first search algorithm
+    See: https://en.wikipedia.org/wiki/Maze_generation_algorithm#Randomized_Depth-First_Search
 
+    I've added the concept of a "budget" and a "minPathsAvailable" to accomodate this particular
+    problem.
+*/
 class Location {
-	constructor({ x, y }) {
-			this.x = x;
-			this.y = y;
-			this.directions = {
-					"top": [0, 1],
-					"right": [1, 0],
-					"bottom": [0, -1],
-					"left": [-1, 0]
-			};
-	}
+    constructor({ x, y }) {
+        this.x = x;
+        this.y = y;
+        this.directions = {
+            "top": [0, 1],
+            "right": [1, 0],
+            "bottom": [0, -1],
+            "left": [-1, 0]
+        };
+    }
 
-	getSideCoord(direction) {
-			const [xoffset, yoffset] = this.directions[direction];
-			return new Location({ x: this.x + xoffset, y: this.y + yoffset });
-	}
+    getSideCoord(direction) {
+        const [xoffset, yoffset] = this.directions[direction];
+        return new Location({ x: this.x + xoffset, y: this.y + yoffset });
+    }
 
-	getSideCoords() {
-			return Object.keys(this.directions).map((direction) => this.getSideCoord(direction));
-	}
+    getSideCoords() {
+        return Object.keys(this.directions).map((direction) => this.getSideCoord(direction));
+    }
 }
 
 class Path {
-	constructor(initial) {
-			this.stack = [initial];
-	}
+    constructor(initial) {
+        this.stack = [initial];
+    }
 
-	push(loc) {
-			this.stack.unshift(loc);
-	}
+    push(loc) {
+        this.stack.unshift(loc);
+    }
 
-	peek(index) {
-			return this.stack[index];
-	}
+    peek(index) {
+        return this.stack[index];
+    }
 
-	contains(loc) {
-			return this.stack.some(block => block.x === loc.x && block.y === loc.y);
-	}
+    contains(loc) {
+        return this.stack.some(block => block.x === loc.x && block.y === loc.y);
+    }
 }
 
 class Maze {
-	constructor(x, y, distanceBudget) {
-			this.dimensions = { x, y };
-			this.path = new Path(this.getStartLocation(this.dimensions));
-			this.budget = distanceBudget;
-			this.index = 0;
-	}
+    constructor(x, y, distanceBudget) {
+        this.dimensions = { x, y };
+        this.path = new Path(this.getStartLocation(this.dimensions));
+        this.budget = distanceBudget;
+        this.minPathsAvailable = 2;
+        this.index = 0;
+    }
 
-	getStartLocation(map) {
-			return new Location({
-					x: Math.floor(Math.random() * this.dimensions.x),
-					y: Math.floor(Math.random() * this.dimensions.y),
-			});
-	}
+    getStartLocation(map) {
+        return new Location({
+            x: Math.floor(Math.random() * this.dimensions.x),
+            y: Math.floor(Math.random() * this.dimensions.y),
+        });
+    }
 
-	canMoveTo(loc) {
-			return (
-					!this.path.contains(loc) && 
-					loc.x < this.dimensions.x && loc.x >= 0 && 
-					loc.y < this.dimensions.y && loc.y >= 0
-			);
-	}
+    canMoveTo(loc) {
+        return (
+            !this.path.contains(loc) &&
+            loc.x < this.dimensions.x && loc.x >= 0 &&
+            loc.y < this.dimensions.y && loc.y >= 0
+        );
+    }
 
-	getPossibleDirections() {
-			return this.path.peek(this.index).getSideCoords().filter(dir => this.canMoveTo(dir));
-	}
+    getPossibleDirections() {
+        return this.path.peek(this.index).getSideCoords().filter(dir => this.canMoveTo(dir));
+    }
 
-	getRandomDirection(directions) {
-			return directions[Math.floor(Math.random() * directions.length)]
-	}
+    getRandomDirection(directions) {
+        return directions[Math.floor(Math.random() * directions.length)]
+    }
 
-	move(directions) {
-			this.path.push(this.getRandomDirection(directions));
-			this.index = 0;
-			--this.budget;
-	}
+    move(directions) {
+        this.path.push(this.getRandomDirection(directions));
+        this.index = 0;
+        --this.budget;
+    }
 
-	acceptablePosition(directions) {
-			return directions.length >= 2
-	}
+    acceptablePosition(directions) {
+        return directions.length >= this.minPathsAvailable;
+    }
 
-	createGrid() {
-			return new Grid(this.path, this.dimensions).draw();
-	}
+    drawGrid() {
+        return new Grid(this.path, this.dimensions).draw();
+    }
 
-	walk() {
-			if(this.budget < 1 || this.index === this.path.stack.length) {
-					return this.createGrid();
-			}
-			const directions = this.getPossibleDirections();
-			if(this.acceptablePosition(directions)) {
-					this.move(directions);
-			} else {
-					++this.index;
-			}
-			return this.walk();
-	}
+    walk() {
+        if (this.budget <= 1) {
+            return this;
+        }
+        if (this.index === this.path.stack.length && this.minPathsAvailable > 0) {
+            --this.minPathsAvailable;
+            this.index = 0;
+        }
+        const directions = this.getPossibleDirections();
+        if (this.acceptablePosition(directions)) {
+            this.move(directions);
+        } else {
+            ++this.index;
+        }
+        return this.walk();
+    }
 }
 
 class Grid {
-	constructor(path, dimensions) {
-			this.grid = this.makeBlankGrid(dimensions);
-			this.path = path;
-	}
+    constructor(path, dimensions) {
+        this.tile = 1;
+        this.blank = 0;
+        this.grid = this.makeBlankGrid(dimensions);
+        this.path = path;
+    }
 
-	makeBlankGrid({x, y}) {
-			const arr = [];
-			for(let i = 0; i < x; ++i) {
-					arr.push(new Array(y).fill(false));
-			}
-			return arr;
-	}
+    makeBlankGrid({ x, y }) {
+        return new Array(y).fill(undefined).map(() => new Array(x).fill(this.blank));
+    }
 
-	draw() {
-			this.path.stack.forEach(point => {
-					this.grid[point.x][point.y] = true;
-			});
-			return this.grid;
-	}
+    draw() {
+        this.path.stack.forEach(point => {
+            this.grid[point.y][point.x] = this.tile;
+        });
+        return this.grid;
+    }
 }
 
-const levels = [
-	{ tiles: new Maze(6, 6, 25).walk() },
-	{ tiles: new Maze(7, 6, 30).walk() },
-	{ tiles: new Maze(9, 7, 40).walk() },
+const mazes = [
+    { maze: new Maze(4, 4, 12).walk() },
+    { maze: new Maze(5, 5, 16).walk() },
+    { maze: new Maze(6, 6, 25).walk() },
+    { maze: new Maze(6, 7, 30).walk() },
+    { maze: new Maze(7, 9, 40).walk() },
+    { maze: new Maze(8, 8, 40).walk() },
+    { maze: new Maze(10, 4, 28).walk() },
 ];
 
-export default levels
+const levels = mazes.map(item => {
+    return {
+        ...item,
+        grid: item.maze.drawGrid(),
+        path: item.maze.path.stack
+    };
+})
+
+// for(let table of levels) {
+//     console.log(table);
+//     console.log(table.tiles.reduce((acc, cur) => acc + cur.reduce((acc2, cur2) => acc2 + cur2, 0), 0));
+// }
+
+
+export default levels;

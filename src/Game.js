@@ -8,6 +8,7 @@ import Tutorial from './Tutorial.js';
 class Game extends React.Component {
 	constructor(props) {
 		super(props);
+		const monsterState = this.getMonsterState();
 		this.state = {
 			lives: 3,
 			gameOver: true,
@@ -16,7 +17,8 @@ class Game extends React.Component {
 			seconds: this.props.level.time,
 			statusCode: 'new-game',
 			statusMessage: 'Paint Run',
-			tutorial: false
+			tutorial: false,
+			monsterState: monsterState
 		}
 		
 		this.endLevel = this.endLevel.bind(this);
@@ -152,10 +154,14 @@ class Game extends React.Component {
 	getMonsterState(){
 		var monsters = []
 		var num = this.props.level.monsters;
+		var spaces = this.props.level.path;
 
 		for (let i = 0; i < num; i++) {
-			var row = Math.floor(Math.random() * this.props.level.rows/2) + Math.floor(this.props.level.rows/2);
-			var col = Math.floor(Math.random() * this.props.level.cols/2) + Math.floor(this.props.level.cols/2);
+			var location = spaces.splice(Math.floor(Math.random() * spaces.length), 1)[0];
+			console.log(location);
+			var row = location.y;
+			var col = location.x;
+			console.log(row, col);
 			
 			monsters.push({
 				mtargetx: col,
@@ -171,7 +177,7 @@ class Game extends React.Component {
 	
 	render() {
 		var locs = [{t:'a', x:0, y:0}]
-		var monsterState = this.getMonsterState();
+		var monsterState = this.state.monsterState;
 		var tileState = this.getTileState(locs);
 		
 		for (let monster of monsterState) {
