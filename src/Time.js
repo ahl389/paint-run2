@@ -6,7 +6,7 @@ class Time extends Component {
 		this.state = {
 			endTime: new Date().getTime() + parseInt(this.props.time),
 			remaining: Math.ceil(parseInt(this.props.time)/1000)
-		}
+		};
 		
 		this.countdown = this.countdown.bind(this)
 	}
@@ -35,10 +35,9 @@ class Time extends Component {
 	
 	render(){
 		var classes = 'countdown-timer flasher';
-		var color = '#79cdcd';
+		var color = '#4d807f';
 		
 		if (this.state.remaining <= 3) {
-			//classes = classes + ' flasher';
 			color = 'red'
 		}
 		

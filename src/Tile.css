@@ -2,11 +2,16 @@
 
 .loc {
 	width: 33px;
-	height: 33px;
-	margin: 5px;
-	box-sizing:border-box;
-	flex: 0 1 auto;
-	position: relative;
+	    height: 33px;
+	    margin: 5px;
+	    box-sizing: border-box;
+	    flex: 0 1 auto;
+	    position: relative;
+	    text-align: center;
+	    display: flex;
+	    justify-content: center;
+	    justify-content: middle;
+	    align-items: center;
 }
 
 .space {
@@ -25,21 +30,7 @@
 	text-align: center;
 }
 
-/*.target:before {
-	content: '';
-	position: absolute;
-	width: 20px;
-	height: 20px;
-	border: 6px solid rgba(255, 255, 255, .6);
-	border-radius: 100%;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%,-50%);
-	z-index: 1;
-
-}*/
-
-.avatar, .monster {
+.avatar {
 	text-align: center;
 	position: absolute;
 	top: 50%;
@@ -57,12 +48,16 @@
 .avatar {
 	animation: orb 1.5s infinite;
 	background-color: #225d5d;
-	border: 5px solid rgba(255,255,255,.6);
+/*	border: 5px solid rgba(255,255,255,.6);*/
 }
 
 .monster {
-	animation: orb2 2s infinite;
-	background-color: #8c7d51;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 12px solid #5c5134;
+    border-radius: 12px;
+    flex: 0 1 auto;
+	animation: orb2 1.5s infinite;
 }
 
 @keyframes orb {
@@ -72,9 +67,9 @@
 }
 
 @keyframes orb2 {
-	0% { background-color: #8c7d51;}
-	50% { background-color: #5c5134; }
-	100% { background-color: #8c7d51;}
+	0% {  border-bottom: 12px solid #8c7d51; }
+	50% { border-bottom: 12px solid #5c5134; }
+	100% { border-bottom: 12px solid #8c7d51;}
 }
 
 .avatarT.monsterT {
@@ -86,14 +81,174 @@
 	background-color: #79cdcd;
 }
 
-
 .tile.touchedM, .monsterT {
 	background-color: #cdb979;
 }
 
+.monster.dir1 {
+	transform: rotate(90deg);
+	/*animation: slider .5s forwards;*/
+}
+
+.monster.dir2 {
+	transform: rotate(180deg);
+	/*animation: slided .5s forwards;*/
+}
+
+.monster.dir3 {
+	transform: rotate(270deg);
+	/*animation: slidel .5s forwards;*/
+}
+
+.monster.dir4 {
+	/*animation: slideu .5s forwards;*/
+}
+
+.monster.prevDir1.dir2 {
+	transform-origin: center center;
+	animation: rotaterd .25s forwards;
+}
+
+.monster.prevDir1.dir3 {
+	transform-origin: center center;
+	animation: rotaterl .25s forwards;
+}
+
+.monster.prevDir1.dir4 {
+	transform-origin: center center;
+	animation: rotateru .25s forwards;
+}
 
 
+.monster.prevDir2.dir1 {
+	transform-origin: center center;
+	animation: rotatedr .25s forwards;
+}
 
+.monster.prevDir2.dir3 {
+	transform-origin: center center;
+	animation: rotatedl .25s forwards;
+}
+
+.monster.prevDir2.dir4 {
+	transform-origin: center center;
+	animation: rotatedu .25s forwards;
+}
+
+
+.monster.prevDir3.dir1 {
+	transform-origin: center center;
+	animation: rotatelr .25s forwards;
+}
+
+.monster.prevDir3.dir2 {
+	transform-origin: center center;
+	animation: rotateld .25s forwards;
+}
+
+.monster.prevDir3.dir4 {
+	transform-origin: center center;
+	animation: rotatelu .25s forwards;
+}
+
+
+.monster.prevDir4.dir1 {
+	transform-origin: center center;
+	animation: rotateur .25s forwards;
+}
+
+.monster.prevDir4.dir2 {
+	transform-origin: center center;
+	animation: rotateud .25s forwards;
+}
+
+.monster.prevDir4.dir3 {
+	transform-origin: center center;
+	animation: rotateul .25s forwards;
+}
+
+@keyframes slider {
+	0% { left: 0;}
+	100% {left: 70%;  }
+}
+
+@keyframes slided {
+	0% { top: 5px;}
+	100% {bottom: 5px;}
+}
+
+@keyframes slidel {
+	0% { left: 70%; }
+	100% {left: 0; }
+}
+
+@keyframes slideu {
+	0% { bottom: 0px;}
+	100% {top: 5px; }
+}
+
+@keyframes rotaterd {
+	0% { transform: rotate(90deg) }
+	100% {transform: rotate(180deg)};
+}
+
+@keyframes rotaterl {
+	0% { transform: rotate(90deg) }
+	100% {transform: rotate(270deg)};
+}
+
+@keyframes rotateru {
+	0% { transform: rotate(90deg) }
+	100% {transform: rotate(360deg)};
+}
+
+
+@keyframes rotatedr {
+	0% { transform: rotate(180deg); }
+	100% { transform: rotate(450deg); }/*90*/
+}
+
+@keyframes rotatedl {
+	0% { transform: rotate(180deg); }
+	100% { transform: rotate(270deg); }
+}
+
+@keyframes rotatedu {
+	0% { transform: rotate(180deg); }
+	100% { transform: rotate(360deg); }
+}
+
+
+@keyframes rotatelr {
+	0% { transform: rotate(270deg); }
+	100% { transform: rotate(90deg); }
+}
+
+@keyframes rotateld {
+	0% { transform: rotate(270deg); }
+	100% { transform: rotate(540deg); }/*180*/
+}
+
+@keyframes rotatelu {
+	0% { transform: rotate(270deg); }
+	100% { transform: rotate(360deg); }
+}
+
+
+@keyframes rotateur {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(90deg); }
+}
+
+@keyframes rotateud {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(180deg); }
+}
+
+@keyframes rotateul {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(270deg); }
+}
 
 .row {
     display: -webkit-box;  

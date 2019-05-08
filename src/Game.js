@@ -1,15 +1,16 @@
-import React, { Component } from 'react'; 
+import React, { Component } from 'react';
 import Board from './Board.js';
-import Button from './Button.js';
 import Time from './Time.js';
 import Tutorial from './Tutorial.js';
-
 
 class Game extends React.Component {
 	constructor(props) {
 		super(props);
 		const monsterState = this.getMonsterState();
 		this.state = {
+			version: '1.0.0-alpha.2',
+			name: 'Paint Run',
+			home: 'https://github.com/ahl389/paint-run2',
 			lives: 3,
 			gameOver: true,
 			touched: 1,
@@ -23,7 +24,6 @@ class Game extends React.Component {
 		
 		this.endLevel = this.endLevel.bind(this);
 		this.handleClick = this.handleClick.bind(this);
-		this.showTutorial = this.showTutorial.bind(this);
 	}	
 	
 	handleClick(e) {
@@ -58,12 +58,6 @@ class Game extends React.Component {
 			restart();
 		} 
 	}
-	
-	showTutorial(){
-		this.setState({
-			tutorial: !this.state.tutorial
-		})
-	}
 
 	updateGameStatus(gameOver, sm, bm, sc, lives=this.state.lives){
 		this.setState({
@@ -96,7 +90,7 @@ class Game extends React.Component {
 	}
 	
 	endLevel() {
-		var lives = this.state.lives - 1
+		var lives = this.state.lives - 1;
 		var gameOver = true;
 		
 		if (lives > 0) {
@@ -148,11 +142,12 @@ class Game extends React.Component {
 
 			tiles.push(r)
 		}
+		
 		return tiles;
 	}
 	
-	getMonsterState(){
-		var monsters = []
+	getMonsterState(tiles){
+		var monsters = [];
 		var num = this.props.level.monsters;
 		var spaces = this.props.level.path;
 
@@ -165,9 +160,10 @@ class Game extends React.Component {
 			console.log(row, col);
 			
 			monsters.push({
-				mtargetx: col,
-				mtargety: row,
-				prevDir: 1,
+				mtargetx: target.x,
+				mtargety: target.y,
+				dir: 4,
+				prevDir: 4,
 				lives: 3,
 				id: i
 			});
@@ -181,7 +177,8 @@ class Game extends React.Component {
 		var locs = [{t:'a', x: aTargetx, y: aTargety}];
 		var monsterState = this.state.monsterState;
 		var tileState = this.getTileState(locs);
-		
+		var monsterState = this.getMonsterState(tileState);
+
 		for (let monster of monsterState) {
 			locs.push({t:'m', x:monster.mtargetx, y:monster.mtargety})
 		}
@@ -198,18 +195,19 @@ class Game extends React.Component {
 				<div className = "header-content">
 					<div className="level">
 						<h1>Level {level.levelNum}</h1>
-						<div className="tbutton" onClick={this.showTutorial}>See tutorial</div>
-						{ this.state.tutorial
-						  ? <Tutorial />
-						  : ''
-						}
+						<Tutorial/>
+						
 					</div>
 					<div className = "details-tab">
 						<div className="lives">{this.state.lives}<br></br><span>lives</span></div>
 						<div className="status">{this.state.touched}/{level.tiles}<br></br><span>tiles</span></div>
 						{ ! gameOver ? <Time time={this.props.level.time} endLevel={endLevel.bind(this)}/> : '' }
 					</div>
-				</div><div className = "clear"></div>
+					<div className = "about">
+						<a href={this.state.home} target="_blank">{this.state.name} v{this.state.version}</a>
+					</div>
+				</div>
+				<div className = "clear"></div>
 			
 				{ ! gameOver 
 				  ? <Board

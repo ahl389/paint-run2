@@ -12,13 +12,13 @@ class App extends Component {
 		super(props);
 		this.state = {
 			level: 1,
-		}
+		};
 	}
 	
 	restart(){
 		this.setState({
 			level: 1
-		})
+		});
 	}
 	
 	processLevelData(){
@@ -31,11 +31,20 @@ class App extends Component {
 			cols: data.grid[0].length,
 			tiles: data.path.length,
 			time: data.path.length * 750,
-			monsters: this.state.level + 1
+			monsters: this.getMonsterNum()
+		}
+	}
+	
+	getMonsterNum(){
+		if (this.state.level > 4) {
+			return Math.floor(this.state.level/5 + 5)
+		} else if (this.state.level > 3) {
+			return this.state.level - 1;
+		} else {
+			return this.state.level;
 		}
 	}
 
-	
 	increaseLevel(){
 		this.setState({
 			level: this.state.level+1
@@ -60,6 +69,4 @@ class App extends Component {
 	}
 }
 
-
 export default App;
-
