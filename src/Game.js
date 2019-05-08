@@ -157,7 +157,8 @@ class Game extends React.Component {
 		var spaces = this.props.level.path;
 
 		for (let i = 0; i < num; i++) {
-			var location = spaces.splice(Math.floor(Math.random() * spaces.length), 1)[0];
+			var randEndOfPath = Math.floor(Math.random() * spaces.length / 2) + Math.floor(spaces.length / 2);
+			var location = spaces.splice(randEndOfPath, 1)[0];
 			console.log(location);
 			var row = location.y;
 			var col = location.x;
@@ -176,7 +177,8 @@ class Game extends React.Component {
 	}
 	
 	render() {
-		var locs = [{t:'a', x:0, y:0}]
+		var { x: aTargetx, y: aTargety } = this.props.level.path[0];
+		var locs = [{t:'a', x: aTargetx, y: aTargety}];
 		var monsterState = this.state.monsterState;
 		var tileState = this.getTileState(locs);
 		
