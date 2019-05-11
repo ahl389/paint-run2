@@ -22,7 +22,7 @@ class Board extends Component {
 	}
 
 	paint(targetx, targety, monster) {
-		var tiles = this.state.tiles;
+		const tiles = this.state.tiles;
 
 		for (let row of tiles) {
 			for (let tile of row) {
@@ -47,11 +47,11 @@ class Board extends Component {
 	}
 	
 	unpaint(targetx, targety) {
-		var tiles = this.state.tiles;
+		const tiles = this.state.tiles;
 		
 		for (let row of tiles) {
 			for (let tile of row) {
-				if (tile.x == targetx && tile.y == targety) {
+				if (tile.x === targetx && tile.y === targety) {
 					tile.touchedM = true;
 					
 					if (tile.touchedA) {
@@ -68,8 +68,8 @@ class Board extends Component {
 	
 	calculateTargetLoc(dir, currentx, currenty) {
 		//console.log('Board: calculateTargetLoc: ' + dir + ' cx:' + currentx + ' cy:' + currenty);
-		var targetx;
-		var targety;
+		let targetx;
+		let targety;
 		if (dir == 1 || dir == "ArrowRight" || dir == 'd' || dir =='D') {
 			// moving right
 			targetx = parseInt(currentx) + 1;
@@ -92,24 +92,24 @@ class Board extends Component {
 	}
 	
 	monsterRun() {
-		var monsters = document.querySelectorAll('.monster');
-		var updated = [];
+		let monsters = document.querySelectorAll('.monster');
+		let updated = [];
 		
 		for (let monster of monsters) {
-			
-			var dir = parseInt(monster.getAttribute('data-prevdir'));
-			var prevDir = dir;
-			var id = monster.getAttribute('data-id');
-			var currentx = monster.getAttribute('data-x');
-			var currenty = monster.getAttribute('data-y');
 
-			var targetLoc = this.calculateTargetLoc(dir, currentx, currenty);
-			var target = document.querySelector(`.tile[data-loc="${targetLoc.targetx}-${targetLoc.targety}"]`);
-			var targetx = targetLoc.targetx;
-			var targety = targetLoc.targety;
+			let dir = parseInt(monster.getAttribute('data-prevdir'));
+			let prevDir = dir;
+			let id = monster.getAttribute('data-id');
+			let currentx = monster.getAttribute('data-x');
+			let currenty = monster.getAttribute('data-y');
+
+			let targetLoc = this.calculateTargetLoc(dir, currentx, currenty);
+			let target = document.querySelector(`.tile[data-loc="${targetLoc.targetx}-${targetLoc.targety}"]`);
+			let targetx = targetLoc.targetx;
+			let targety = targetLoc.targety;
 			
 			if (target != null) { // if target exists
-				if (updated.some(mon => mon.mtargetx == targetx && mon.mtargety == targety)) { // if no other monster is aleady heading to this target
+				if (updated.some(mon => mon.mtargetx === targetx && mon.mtargety === targety)) { // if no other monster is aleady heading to this target
 					dir = Math.ceil(Math.random() * 4); // proposed tile isn't valid, pick a random new direction
 					targetx = currentx;
 					targety = currenty;
@@ -120,7 +120,7 @@ class Board extends Component {
 				targety = currenty;
 			}
 			
-			var rm = this.monsters.find(mon => mon.id == id);
+			let rm = this.monsters.find(mon => mon.id == id);
 			rm.mtargetx = targetx;
 			rm.mtargety = targety;
 			rm.prevDir = prevDir;
@@ -137,10 +137,10 @@ class Board extends Component {
 	}
 	
 	updateMonster(id) {
-		var allMons = this.monsters;
-		var stillAlive = true;
+		const allMons = this.monsters;
+		let stillAlive = true;
 		
-		var monster = allMons.find(mon => mon.id == id);
+		const monster = allMons.find(mon => mon.id == id);
 		monster.lives = monster.lives - 1;
 		
 		if (monster.lives == 0) {
@@ -153,20 +153,19 @@ class Board extends Component {
 	}
 	
 	move(e) {
-
-		var monster = false;
-		var avatar = document.querySelector('.avatar');
-		var currentx = avatar.getAttribute('data-x');
-		var currenty = avatar.getAttribute('data-y');
+		let monster = false;
+		let avatar = document.querySelector('.avatar');
+		let currentx = avatar.getAttribute('data-x');
+		let currenty = avatar.getAttribute('data-y');
 		console.log('Board: move: e.key: ' + e.key + ' x:' + currentx + ' y:' + currenty);
 
-		var targetLoc = this.calculateTargetLoc(e.key, currentx, currenty);
-		var target = document.querySelector(`.tile[data-loc="${targetLoc.targetx}-${targetLoc.targety}"]`);
+		let targetLoc = this.calculateTargetLoc(e.key, currentx, currenty);
+		let target = document.querySelector(`.tile[data-loc="${targetLoc.targetx}-${targetLoc.targety}"]`);
 
 		if (target != null) {
-			var hasMonster = target.querySelector('.monster');
+			let hasMonster = target.querySelector('.monster');
 			if (hasMonster != null) { // you smooshed the monster!
-				var id = hasMonster.getAttribute('data-id');
+				let id = hasMonster.getAttribute('data-id');
 				console.log('Board: move: you smooshed the monster! id:' + id + ' x:' + currentx + ' y:' + currenty);
 				monster = this.updateMonster(id)
 			}
@@ -177,8 +176,8 @@ class Board extends Component {
 	
 	updateBoardState(targetx, targety, monster) {
 		// avatar moved, updating board
-		var x = parseInt(targetx);
-		var y = parseInt(targety);
+		const x = parseInt(targetx);
+		const y = parseInt(targety);
 		
 		this.setState({
 			targetx: x,
@@ -189,8 +188,8 @@ class Board extends Component {
 	
 	updateBoardStateM(targetx, targety) {
 		// monster moved, updating board
-		var x = parseInt(targetx);
-		var y = parseInt(targety);
+		const x = parseInt(targetx);
+		const y = parseInt(targety);
 		
 		this.setState({
 			tiles: this.unpaint(x, y)
@@ -211,8 +210,8 @@ class Board extends Component {
 	}
 	
 	renderRows() {
-		var rows = [];
-		var id = 0;
+		let rows = [];
+		let id = 0;
 		for (let row of this.state.tiles) {
 			rows.push(<Row 	
 						key={id} 
