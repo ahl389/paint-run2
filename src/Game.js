@@ -7,7 +7,7 @@ class Game extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			version: '1.0.0-alpha.2',
+			version: '1.0.0-alpha.3',
 			name: 'Paint Run',
 			home: 'https://github.com/ahl389/paint-run2',
 			lives: 3,
@@ -27,16 +27,16 @@ class Game extends Component {
 	handleClick(e) {
 		var sc = e.target.getAttribute('data-statuscode');
 		
-		if (sc == 'new-game') {
+		if (sc === 'new-game') {
 			this.setState({
 				gameOver: false
 			});
-		} else if (sc == 'same-level') {
+		} else if (sc === 'same-level') {
 			this.setState({
 				gameOver: false,
 				touched: 1
 			});
-		} else if (sc == 'next-level') {
+		} else if (sc === 'next-level') {
 			var il = this.props.increaseLevel;
 			il();
 			
@@ -45,7 +45,7 @@ class Game extends Component {
 				gameOver: false,
 				touched: 1
 			});
-		} else if (sc == 'restart') {
+		} else if (sc === 'restart') {
 			this.setState({
 				lives: 3,
 				gameOver: false,
@@ -148,12 +148,15 @@ class Game extends Component {
 	}
 	
 	getMonsterState(tiles){
-		var monsters = [];
-		var num = this.props.level.monsters;
-		var flat = tiles.reduce(function(a,b) { return a.concat(b);  });
+		let monsters = [];
+		const num = this.props.level.monsters;
+		let flat = tiles.reduce(function(a,b) { return a.concat(b);  });
 
 		for (let i = 0; i < num; i++) {
-			var target = flat[Math.floor(Math.random() * this.props.level.tiles/2) + Math.floor(this.props.level.tiles/2)];
+			const target = flat[
+				Math.floor(Math.random() * this.props.level.tiles/2)
+				+ Math.floor(this.props.level.tiles/2)
+			];
 			
 			monsters.push({
 				mtargetx: target.x,
@@ -169,20 +172,20 @@ class Game extends Component {
 	}
 	
 	render() {
-		var locs = [{t:'a', x:0, y:0}];
-		var tileState = this.getTileState(locs);
-		var monsterState = this.getMonsterState(tileState);
+		let locs = [{t:'a', x:0, y:0}];
+		const tileState = this.getTileState(locs);
+		const monsterState = this.getMonsterState(tileState);
 
 		for (let monster of monsterState) {
 			locs.push({t:'m', x:monster.mtargetx, y:monster.mtargety})
 		}
-		
-		var gameOver = this.state.gameOver;
-		var level = this.props.level;
-		
-		var ut = this.updateTouchCount;
-		var ltc = this.lowerTouchCount;
-		var endLevel = this.endLevel;
+
+		const gameOver = this.state.gameOver;
+		const level = this.props.level;
+
+		const ut = this.updateTouchCount;
+		const ltc = this.lowerTouchCount;
+		const endLevel = this.endLevel;
 
 		return (
 			<div className="game-board">
@@ -198,7 +201,7 @@ class Game extends Component {
 						{ ! gameOver ? <Time time={this.props.level.time} endLevel={endLevel.bind(this)}/> : '' }
 					</div>
 					<div className = "about">
-						<a href={this.state.home} target="_blank">{this.state.name} v{this.state.version}</a>
+						<a href={this.state.home} target="_blank" rel="noopener noreferrer">{this.state.name} v{this.state.version}</a>
 					</div>
 				</div>
 				<div className = "clear"></div>
