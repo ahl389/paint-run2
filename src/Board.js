@@ -33,7 +33,7 @@ class Board extends Component {
 						//if (!monster) {
 							tile.touchedA = true;
 							tile.touchedM = false;
-							var utc = this.props.updateTouchCount;
+							let utc = this.props.updateTouchCount;
 							utc();	
 							//}
 					}
@@ -56,7 +56,7 @@ class Board extends Component {
 					
 					if (tile.touchedA) {
 						tile.touchedA = false;
-						var ltc = this.props.lowerTouchCount;
+						let ltc = this.props.lowerTouchCount;
 						ltc();
 					} 
 				} 
@@ -67,22 +67,24 @@ class Board extends Component {
 	}
 	
 	calculateTargetLoc(dir, currentx, currenty) {
-		//console.log('Board: calculateTargetLoc: ' + dir + ' cx:' + currentx + ' cy:' + currenty);
 		let targetx;
 		let targety;
-		if (dir == 1 || dir == "ArrowRight" || dir == 'd' || dir =='D') {
+		if (typeof dir !== 'string') {
+			dir = dir.toString(); // always use string comparisons
+		}
+		if (dir === '1' || dir === "ArrowRight" || dir === 'd' || dir === 'D') {
 			// moving right
 			targetx = parseInt(currentx) + 1;
 			targety = parseInt(currenty);
-		  } else if (dir == 2 || dir == "ArrowDown" || dir == 's' || dir =='S') {
+		  } else if (dir === '2' || dir === "ArrowDown" || dir === 's' || dir === 'S') {
 			// moving down
 			targetx = parseInt(currentx);
 			targety = parseInt(currenty) + 1;
-		  } else if (dir == 3 || dir == "ArrowLeft" || dir == 'a' || dir =='A') {
+		  } else if (dir === '3' || dir === "ArrowLeft" || dir === 'a' || dir === 'A') {
 			// moving left
 			targetx = parseInt(currentx) - 1;
 			targety = parseInt(currenty);
-		  } else if (dir == 4 || dir == "ArrowUp" || dir == 'w' || dir =='W') {
+		  } else if (dir === '4' || dir === "ArrowUp" || dir === 'w' || dir === 'W') {
 			// moving up
 			targetx = parseInt(currentx);
 			targety = parseInt(currenty) - 1;
@@ -143,7 +145,7 @@ class Board extends Component {
 		const monster = allMons.find(mon => mon.id == id);
 		monster.lives = monster.lives - 1;
 		
-		if (monster.lives == 0) {
+		if (monster.lives === 0) {
 			stillAlive = false;
 		} 
 
