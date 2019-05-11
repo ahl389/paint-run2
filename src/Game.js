@@ -26,40 +26,58 @@ class Game extends Component {
 
 		this.endLevel = this.endLevel.bind(this);
 		this.handleClick = this.handleClick.bind(this);
+		this.handleKeyPress = this.handleKeyPress.bind(this);
 	}
 
 	handleClick(e) {
-		const sc = e.target.getAttribute('data-statuscode');
-		console.log('Game: handleClick: ' + sc);
+		const statusCode = e.target.getAttribute('data-statuscode');
+		console.log('Game: handleClick: ' + statusCode);
+		this.handleUserDidSomething(statusCode);
+	}
 
-		if (sc === 'new-game') {
+	handleKeyPress(e) {
+		const statusCode = this.state.statusCode;
+		console.log('Game: handleKeyPress: e.key: ' + e.key + '  statusCode: ' + statusCode);
+		switch (e.key) {
+			default:
+				break;
+			case ' ': // Spacebar
+			case 'Enter':
+				this.handleUserDidSomething(statusCode);
+				break;
+		}
+	}
+
+	handleUserDidSomething(statusCode) {
+		console.log('Game: handleUserDidSomething: ' + statusCode);
+		if (statusCode === 'new-game') {
 			this.setState({
 				gameOver: false
 			});
-		} else if (sc === 'same-level') {
+		} else if (statusCode === 'same-level') {
 			this.setState({
 				gameOver: false,
 				touched: 1
 			});
-		} else if (sc === 'next-level') {
+		} else if (statusCode === 'next-level') {
 			let il = this.props.increaseLevel;
 			il();
-			
+
 			this.setState({
 				lives: Math.min(this.state.lives + 2, 4),
 				gameOver: false,
 				touched: 1
 			});
-		} else if (sc === 'restart') {
+		} else if (statusCode === 'restart') {
 			this.setState({
 				lives: 3,
 				gameOver: false,
 				touched: 1
 			});
-			
+
 			let restart = this.props.restart;
 			restart();
-		} 
+		}
 	}
 
 	updateGameStatus(gameOver, sm, bm, sc, lives=this.state.lives) {
@@ -188,6 +206,13 @@ class Game extends Component {
 		}
 
 		const gameOver = this.state.gameOver;
+		if (gameOver) {
+			// turn on keyPress event listener
+			document.addEventListener("keydown", this.handleKeyPress);
+		} else {
+			document.removeEventListener("keydown", this.handleKeyPress);
+		}
+
 		const level = this.props.level;
 
 		const ut = this.updateTouchCount;
@@ -228,7 +253,6 @@ class Game extends Component {
 						<button
 							className="button"
 							onClick={this.handleClick}
-							onKeyPress={this.handleKeypress}
 							data-statuscode={this.state.statusCode}
 						>
 				        	{this.state.buttonMessage}
