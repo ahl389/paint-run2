@@ -1,7 +1,7 @@
 import React, { Component } from 'react'; 
 
 class Tutorial extends Component {
-	constructor(props){
+	constructor(props) {
 		super(props);
 		this.state = {
 			show: false
@@ -10,13 +10,13 @@ class Tutorial extends Component {
 		this.showTutorial = this.showTutorial.bind(this);
 	}
 	
-	showTutorial(){
+	showTutorial() {
 		this.setState({
 			show: !this.state.show
 		});
 	}
 	
-	render(){
+	render() {
 		return(
 			<div className="tcontainer">
 				<div className="tbutton" onClick={this.showTutorial}>See tutorial</div>

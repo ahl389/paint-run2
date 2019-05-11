@@ -19,7 +19,7 @@ class Row extends Component {
 		)
 	}
 	
-	render(){
+	render() {
 		let id = 0;
 		let row = [];
 		for (let tile of this.props.tiles) {

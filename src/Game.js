@@ -62,7 +62,7 @@ class Game extends Component {
 		} 
 	}
 
-	updateGameStatus(gameOver, sm, bm, sc, lives=this.state.lives){
+	updateGameStatus(gameOver, sm, bm, sc, lives=this.state.lives) {
 		this.setState({
 			gameOver: gameOver,
 			statusMessage: sm,
