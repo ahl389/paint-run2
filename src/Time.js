@@ -20,9 +20,9 @@ class Time extends Component {
 	}
 	
 	countdown() {
-		var now = new Date().getTime();
-		var remaining = Math.ceil( (parseInt(this.state.endTime) - now)/1000 );
-		var endLevel = this.props.endLevel;
+		const now = new Date().getTime();
+		const remaining = Math.ceil( (parseInt(this.state.endTime) - now)/1000 );
+		let endLevel = this.props.endLevel;
 		
 		this.setState({
 			remaining: remaining
@@ -34,15 +34,21 @@ class Time extends Component {
 	}
 	
 	render(){
-		var classes = 'countdown-timer flasher';
-		var color = '#4d807f';
+		const classes = 'countdown-timer flasher';
+		let color = '#4d807f';
 		
 		if (this.state.remaining <= 3) {
 			color = 'red'
 		}
 		
 		return(
-			<div className="time"><span className={classes} style={{color: color}}>{this.state.remaining}</span><br></br>seconds</div>
+			<div className="time">
+				<span className={classes} style={{color: color}}>
+					{this.state.remaining}
+				</span>
+				<br />
+				seconds
+			</div>
 		);
 	}
 }

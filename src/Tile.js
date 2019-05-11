@@ -12,9 +12,9 @@ class Tile extends Component {
 	}
 	
 	hasAvatar(){
-		var children = this.tile.current.childNodes;
+		let children = this.tile.current.childNodes;
 		for (let child of children) {
-			var avatar = child.querySelector('.avatar');
+			let avatar = child.querySelector('.avatar');
 			
 			if (avatar) {
 				return true;
@@ -23,15 +23,14 @@ class Tile extends Component {
 	}
 	
 	hasMonster(){
-		var children = this.tile.current.childNodes;
+		let children = this.tile.current.childNodes;
 		for (let child of children) {
-			var monster = child.querySelector('.monster');
+			let monster = child.querySelector('.monster');
 			
 			if (monster) {
 				return true;
-			} else {
-				return false;
 			}
+			return false;
 		}
 	}
 
@@ -54,9 +53,9 @@ class Tile extends Component {
 	}
 	
 	getMonster(){
-		var monsters = [];
+		let monsters = [];
 		if (this.props.monster) {
-			var i = 0;
+			let i = 0;
 
 			for (let mon of this.props.rm){
 				monsters.push(this.renderMonster(i, mon));
