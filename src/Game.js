@@ -25,7 +25,7 @@ class Game extends Component {
 	}
 	
 	handleClick(e) {
-		var sc = e.target.getAttribute('data-statuscode');
+		const sc = e.target.getAttribute('data-statuscode');
 		
 		if (sc === 'new-game') {
 			this.setState({
@@ -37,7 +37,7 @@ class Game extends Component {
 				touched: 1
 			});
 		} else if (sc === 'next-level') {
-			var il = this.props.increaseLevel;
+			let il = this.props.increaseLevel;
 			il();
 			
 			this.setState({
@@ -52,7 +52,7 @@ class Game extends Component {
 				touched: 1
 			});
 			
-			var restart = this.props.restart;
+			let restart = this.props.restart;
 			restart();
 		} 
 	}
@@ -88,8 +88,8 @@ class Game extends Component {
 	}
 	
 	endLevel() {
-		var lives = this.state.lives - 1;
-		var gameOver = true;
+		const lives = this.state.lives - 1;
+		const gameOver = true;
 
 		let sm = '';
 		let bm ='';
@@ -108,8 +108,8 @@ class Game extends Component {
 	}
 	
 	getTileState(locs){
-		var rd = this.props.level.grid;
-		var tiles = [];
+		const rd = this.props.level.grid;
+		let tiles = [];
 
 		for (let y = 0; y < rd.length; y++) {
 			let row = rd[y];
@@ -122,8 +122,8 @@ class Game extends Component {
 				let touchedM = false;
 				
 				for (let loc of locs) {
-					if (loc.x == x && loc.y == y) {
-						if (loc.t == 'a') {
+					if (loc.x === x && loc.y === y) {
+						if (loc.t === 'a') {
 							touchedA = true;
 							target = true;
 						} else {
