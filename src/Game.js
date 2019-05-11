@@ -3,7 +3,7 @@ import Board from './Board.js';
 import Time from './Time.js';
 import Tutorial from './Tutorial.js';
 
-class Game extends React.Component {
+class Game extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -19,10 +19,10 @@ class Game extends React.Component {
 			statusMessage: 'Paint Run',
 			tutorial: false
 		};
-		
+
 		this.endLevel = this.endLevel.bind(this);
 		this.handleClick = this.handleClick.bind(this);
-	}	
+	}
 	
 	handleClick(e) {
 		var sc = e.target.getAttribute('data-statuscode');
@@ -82,7 +82,7 @@ class Game extends React.Component {
 	}
 	
 	checkForWin(){
-		if (this.state.touched == this.props.level.tiles) {
+		if (this.state.touched === this.props.level.tiles) {
 			this.updateGameStatus(true, "Level Won", "Next Level", 'next-level')
 		} 
 	}
@@ -90,15 +90,18 @@ class Game extends React.Component {
 	endLevel() {
 		var lives = this.state.lives - 1;
 		var gameOver = true;
-		
+
+		let sm = '';
+		let bm ='';
+		let sc = '';
 		if (lives > 0) {
-			var sm = `Out of time, you have ${lives} lives remaining!`;
-			var bm = 'Try again.';
-			var sc = 'same-level';
+			sm = `Out of time, you have ${lives} lives remaining!`;
+			bm = 'Try again.';
+			sc = 'same-level';
 		} else {
-			var sm = `Game Over`;
-			var bm = 'Play again';
-			var sc = 'restart';
+			sm = `Game Over`;
+			bm = 'Play again';
+			sc = 'restart';
 		}
 		
 		this.updateGameStatus(gameOver, sm, bm, sc, lives)
