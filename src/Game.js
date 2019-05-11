@@ -3,13 +3,17 @@ import Board from './Board.js';
 import Time from './Time.js';
 import Tutorial from './Tutorial.js';
 
+const gameName    = 'Paint Run';
+const gameVersion = '1.0.3';
+const gameHome    = 'https://github.com/ahl389/paint-run2';
+
 class Game extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			version: '1.0.0-alpha.3',
-			name: 'Paint Run',
-			home: 'https://github.com/ahl389/paint-run2',
+			name: gameName,
+			version: gameVersion,
+			home: gameHome,
 			lives: 3,
 			gameOver: true,
 			touched: 1,
@@ -23,10 +27,11 @@ class Game extends Component {
 		this.endLevel = this.endLevel.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 	}
-	
+
 	handleClick(e) {
 		const sc = e.target.getAttribute('data-statuscode');
-		
+		console.log('Game: handleClick: ' + sc);
+
 		if (sc === 'new-game') {
 			this.setState({
 				gameOver: false
@@ -66,7 +71,7 @@ class Game extends Component {
 			statusCode: sc
 		});
 	}
-	
+
 	updateTouchCount(){
 		this.setState({
 			touched: parseInt(this.state.touched) + 1
@@ -74,20 +79,21 @@ class Game extends Component {
 	
 		this.checkForWin();
 	}
-	
+
 	lowerTouchCount(){
 		this.setState({
 			touched: parseInt(this.state.touched) - 1
 		});
 	}
-	
+
 	checkForWin(){
 		if (this.state.touched === this.props.level.tiles) {
 			this.updateGameStatus(true, "Level Won", "Next Level", 'next-level')
 		} 
 	}
-	
+
 	endLevel() {
+		console.log('Game: endLevel');
 		const lives = this.state.lives - 1;
 		const gameOver = true;
 
@@ -143,10 +149,11 @@ class Game extends Component {
 
 			tiles.push(r)
 		}
-		
+
+		//console.log('getTileState: ' + JSON.stringify(tiles));
 		return tiles;
 	}
-	
+
 	getMonsterState(tiles){
 		let monsters = [];
 		const num = this.props.level.monsters;
@@ -170,7 +177,7 @@ class Game extends Component {
 		
 		return monsters;
 	}
-	
+
 	render() {
 		let locs = [{t:'a', x:0, y:0}];
 		const tileState = this.getTileState(locs);
@@ -205,7 +212,7 @@ class Game extends Component {
 					</div>
 				</div>
 				<div className = "clear"></div>
-			
+
 				{ ! gameOver 
 				  ? <Board
 						monsters={monsterState}

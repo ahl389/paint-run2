@@ -21,7 +21,7 @@ class Board extends Component {
 		//this.timeLeft = this.props.level.time
 	}
 
-	paint(targetx, targety, monster){
+	paint(targetx, targety, monster) {
 		var tiles = this.state.tiles;
 
 		for (let row of tiles) {
@@ -46,7 +46,7 @@ class Board extends Component {
 		return tiles;
 	}
 	
-	unpaint(targetx, targety){
+	unpaint(targetx, targety) {
 		var tiles = this.state.tiles;
 		
 		for (let row of tiles) {
@@ -67,6 +67,7 @@ class Board extends Component {
 	}
 	
 	calculateTargetLoc(dir, currentx, currenty) {
+		//console.log('Board: calculateTargetLoc: ' + dir + ' cx:' + currentx + ' cy:' + currenty);
 		var targetx;
 		var targety;
 		if (dir == 1 || dir == "ArrowRight" || dir == 'd' || dir =='D') {
@@ -90,7 +91,7 @@ class Board extends Component {
 		return({targetx: targetx, targety: targety})
 	}
 	
-	monsterRun(){
+	monsterRun() {
 		var monsters = document.querySelectorAll('.monster');
 		var updated = [];
 		
@@ -135,7 +136,7 @@ class Board extends Component {
 		});
 	}
 	
-	updateMonster(id){
+	updateMonster(id) {
 		var allMons = this.monsters;
 		var stillAlive = true;
 		
@@ -147,14 +148,17 @@ class Board extends Component {
 		} 
 
 		this.monsters = allMons.filter(mon => mon.lives > 0);
+		console.log('Board: updateMonster: id:' + id + ' lives:' + monster.lives + ' sillAlive:' + stillAlive);
 		return stillAlive;
 	}
 	
 	move(e) {
+
 		var monster = false;
 		var avatar = document.querySelector('.avatar');
 		var currentx = avatar.getAttribute('data-x');
 		var currenty = avatar.getAttribute('data-y');
+		console.log('Board: move: e.key: ' + e.key + ' x:' + currentx + ' y:' + currenty);
 
 		var targetLoc = this.calculateTargetLoc(e.key, currentx, currenty);
 		var target = document.querySelector(`.tile[data-loc="${targetLoc.targetx}-${targetLoc.targety}"]`);
@@ -163,6 +167,7 @@ class Board extends Component {
 			var hasMonster = target.querySelector('.monster');
 			if (hasMonster != null) { // you smooshed the monster!
 				var id = hasMonster.getAttribute('data-id');
+				console.log('Board: move: you smooshed the monster! id:' + id + ' x:' + currentx + ' y:' + currenty);
 				monster = this.updateMonster(id)
 			}
 			
@@ -170,7 +175,7 @@ class Board extends Component {
 		}
 	}
 	
-	updateBoardState(targetx, targety, monster){
+	updateBoardState(targetx, targety, monster) {
 		// avatar moved, updating board
 		var x = parseInt(targetx);
 		var y = parseInt(targety);
@@ -182,7 +187,7 @@ class Board extends Component {
 		});
 	}
 	
-	updateBoardStateM(targetx, targety){
+	updateBoardStateM(targetx, targety) {
 		// monster moved, updating board
 		var x = parseInt(targetx);
 		var y = parseInt(targety);
@@ -192,17 +197,20 @@ class Board extends Component {
 		});
 	}
 
-	componentDidMount(){
+	componentDidMount() {
+		console.log('Board: componentDidMount: addEventListener: keydown');
 		document.addEventListener("keydown", this.move, false);
 		this.monsterRunID = setInterval(this.monsterRun, 1000);
+
 	}
 
-	componentWillUnmount(){
+	componentWillUnmount() {
+		console.log('Board: componentWillUnmount: removeEventListener: keydown');
 		document.removeEventListener("keydown", this.move, false);
 		clearInterval(this.monsterRunID);
 	}
 	
-	renderRows(){
+	renderRows() {
 		var rows = [];
 		var id = 0;
 		for (let row of this.state.tiles) {
