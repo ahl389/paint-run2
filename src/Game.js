@@ -72,7 +72,7 @@ class Game extends Component {
 		});
 	}
 
-	updateTouchCount(){
+	updateTouchCount() {
 		this.setState({
 			touched: parseInt(this.state.touched) + 1
 		});
@@ -80,13 +80,13 @@ class Game extends Component {
 		this.checkForWin();
 	}
 
-	lowerTouchCount(){
+	lowerTouchCount() {
 		this.setState({
 			touched: parseInt(this.state.touched) - 1
 		});
 	}
 
-	checkForWin(){
+	checkForWin() {
 		if (this.state.touched === this.props.level.tiles) {
 			this.updateGameStatus(true, "Level Won", "Next Level", 'next-level')
 		} 
@@ -113,7 +113,7 @@ class Game extends Component {
 		this.updateGameStatus(gameOver, sm, bm, sc, lives)
 	}
 	
-	getTileState(locs){
+	getTileState(locs) {
 		const rd = this.props.level.grid;
 		let tiles = [];
 
@@ -154,7 +154,7 @@ class Game extends Component {
 		return tiles;
 	}
 
-	getMonsterState(tiles){
+	getMonsterState(tiles) {
 		let monsters = [];
 		const num = this.props.level.monsters;
 		let flat = tiles.reduce(function(a,b) { return a.concat(b);  });
@@ -225,7 +225,12 @@ class Game extends Component {
 						/> 
 		  		  : <div className = "gameover">
 						<h1>{this.state.statusMessage}</h1>
-						<button className="button" onClick={this.handleClick} data-statuscode={this.state.statusCode}>
+						<button
+							className="button"
+							onClick={this.handleClick}
+							onKeyPress={this.handleKeypress}
+							data-statuscode={this.state.statusCode}
+						>
 				        	{this.state.buttonMessage}
 				     	</button>
 					</div>

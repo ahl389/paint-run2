@@ -24,6 +24,9 @@ class Row extends Component {
 		let row = [];
 		for (let tile of this.props.tiles) {
 			let y = this.props.rid;
+			if (typeof y !== 'number') {
+				y = parseInt(y);
+			}
 			let x = id;
 			let key = x + "-" + y;
 			let monsters = this.props.monsters;
@@ -32,13 +35,17 @@ class Row extends Component {
 			let rm = [];
 			
 			for (let monster of monsters) {
-				
-				if (y == monster.mtargety && x == monster.mtargetx) {
+				if (typeof monster.mtargetx !== 'number') {
+					monster.mtargetx = parseInt(monster.mtargetx);
+				}
+				if (typeof monster.mtargety !== 'number') {
+					monster.mtargety = parseInt(monster.mtargety);
+				}
+				if (y === monster.mtargety && x === monster.mtargetx) {
 					monsterTarget = true;
 					mc++;
 					rm.push(monster)
 				}
-				
 			}
 			
 			// let locClass = tile.type;
