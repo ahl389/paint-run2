@@ -1,5 +1,6 @@
 import React, { Component } from 'react'; 
 import Row from './Row.js';
+import Time from './Time.js';
 
 class Board extends Component {
 	constructor(props) {
@@ -7,20 +8,88 @@ class Board extends Component {
 		this.state = {
 			targetx: 0,
 			targety: 0,
+			touched: 1,
+			monsterState: this.props.monsters,
+			tileState: this.props.tiles,
 			monsters: this.props.monsters,
 			tiles: this.props.rowData
 		};
 		
 		this.monsters = this.props.monsters;
-		//this.tileState = this.props.rowData;
-		
 		this.move = this.move.bind(this);
 		this.monsterRun = this.monsterRun.bind(this);
-		this.updateMonster = this.updateMonster.bind(this)
-		//this.countdown = this.countdown.bind(this)
-		//this.timeLeft = this.props.level.time
+		this.updateMonster = this.updateMonster.bind(this);
+		this.updateTouchCount = this.updateTouchCount.bind(this);
 	}
 
+	componentDidMount() {
+		console.log('Board: componentDidMount: addEventListener: keydown');
+		document.addEventListener("keydown", this.move, false);
+		this.monsterRunID = setInterval(this.monsterRun, 1000);
+
+	}
+
+	componentWillUnmount() {
+		console.log('Board: componentWillUnmount: removeEventListener: keydown');
+		document.removeEventListener("keydown", this.move, false);
+		clearInterval(this.monsterRunID);
+	}
+	
+	getTileState(locs) {
+		const rd = this.props.level.grid;
+		let tiles = [];
+
+		for (let y = 0; y < rd.length; y++) {
+			let row = rd[y];
+			let r = [];
+
+			for (let x = 0; x < row.length; x++) {
+				let type = row[x] ? 'tile' : 'space';
+				let target = false;
+				let touchedA = false;
+				let touchedM = false;
+				
+				for (let loc of locs) {
+					if (loc.x === x && loc.y === y) {
+						if (loc.t === 'a') {
+							touchedA = true;
+							target = true;
+						} else {
+							touchedM = true;
+						}
+					}
+				}
+
+				r.push({	x: x,
+							y: y,
+							type: type,
+							target: target,
+							touchedA: touchedA,
+							touchedM: touchedM
+						});
+			}
+
+			tiles.push(r)
+		}
+
+		return tiles;
+	}
+
+	updateTouchCount(count) {
+		this.setState({
+			touched: parseInt(this.state.touched) + count
+		});
+	
+		this.checkForWin();
+	}
+	
+	checkForWin() {
+		let ugs = this.props.updateGameStatus;
+		if (this.state.touched === this.props.tileCount) {
+			ugs(true, "Level Won", "Next Level", 'next-level')
+		} 
+	}
+	
 	paint(targetx, targety, monster) {
 		const tiles = this.state.tiles;
 
@@ -33,8 +102,9 @@ class Board extends Component {
 						//if (!monster) {
 							tile.touchedA = true;
 							tile.touchedM = false;
-							let utc = this.props.updateTouchCount;
-							utc();	
+							this.updateTouchCount(1);
+							// let utc = this.props.updateTouchCount;
+// 							utc();	
 							//}
 					}
 				} else {
@@ -56,8 +126,9 @@ class Board extends Component {
 					
 					if (tile.touchedA) {
 						tile.touchedA = false;
-						let ltc = this.props.lowerTouchCount;
-						ltc();
+						this.updateTouchCount(-1);
+						// let ltc = this.props.lowerTouchCount;
+// 						ltc();
 					} 
 				} 
 			}
@@ -150,7 +221,7 @@ class Board extends Component {
 		} 
 
 		this.monsters = allMons.filter(mon => mon.lives > 0);
-		console.log('Board: updateMonster: id:' + id + ' lives:' + monster.lives + ' sillAlive:' + stillAlive);
+		console.log('Board: updateMonster: id:' + id + ' lives:' + monster.lives + ' stillAlive:' + stillAlive);
 		return stillAlive;
 	}
 	
@@ -198,18 +269,6 @@ class Board extends Component {
 		});
 	}
 
-	componentDidMount() {
-		console.log('Board: componentDidMount: addEventListener: keydown');
-		document.addEventListener("keydown", this.move, false);
-		this.monsterRunID = setInterval(this.monsterRun, 1000);
-
-	}
-
-	componentWillUnmount() {
-		console.log('Board: componentWillUnmount: removeEventListener: keydown');
-		document.removeEventListener("keydown", this.move, false);
-		clearInterval(this.monsterRunID);
-	}
 	
 	renderRows() {
 		let rows = [];
@@ -233,9 +292,16 @@ class Board extends Component {
 	
 	render() {
 		return (
+			<div>
+			<div className = "details-tab">
+				<div className="lives">{this.props.lives}<br></br><span>lives</span></div>
+				<div className="status">{this.state.touched}/{this.props.tileCount}<br></br><span>tiles</span></div>
+			<Time time={this.props.time} endLevel={this.props.endLevel}/>
+			</div>
 			<div className = "board">
 				{ this.renderRows() }
 			</div>
+				</div>
 		);
 	}
 }

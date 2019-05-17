@@ -16,14 +16,14 @@ class Game extends Component {
 			home: gameHome,
 			lives: 3,
 			gameOver: true,
-			touched: 1,
 			buttonMessage: "Begin Game!",
 			seconds: this.props.level.time,
 			statusCode: 'new-game',
 			statusMessage: 'Paint Run',
 			tutorial: false
 		};
-
+		
+		//this.monsters = this.getInitialMonsterState(this.props.tiles)
 		this.endLevel = this.endLevel.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 		this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -90,25 +90,6 @@ class Game extends Component {
 		});
 	}
 
-	updateTouchCount() {
-		this.setState({
-			touched: parseInt(this.state.touched) + 1
-		});
-	
-		this.checkForWin();
-	}
-
-	lowerTouchCount() {
-		this.setState({
-			touched: parseInt(this.state.touched) - 1
-		});
-	}
-
-	checkForWin() {
-		if (this.state.touched === this.props.level.tiles) {
-			this.updateGameStatus(true, "Level Won", "Next Level", 'next-level')
-		} 
-	}
 
 	endLevel() {
 		console.log('Game: endLevel');
@@ -168,7 +149,6 @@ class Game extends Component {
 			tiles.push(r)
 		}
 
-		//console.log('getTileState: ' + JSON.stringify(tiles));
 		return tiles;
 	}
 
@@ -201,10 +181,6 @@ class Game extends Component {
 		const tileState = this.getTileState(locs);
 		const monsterState = this.getMonsterState(tileState);
 
-		for (let monster of monsterState) {
-			locs.push({t:'m', x:monster.mtargetx, y:monster.mtargety})
-		}
-
 		const gameOver = this.state.gameOver;
 		if (gameOver) {
 			// turn on keyPress event listener
@@ -214,9 +190,7 @@ class Game extends Component {
 		}
 
 		const level = this.props.level;
-
-		const ut = this.updateTouchCount;
-		const ltc = this.lowerTouchCount;
+		const ugs = this.updateGameStatus;
 		const endLevel = this.endLevel;
 
 		return (
@@ -227,11 +201,7 @@ class Game extends Component {
 						<Tutorial/>
 						
 					</div>
-					<div className = "details-tab">
-						<div className="lives">{this.state.lives}<br></br><span>lives</span></div>
-						<div className="status">{this.state.touched}/{level.tiles}<br></br><span>tiles</span></div>
-						{ ! gameOver ? <Time time={this.props.level.time} endLevel={endLevel.bind(this)}/> : '' }
-					</div>
+					
 					<div className = "about">
 						<a href={this.state.home} target="_blank" rel="noopener noreferrer">{this.state.name} v{this.state.version}</a>
 					</div>
@@ -244,17 +214,17 @@ class Game extends Component {
 						rowData={tileState}
 						lives={this.state.lives}
 						tileCount={level.tiles}
-						updateTouchCount={ut.bind(this)}
-						lowerTouchCount={ltc.bind(this)}
 						level={this.props.level}
+						time={this.props.level.time}
+						endLevel={endLevel.bind(this)}
+						updateGameStatus={ugs.bind(this)}
 						/> 
 		  		  : <div className = "gameover">
 						<h1>{this.state.statusMessage}</h1>
 						<button
 							className="button"
 							onClick={this.handleClick}
-							data-statuscode={this.state.statusCode}
-						>
+							data-statuscode={this.state.statusCode}>
 				        	{this.state.buttonMessage}
 				     	</button>
 					</div>
