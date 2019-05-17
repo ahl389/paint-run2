@@ -16,18 +16,20 @@ class App extends Component {
 	}
 	
 	restart(){
+		console.log('App: restart');
 		this.setState({
 			level: 1
 		});
 	}
 	
-	processLevelData(){
-		var data = levels[this.state.level - 1].tiles;
-		var tiles = data.reduce(function(a,b) { return a.concat(b);  })
+	processLevelData() {
+		console.log('App: processLevelData');
+		let data = levels[this.state.level - 1].tiles;
+		let tiles = data.reduce(function(a,b) { return a.concat(b);  })
   	 				.filter(function(elem) { return elem })
 					.length;
-		
-		var level = {
+
+		return {
 			levelNum: this.state.level,
 			grid: data,
 			rows: data.length,
@@ -36,11 +38,10 @@ class App extends Component {
 			time: tiles * 750,
 			monsters: this.getMonsterNum()
 		};
-	
-		return level;
 	}
 	
-	getMonsterNum(){
+	getMonsterNum() {
+		console.log('App: getMonsterNum');
 		if (this.state.level > 4) {
 			return Math.floor(this.state.level/5 + 5)
 		} else if (this.state.level > 3) {
@@ -50,17 +51,19 @@ class App extends Component {
 		}
 	}
 
-	increaseLevel(){
+	increaseLevel() {
+		console.log('App: increaseLevel');
 		this.setState({
 			level: this.state.level+1
 		});
 	}
-	 
+
 	render() {
-		var increaseLevel = this.increaseLevel;
-		var level = this.processLevelData();
-		var restart = this.restart;
-		
+		let increaseLevel = this.increaseLevel;
+		let level = this.processLevelData();
+		let restart = this.restart;
+		console.log('App: render: gameOver:false newLevel:false level:' + level);
+
 		return (
 			<div className = "body">
 		      <Game 

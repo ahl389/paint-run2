@@ -1,5 +1,3 @@
-
-
 .loc {
 	width: 33px;
 	    height: 33px;
@@ -10,7 +8,6 @@
 	    text-align: center;
 	    display: flex;
 	    justify-content: center;
-	    justify-content: middle;
 	    align-items: center;
 }
 
@@ -26,7 +23,7 @@
 	background-color: #efefef;
 	border-radius: 3px;
 	z-index: 5;
-	box-shadow: inset 2px 2px 1px 0px #000000;
+	box-shadow: inset 2px 2px 1px 0 #000000;
 	text-align: center;
 }
 
@@ -36,13 +33,13 @@
 	top: 50%;
 	transform: translateY(-50%);
 	width: 100%;
+	width: 12px;
 	font-size: 2em;
 	border-radius: 100%;
-	width: 12px;
 	height: 12px;
 	margin: 0 auto;
 	left: 2px;
-	right: 0px;
+	right: 0;
 }
 
 .avatar {
@@ -119,7 +116,6 @@
 	animation: rotateru .25s forwards;
 }
 
-
 .monster.prevDir2.dir1 {
 	transform-origin: center center;
 	animation: rotatedr .25s forwards;
@@ -135,7 +131,6 @@
 	animation: rotatedu .25s forwards;
 }
 
-
 .monster.prevDir3.dir1 {
 	transform-origin: center center;
 	animation: rotatelr .25s forwards;
@@ -150,7 +145,6 @@
 	transform-origin: center center;
 	animation: rotatelu .25s forwards;
 }
-
 
 .monster.prevDir4.dir1 {
 	transform-origin: center center;
@@ -183,25 +177,24 @@
 }
 
 @keyframes slideu {
-	0% { bottom: 0px;}
+	0% { bottom: 0;}
 	100% {top: 5px; }
 }
 
 @keyframes rotaterd {
 	0% { transform: rotate(90deg) }
-	100% {transform: rotate(180deg)};
+	100% {transform: rotate(180deg)}
 }
 
 @keyframes rotaterl {
 	0% { transform: rotate(90deg) }
-	100% {transform: rotate(270deg)};
+	100% {transform: rotate(270deg)}
 }
 
 @keyframes rotateru {
 	0% { transform: rotate(90deg) }
-	100% {transform: rotate(360deg)};
+	100% {transform: rotate(360deg)}
 }
-
 
 @keyframes rotatedr {
 	0% { transform: rotate(180deg); }
@@ -268,7 +261,6 @@
 	position: absolute;
 	left: 0;
 	right: 0;
-	margin: 0 auto;
 	top: 50%;
 	transform: translateY(-50%);
 }

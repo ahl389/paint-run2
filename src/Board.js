@@ -1,7 +1,7 @@
 import React, { Component } from 'react'; 
 import Row from './Row.js';
 
-class Board extends React.Component {
+class Board extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -9,20 +9,20 @@ class Board extends React.Component {
 			targety: 0,
 			monsters: this.props.monsters,
 			tiles: this.props.rowData
-		}
+		};
 		
 		this.monsters = this.props.monsters;
 		//this.tileState = this.props.rowData;
 		
 		this.move = this.move.bind(this);
-		this.monsterRun = this.monsterRun.bind(this)
+		this.monsterRun = this.monsterRun.bind(this);
 		this.updateMonster = this.updateMonster.bind(this)
 		//this.countdown = this.countdown.bind(this)
 		//this.timeLeft = this.props.level.time
 	}
 
-	paint(targetx, targety, monster){
-		var tiles = this.state.tiles;
+	paint(targetx, targety, monster) {
+		const tiles = this.state.tiles;
 
 		for (let row of tiles) {
 			for (let tile of row) {
@@ -33,7 +33,7 @@ class Board extends React.Component {
 						//if (!monster) {
 							tile.touchedA = true;
 							tile.touchedM = false;
-							var utc = this.props.updateTouchCount;
+							let utc = this.props.updateTouchCount;
 							utc();	
 							//}
 					}
@@ -46,17 +46,17 @@ class Board extends React.Component {
 		return tiles;
 	}
 	
-	unpaint(targetx, targety){
-		var tiles = this.state.tiles;
+	unpaint(targetx, targety) {
+		const tiles = this.state.tiles;
 		
 		for (let row of tiles) {
 			for (let tile of row) {
-				if (tile.x == targetx && tile.y == targety) {
+				if (tile.x === targetx && tile.y === targety) {
 					tile.touchedM = true;
 					
 					if (tile.touchedA) {
 						tile.touchedA = false;
-						var ltc = this.props.lowerTouchCount;
+						let ltc = this.props.lowerTouchCount;
 						ltc();
 					} 
 				} 
@@ -67,21 +67,24 @@ class Board extends React.Component {
 	}
 	
 	calculateTargetLoc(dir, currentx, currenty) {
-		var targetx;
-		var targety;
-		if (dir == 1 || dir == "ArrowRight" || dir == 'd' || dir =='D') {
+		let targetx;
+		let targety;
+		if (typeof dir !== 'string') {
+			dir = dir.toString(); // always use string comparisons
+		}
+		if (dir === '1' || dir === "ArrowRight" || dir === 'd' || dir === 'D') {
 			// moving right
 			targetx = parseInt(currentx) + 1;
 			targety = parseInt(currenty);
-		  } else if (dir == 2 || dir == "ArrowDown" || dir == 's' || dir =='S') {
+		  } else if (dir === '2' || dir === "ArrowDown" || dir === 's' || dir === 'S') {
 			// moving down
 			targetx = parseInt(currentx);
 			targety = parseInt(currenty) + 1;
-		  } else if (dir == 3 || dir == "ArrowLeft" || dir == 'a' || dir =='A') {
+		  } else if (dir === '3' || dir === "ArrowLeft" || dir === 'a' || dir === 'A') {
 			// moving left
 			targetx = parseInt(currentx) - 1;
 			targety = parseInt(currenty);
-		  } else if (dir == 4 || dir == "ArrowUp" || dir == 'w' || dir =='W') {
+		  } else if (dir === '4' || dir === "ArrowUp" || dir === 'w' || dir === 'W') {
 			// moving up
 			targetx = parseInt(currentx);
 			targety = parseInt(currenty) - 1;
@@ -90,25 +93,25 @@ class Board extends React.Component {
 		return({targetx: targetx, targety: targety})
 	}
 	
-	monsterRun(){
-		var monsters = document.querySelectorAll('.monster');
-		var updated = [];
+	monsterRun() {
+		let monsters = document.querySelectorAll('.monster');
+		let updated = [];
 		
 		for (let monster of monsters) {
-			
-			var dir = parseInt(monster.getAttribute('data-prevdir'));
-			var prevDir = dir;
-			var id = monster.getAttribute('data-id')
-			var currentx = monster.getAttribute('data-x');
-			var currenty = monster.getAttribute('data-y');
 
-			var targetLoc = this.calculateTargetLoc(dir, currentx, currenty);
-			var target = document.querySelector(`.tile[data-loc="${targetLoc.targetx}-${targetLoc.targety}"]`);
-			var targetx = targetLoc.targetx;
-			var targety = targetLoc.targety;
+			let dir = parseInt(monster.getAttribute('data-prevdir'));
+			let prevDir = dir;
+			let id = monster.getAttribute('data-id');
+			let currentx = monster.getAttribute('data-x');
+			let currenty = monster.getAttribute('data-y');
+
+			let targetLoc = this.calculateTargetLoc(dir, currentx, currenty);
+			let target = document.querySelector(`.tile[data-loc="${targetLoc.targetx}-${targetLoc.targety}"]`);
+			let targetx = targetLoc.targetx;
+			let targety = targetLoc.targety;
 			
 			if (target != null) { // if target exists
-				if (updated.some(mon => mon.mtargetx == targetx && mon.mtargety == targety)) { // if no other monster is aleady heading to this target
+				if (updated.some(mon => mon.mtargetx === targetx && mon.mtargety === targety)) { // if no other monster is aleady heading to this target
 					dir = Math.ceil(Math.random() * 4); // proposed tile isn't valid, pick a random new direction
 					targetx = currentx;
 					targety = currenty;
@@ -119,7 +122,7 @@ class Board extends React.Component {
 				targety = currenty;
 			}
 			
-			var rm = this.monsters.find(mon => mon.id == id);
+			let rm = this.monsters.find(mon => mon.id == id);
 			rm.mtargetx = targetx;
 			rm.mtargety = targety;
 			rm.prevDir = prevDir;
@@ -135,34 +138,37 @@ class Board extends React.Component {
 		});
 	}
 	
-	updateMonster(id){
-		var allMons = this.monsters;
-		var stillAlive = true;
+	updateMonster(id) {
+		const allMons = this.monsters;
+		let stillAlive = true;
 		
-		var monster = allMons.find(mon => mon.id == id);
-		monster.lives = monster.lives - 1
+		const monster = allMons.find(mon => mon.id == id);
+		monster.lives = monster.lives - 1;
 		
-		if (monster.lives == 0) {
+		if (monster.lives === 0) {
 			stillAlive = false;
 		} 
 
 		this.monsters = allMons.filter(mon => mon.lives > 0);
+		console.log('Board: updateMonster: id:' + id + ' lives:' + monster.lives + ' sillAlive:' + stillAlive);
 		return stillAlive;
 	}
 	
 	move(e) {
-		var monster = false;
-		var avatar = document.querySelector('.avatar');
-		var currentx = avatar.getAttribute('data-x');
-		var currenty = avatar.getAttribute('data-y');
+		let monster = false;
+		let avatar = document.querySelector('.avatar');
+		let currentx = avatar.getAttribute('data-x');
+		let currenty = avatar.getAttribute('data-y');
+		console.log('Board: move: e.key: ' + e.key + ' x:' + currentx + ' y:' + currenty);
 
-		var targetLoc = this.calculateTargetLoc(e.key, currentx, currenty);
-		var target = document.querySelector(`.tile[data-loc="${targetLoc.targetx}-${targetLoc.targety}"]`);
+		let targetLoc = this.calculateTargetLoc(e.key, currentx, currenty);
+		let target = document.querySelector(`.tile[data-loc="${targetLoc.targetx}-${targetLoc.targety}"]`);
 
 		if (target != null) {
-			var hasMonster = target.querySelector('.monster');
+			let hasMonster = target.querySelector('.monster');
 			if (hasMonster != null) { // you smooshed the monster!
-				var id = hasMonster.getAttribute('data-id');
+				let id = hasMonster.getAttribute('data-id');
+				console.log('Board: move: you smooshed the monster! id:' + id + ' x:' + currentx + ' y:' + currenty);
 				monster = this.updateMonster(id)
 			}
 			
@@ -170,10 +176,10 @@ class Board extends React.Component {
 		}
 	}
 	
-	updateBoardState(targetx, targety, monster){
+	updateBoardState(targetx, targety, monster) {
 		// avatar moved, updating board
-		var x = parseInt(targetx);
-		var y = parseInt(targety);
+		const x = parseInt(targetx);
+		const y = parseInt(targety);
 		
 		this.setState({
 			targetx: x,
@@ -182,29 +188,32 @@ class Board extends React.Component {
 		});
 	}
 	
-	updateBoardStateM(targetx, targety){
+	updateBoardStateM(targetx, targety) {
 		// monster moved, updating board
-		var x = parseInt(targetx);
-		var y = parseInt(targety);
+		const x = parseInt(targetx);
+		const y = parseInt(targety);
 		
 		this.setState({
 			tiles: this.unpaint(x, y)
 		});
 	}
 
-	componentDidMount(){
+	componentDidMount() {
+		console.log('Board: componentDidMount: addEventListener: keydown');
 		document.addEventListener("keydown", this.move, false);
 		this.monsterRunID = setInterval(this.monsterRun, 1000);
+
 	}
 
-	componentWillUnmount(){
+	componentWillUnmount() {
+		console.log('Board: componentWillUnmount: removeEventListener: keydown');
 		document.removeEventListener("keydown", this.move, false);
 		clearInterval(this.monsterRunID);
 	}
 	
-	renderRows(){
-		var rows = [];
-		var id = 0;
+	renderRows() {
+		let rows = [];
+		let id = 0;
 		for (let row of this.state.tiles) {
 			rows.push(<Row 	
 						key={id} 

@@ -19,29 +19,36 @@ class Row extends Component {
 		)
 	}
 	
-	render(){
-		var id = 0;
-		var row = [];
+	render() {
+		let id = 0;
+		let row = [];
 		for (let tile of this.props.tiles) {
-			var y = this.props.rid;
-			var x = id;
-			var key = x + "-" + y;
-			var monsters = this.props.monsters;
-			var monsterTarget = false;
-			var mc = 0;
-			var rm = [];
+			let y = this.props.rid;
+			if (typeof y !== 'number') {
+				y = parseInt(y);
+			}
+			let x = id;
+			let key = x + "-" + y;
+			let monsters = this.props.monsters;
+			let monsterTarget = false;
+			let mc = 0;
+			let rm = [];
 			
 			for (let monster of monsters) {
-				
-				if (y == monster.mtargety && x == monster.mtargetx) {
+				if (typeof monster.mtargetx !== 'number') {
+					monster.mtargetx = parseInt(monster.mtargetx);
+				}
+				if (typeof monster.mtargety !== 'number') {
+					monster.mtargety = parseInt(monster.mtargety);
+				}
+				if (y === monster.mtargety && x === monster.mtargetx) {
 					monsterTarget = true;
 					mc++;
 					rm.push(monster)
 				}
-				
 			}
 			
-			// var locClass = tile.type;
+			// let locClass = tile.type;
 			row.push(this.renderTile(key, tile, tile.target, monsterTarget, rm, mc));
 			id++;
 		}
