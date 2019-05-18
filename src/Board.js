@@ -12,7 +12,7 @@ class Board extends Component {
 			monsterState: this.props.monsters,
 			tileState: this.props.tiles,
 			monsters: this.props.monsters,
-			tiles: this.props.rowData
+			tiles: this.props.tiles
 		};
 		
 		this.monsters = this.props.monsters;
@@ -85,7 +85,7 @@ class Board extends Component {
 	
 	checkForWin() {
 		let ugs = this.props.updateGameStatus;
-		if (this.state.touched === this.props.tileCount) {
+		if (this.state.touched === this.props.level.tiles) {
 			ugs(true, "Level Won", "Next Level", 'next-level')
 		} 
 	}
@@ -226,7 +226,7 @@ class Board extends Component {
 		let avatar = document.querySelector('.avatar');
 		let currentx = avatar.getAttribute('data-x');
 		let currenty = avatar.getAttribute('data-y');
-		console.log('Board: move: e.key: ' + e.key + ' x:' + currentx + ' y:' + currenty);
+		//console.log('Board: move: e.key: ' + e.key + ' x:' + currentx + ' y:' + currenty);
 
 		let targetLoc = this.calculateTargetLoc(e.key, currentx, currenty);
 		let target = document.querySelector(`.tile[data-loc="${targetLoc.targetx}-${targetLoc.targety}"]`);
@@ -291,7 +291,7 @@ class Board extends Component {
 			<div>
 			<div className = "details-tab">
 				<div className="lives">{this.props.lives}<br></br><span>lives</span></div>
-				<div className="status">{this.state.touched}/{this.props.tileCount}<br></br><span>tiles</span></div>
+				<div className="status">{this.state.touched}/{this.props.level.tiles}<br></br><span>tiles</span></div>
 			<Time time={this.props.time} endLevel={this.props.endLevel}/>
 			</div>
 			<div className = "board">

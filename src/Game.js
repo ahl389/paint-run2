@@ -23,14 +23,25 @@ class Game extends Component {
 			tutorial: false
 		};
 		
+		
 		//this.monsters = this.getInitialMonsterState(this.props.tiles)
 		this.endLevel = this.endLevel.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 		this.handleKeyPress = this.handleKeyPress.bind(this);
 	}
+	
+	componentDidMount() {
+		console.log('Game: componentDidMount: addEventListener: keydown');
+		document.addEventListener("keydown", this.handleKeyPress);
+    }
+
+	componentWillUnmount() {
+		console.log('Game: componentWillUnmount: removeEventListener: keydown');
+		document.removeEventListener("keydown", this.handleKeyPress);
+		console.log('unmounted!')
+	}
 
 	handleClick(e) {
-		//const statusCode = e.target.getAttribute('data-statuscode');
 		const statusCode = this.state.statusCode;
 		console.log('Game: handleClick: ' + statusCode);
 		this.handleUserDidSomething(statusCode);
@@ -114,29 +125,31 @@ class Game extends Component {
 	}
 	
 	getTileState(locs) {
-		const rd = this.props.level.grid;
-		let tiles = [];
+		const grid = this.props.level.grid;
+		let tileState = [];
 
-		for (let y = 0; y < rd.length; y++) {
-			let row = rd[y];
+		for (let y = 0; y < grid.length; y++) {
+			let row = grid[y];
 			let r = [];
 
 			for (let x = 0; x < row.length; x++) {
 				let type = row[x] ? 'tile' : 'space';
-				let target = false;
-				let touchedA = false;
+				let target = (x == 0 && y == 0) ? true: false;
+				let touchedA = (x == 0 && y == 0) ? true: false;
 				let touchedM = false;
 				
-				for (let loc of locs) {
-					if (loc.x === x && loc.y === y) {
-						if (loc.t === 'a') {
-							touchedA = true;
-							target = true;
-						} else {
-							touchedM = true;
-						}
-					}
-				}
+				
+				
+				// for (let loc of locs) {
+// 					if (loc.x === x && loc.y === y) {
+// 						if (loc.t === 'a') {
+// 							touchedA = true;
+// 							target = true;
+// 						} else {
+// 							touchedM = true;
+// 						}
+// 					}
+// 				}
 
 				r.push({	x: x,
 							y: y,
@@ -147,19 +160,21 @@ class Game extends Component {
 						});
 			}
 
-			tiles.push(r)
+			tileState.push(r)
 		}
 
-		return tiles;
+		return tileState;
 	}
 
 	getMonsterState(tiles) {
-		let monsters = [];
 		const num = this.props.level.monsters;
+		
+		let monsters = [];
 		let flat = tiles.reduce(function(a,b) { return a.concat(b);  });
+		let potentialTargets = flat.filter(loc => loc.type == 'tile')
 
 		for (let i = 0; i < num; i++) {
-			const target = flat[
+			const target = potentialTargets[
 				Math.floor(Math.random() * this.props.level.tiles/2)
 				+ Math.floor(this.props.level.tiles/2)
 			];
@@ -178,17 +193,16 @@ class Game extends Component {
 	}
 
 	render() {
-		let locs = [{t:'a', x:0, y:0}];
-		const tileState = this.getTileState(locs);
-		const monsterState = this.getMonsterState(tileState);
+		const initialTiles = this.getTileState(this.props.level.grid);
+		const initialMonsters = this.getMonsterState(initialTiles);
+		
 
-		const gameOver = this.state.gameOver;
-		if (gameOver) {
-			// turn on keyPress event listener
-			document.addEventListener("keydown", this.handleKeyPress);
-		} else {
-			document.removeEventListener("keydown", this.handleKeyPress);
-		}
+		
+		// if (gameOver) {
+// 			document.addEventListener("keydown", this.handleKeyPress);
+// 		} else {
+// 			document.removeEventListener("keydown", this.handleKeyPress);
+// 		}
 
 		const level = this.props.level;
 		const ugs = this.updateGameStatus;
@@ -200,7 +214,6 @@ class Game extends Component {
 					<div className="level">
 						<h1>Level {level.levelNum}</h1>
 						<Tutorial/>
-						
 					</div>
 					
 					<div className = "about">
@@ -209,12 +222,11 @@ class Game extends Component {
 				</div>
 				<div className = "clear"></div>
 
-				{ ! gameOver 
+				{ ! this.state.gameOver 
 				  ? <Board
-						monsters={monsterState}
-						rowData={tileState}
+						monsters={initialMonsters}
+						tiles={initialTiles}
 						lives={this.state.lives}
-						tileCount={level.tiles}
 						level={this.props.level}
 						time={this.props.level.time}
 						endLevel={endLevel.bind(this)}
