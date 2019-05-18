@@ -195,16 +195,7 @@ class Game extends Component {
 	render() {
 		const initialTiles = this.getTileState(this.props.level.grid);
 		const initialMonsters = this.getMonsterState(initialTiles);
-		
 
-		
-		// if (gameOver) {
-// 			document.addEventListener("keydown", this.handleKeyPress);
-// 		} else {
-// 			document.removeEventListener("keydown", this.handleKeyPress);
-// 		}
-
-		const level = this.props.level;
 		const ugs = this.updateGameStatus;
 		const endLevel = this.endLevel;
 
@@ -212,7 +203,7 @@ class Game extends Component {
 			<div className="game-board">
 				<div className = "header-content">
 					<div className="level">
-						<h1>Level {level.levelNum}</h1>
+						<h1>Level {this.props.level.levelNum}</h1>
 						<Tutorial/>
 					</div>
 					
