@@ -31,25 +31,22 @@ class Game extends Component {
 	}
 	
 	componentDidMount() {
-		console.log('Game: componentDidMount: addEventListener: keydown');
 		document.addEventListener("keydown", this.handleKeyPress);
     }
 
 	componentWillUnmount() {
-		console.log('Game: componentWillUnmount: removeEventListener: keydown');
 		document.removeEventListener("keydown", this.handleKeyPress);
-		console.log('unmounted!')
 	}
 
 	handleClick(e) {
 		const statusCode = this.state.statusCode;
-		console.log('Game: handleClick: ' + statusCode);
+		//console.log('Game: handleClick: ' + statusCode);
 		this.handleUserDidSomething(statusCode);
 	}
 
 	handleKeyPress(e) {
 		const statusCode = this.state.statusCode;
-		console.log('Game: handleKeyPress: e.key: ' + e.key + '  statusCode: ' + statusCode);
+		//console.log('Game: handleKeyPress: e.key: ' + e.key + '  statusCode: ' + statusCode);
 		switch (e.key) {
 			default:
 				break;
@@ -104,7 +101,6 @@ class Game extends Component {
 
 
 	endLevel() {
-		console.log('Game: endLevel');
 		const lives = this.state.lives - 1;
 		const gameOver = true;
 
