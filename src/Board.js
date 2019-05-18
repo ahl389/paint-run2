@@ -10,12 +10,9 @@ class Board extends Component {
 			targety: 0,
 			touched: 1,
 			monsterState: this.props.monsters,
-			tileState: this.props.tiles,
-			monsters: this.props.monsters,
-			tiles: this.props.rowData
+			tileState: this.props.tiles
 		};
-		
-		this.monsters = this.props.monsters;
+
 		this.move = this.move.bind(this);
 		this.monsterRun = this.monsterRun.bind(this);
 		this.updateMonster = this.updateMonster.bind(this);
@@ -26,7 +23,6 @@ class Board extends Component {
 		console.log('Board: componentDidMount: addEventListener: keydown');
 		document.addEventListener("keydown", this.move, false);
 		this.monsterRunID = setInterval(this.monsterRun, 1000);
-
 	}
 
 	componentWillUnmount() {
@@ -35,46 +31,6 @@ class Board extends Component {
 		clearInterval(this.monsterRunID);
 	}
 	
-	getTileState(locs) {
-		const rd = this.props.level.grid;
-		let tiles = [];
-
-		for (let y = 0; y < rd.length; y++) {
-			let row = rd[y];
-			let r = [];
-
-			for (let x = 0; x < row.length; x++) {
-				let type = row[x] ? 'tile' : 'space';
-				let target = false;
-				let touchedA = false;
-				let touchedM = false;
-				
-				for (let loc of locs) {
-					if (loc.x === x && loc.y === y) {
-						if (loc.t === 'a') {
-							touchedA = true;
-							target = true;
-						} else {
-							touchedM = true;
-						}
-					}
-				}
-
-				r.push({	x: x,
-							y: y,
-							type: type,
-							target: target,
-							touchedA: touchedA,
-							touchedM: touchedM
-						});
-			}
-
-			tiles.push(r)
-		}
-
-		return tiles;
-	}
-
 	updateTouchCount(count) {
 		this.setState({
 			touched: parseInt(this.state.touched) + count
@@ -85,13 +41,13 @@ class Board extends Component {
 	
 	checkForWin() {
 		let ugs = this.props.updateGameStatus;
-		if (this.state.touched === this.props.tileCount) {
+		if (this.state.touched === this.props.level.tiles) {
 			ugs(true, "Level Won", "Next Level", 'next-level')
 		} 
 	}
 	
-	paint(targetx, targety, monster) {
-		const tiles = this.state.tiles;
+	paint(targetx, targety) {
+		const tiles = this.state.tileState;
 
 		for (let row of tiles) {
 			for (let tile of row) {
@@ -103,10 +59,8 @@ class Board extends Component {
 							tile.touchedA = true;
 							tile.touchedM = false;
 							this.updateTouchCount(1);
-							// let utc = this.props.updateTouchCount;
-// 							utc();	
 							//}
-					}
+					} 
 				} else {
 					tile.target = false;
 				}
@@ -117,7 +71,7 @@ class Board extends Component {
 	}
 	
 	unpaint(targetx, targety) {
-		const tiles = this.state.tiles;
+		const tiles = this.state.tileState;
 		
 		for (let row of tiles) {
 			for (let tile of row) {
@@ -127,8 +81,6 @@ class Board extends Component {
 					if (tile.touchedA) {
 						tile.touchedA = false;
 						this.updateTouchCount(-1);
-						// let ltc = this.props.lowerTouchCount;
-// 						ltc();
 					} 
 				} 
 			}
@@ -169,7 +121,6 @@ class Board extends Component {
 		let updated = [];
 		
 		for (let monster of monsters) {
-
 			let dir = parseInt(monster.getAttribute('data-prevdir'));
 			let prevDir = dir;
 			let id = monster.getAttribute('data-id');
@@ -193,7 +144,8 @@ class Board extends Component {
 				targety = currenty;
 			}
 			
-			let rm = this.monsters.find(mon => mon.id == id);
+
+			let rm = this.state.monsterState.find(mon => mon.id == id);
 			rm.mtargetx = targetx;
 			rm.mtargety = targety;
 			rm.prevDir = prevDir;
@@ -201,16 +153,15 @@ class Board extends Component {
 
 			updated.push(rm);
 			this.updateBoardStateM(targetx, targety);
-
 		}
 
 		this.setState({
-			monsters: updated
+			monsterState: updated
 		});
 	}
 	
 	updateMonster(id) {
-		const allMons = this.monsters;
+		const allMons = this.state.monsterState;
 		let stillAlive = true;
 		
 		const monster = allMons.find(mon => mon.id == id);
@@ -220,7 +171,10 @@ class Board extends Component {
 			stillAlive = false;
 		} 
 
-		this.monsters = allMons.filter(mon => mon.lives > 0);
+		this.setState({
+			monsterState: allMons.filter(mon => mon.lives > 0)
+		});
+
 		console.log('Board: updateMonster: id:' + id + ' lives:' + monster.lives + ' stillAlive:' + stillAlive);
 		return stillAlive;
 	}
@@ -230,6 +184,7 @@ class Board extends Component {
 		let avatar = document.querySelector('.avatar');
 		let currentx = avatar.getAttribute('data-x');
 		let currenty = avatar.getAttribute('data-y');
+		
 		console.log('Board: move: e.key: ' + e.key + ' x:' + currentx + ' y:' + currenty);
 
 		let targetLoc = this.calculateTargetLoc(e.key, currentx, currenty);
@@ -255,7 +210,7 @@ class Board extends Component {
 		this.setState({
 			targetx: x,
 			targety: y,
-			tiles: this.paint(x, y, monster)
+			tiles: this.paint(x, y)
 		});
 	}
 	
@@ -265,7 +220,7 @@ class Board extends Component {
 		const y = parseInt(targety);
 		
 		this.setState({
-			tiles: this.unpaint(x, y)
+			tileState: this.unpaint(x, y)
 		});
 	}
 
@@ -273,13 +228,13 @@ class Board extends Component {
 	renderRows() {
 		let rows = [];
 		let id = 0;
-		for (let row of this.state.tiles) {
+		for (let row of this.state.tileState) {
 			rows.push(<Row 	
 						key={id} 
 						rid={id} 
 						targetx={this.state.targetx} 
 						targety={this.state.targety} 
-						monsters={this.monsters} 
+						monsters={this.state.monsterState} 
 						tiles={row}
 						/>
 			);
@@ -293,15 +248,16 @@ class Board extends Component {
 	render() {
 		return (
 			<div>
-			<div className = "details-tab">
-				<div className="lives">{this.props.lives}<br></br><span>lives</span></div>
-				<div className="status">{this.state.touched}/{this.props.tileCount}<br></br><span>tiles</span></div>
-			<Time time={this.props.time} endLevel={this.props.endLevel}/>
-			</div>
-			<div className = "board">
-				{ this.renderRows() }
-			</div>
+				<div className = "details-tab">
+					<div className="lives">{this.props.lives}<br></br><span>lives</span></div>
+					<div className="status">{this.state.touched}/{this.props.level.tiles}<br></br><span>tiles</span></div>
+					<Time time={this.props.time} endLevel={this.props.endLevel}/>
 				</div>
+			
+				<div className = "board">
+					{ this.renderRows() }
+				</div>
+			</div>
 		);
 	}
 }

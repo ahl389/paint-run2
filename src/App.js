@@ -12,6 +12,7 @@ class App extends Component {
 		super(props);
 		this.state = {
 			level: 1,
+			newLevel: true
 		};
 	}
 	
@@ -62,16 +63,17 @@ class App extends Component {
 		let increaseLevel = this.increaseLevel;
 		let level = this.processLevelData();
 		let restart = this.restart;
-		console.log('App: render: gameOver:false newLevel:false level:' + level);
+		
+		console.log('rendering app again')
+		//console.log('App: render: gameOver:false newLevel: false level:' + level);
 
 		return (
 			<div className = "body">
-		      <Game 
-				gameOver={false}
-				newLevel={true}
-				level={level}
-				increaseLevel={increaseLevel.bind(this)}
-				restart={restart.bind(this)}/>
+				<Game 
+					gameOver={false}
+					level={level}
+					increaseLevel={increaseLevel.bind(this)}
+					restart={restart.bind(this)}/>
 			</div>
 		);
 	}
