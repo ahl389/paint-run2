@@ -165,7 +165,6 @@ class Board extends Component {
 		let updated = [];
 		
 		for (let monster of monsters) {
-
 			let dir = parseInt(monster.getAttribute('data-prevdir'));
 			let prevDir = dir;
 			let id = monster.getAttribute('data-id');
@@ -189,7 +188,7 @@ class Board extends Component {
 				targety = currenty;
 			}
 			
-			let rm = this.monsters.find(mon => mon.id == id);
+			let rm = this.state.monsters.find(mon => mon.id == id);
 			rm.mtargetx = targetx;
 			rm.mtargety = targety;
 			rm.prevDir = prevDir;
@@ -206,7 +205,7 @@ class Board extends Component {
 	}
 	
 	updateMonster(id) {
-		const allMons = this.monsters;
+		const allMons = this.state.monsters;
 		let stillAlive = true;
 		
 		const monster = allMons.find(mon => mon.id == id);
@@ -216,7 +215,10 @@ class Board extends Component {
 			stillAlive = false;
 		} 
 
-		this.monsters = allMons.filter(mon => mon.lives > 0);
+		this.setState({
+			monsters: allMons.filter(mon => mon.lives > 0)
+		}); 
+		
 		console.log('Board: updateMonster: id:' + id + ' lives:' + monster.lives + ' stillAlive:' + stillAlive);
 		return stillAlive;
 	}
@@ -275,7 +277,7 @@ class Board extends Component {
 						rid={id} 
 						targetx={this.state.targetx} 
 						targety={this.state.targety} 
-						monsters={this.monsters} 
+						monsters={this.state.monsters} 
 						tiles={row}
 						/>
 			);
