@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import Board from './Board.js';
-import Time from './Time.js';
 import Tutorial from './Tutorial.js';
 
 const gameName    = 'Paint Run';
-const gameVersion = '1.0.3';
+const gameVersion = '1.0.4';
 const gameHome    = 'https://github.com/ahl389/paint-run2';
 
 class Game extends Component {
+	/**
+	 * @param props
+	 */
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -29,27 +31,35 @@ class Game extends Component {
 		this.handleKeyPress = this.handleKeyPress.bind(this);
 	}
 
+	/**
+	 * @param e
+	 */
 	handleClick(e) {
 		const statusCode = e.target.getAttribute('data-statuscode');
-		console.log('Game: handleClick: ' + statusCode);
 		this.handleUserDidSomething(statusCode);
 	}
 
+	/**
+	 * @param e
+	 */
 	handleKeyPress(e) {
 		const statusCode = this.state.statusCode;
-		console.log('Game: handleKeyPress: e.key: ' + e.key + '  statusCode: ' + statusCode);
 		switch (e.key) {
 			default:
 				break;
-			case ' ': // Spacebar
-			case 'Enter':
+			case ' ':      // Spacebar
+			case 'Enter':  // Enter/Return key
+			case 'n':
+			case 'N':
 				this.handleUserDidSomething(statusCode);
 				break;
 		}
 	}
 
+	/**
+	 * @param statusCode
+	 */
 	handleUserDidSomething(statusCode) {
-		console.log('Game: handleUserDidSomething: ' + statusCode);
 		if (statusCode === 'new-game') {
 			this.setState({
 				gameOver: false
@@ -80,7 +90,14 @@ class Game extends Component {
 		}
 	}
 
-	updateGameStatus(gameOver, sm, bm, sc, lives=this.state.lives) {
+	/**
+	 * @param gameOver
+	 * @param sm
+	 * @param bm
+	 * @param sc
+	 * @param lives
+	 */
+	updateGameStatus(gameOver, sm, bm, sc, lives = this.state.lives) {
 		this.setState({
 			gameOver: gameOver,
 			statusMessage: sm,
@@ -90,9 +107,7 @@ class Game extends Component {
 		});
 	}
 
-
 	endLevel() {
-		console.log('Game: endLevel');
 		const lives = this.state.lives - 1;
 		const gameOver = true;
 
@@ -111,7 +126,11 @@ class Game extends Component {
 		
 		this.updateGameStatus(gameOver, sm, bm, sc, lives)
 	}
-	
+
+	/**
+	 * @param locs
+	 * @returns {Array}
+	 */
 	getTileState(locs) {
 		const rd = this.props.level.grid;
 		let tiles = [];
@@ -152,6 +171,10 @@ class Game extends Component {
 		return tiles;
 	}
 
+	/**
+	 * @param tiles
+	 * @returns {Array}
+	 */
 	getMonsterState(tiles) {
 		let monsters = [];
 		const num = this.props.level.monsters;
@@ -176,6 +199,9 @@ class Game extends Component {
 		return monsters;
 	}
 
+	/**
+	 * @returns {*}
+	 */
 	render() {
 		let locs = [{t:'a', x:0, y:0}];
 		const tileState = this.getTileState(locs);

@@ -17,13 +17,7 @@ Opposing forces are busy painting the level gold while the player paints it blue
 
 Any and all help is appreciated on this game. If you contribute, please update the `contributors.md` file with your name. Look at the issues tab for any features or things you want to work on and comment. First timers, women, and new contributors especially welcome. See the [contributing](https://github.com/ahl389/paint-run2/blob/master/CONTRIBUTING.md) file for more info on getting started!
 
-
-
-
-
-
-
-# Boilerplate React Stuff Below
+## Developer Info
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
