@@ -15,21 +15,16 @@ class App extends Component {
 		};
 	}
 	
-	restart() {
+	restart(){
+		console.log('App: restart');
 		this.setState({
 			level: 1
 		});
 	}
 	
 	processLevelData() {
-		let currentLevelIndex = this.state.level - 1;
-		if (currentLevelIndex >= levels.length) {
-			// @TODO - no more levels, tell user they won!
-			this.restart();
-			currentLevelIndex = 0;
-		}
-
-		let data = levels[currentLevelIndex].tiles;
+		console.log('App: processLevelData');
+		let data = levels[this.state.level - 1].tiles;
 		let tiles = data.reduce(function(a,b) { return a.concat(b);  })
   	 				.filter(function(elem) { return elem })
 					.length;
@@ -46,6 +41,7 @@ class App extends Component {
 	}
 	
 	getMonsterNum() {
+		console.log('App: getMonsterNum');
 		if (this.state.level > 4) {
 			return Math.floor(this.state.level/5 + 5)
 		} else if (this.state.level > 3) {
@@ -56,6 +52,7 @@ class App extends Component {
 	}
 
 	increaseLevel() {
+		console.log('App: increaseLevel');
 		this.setState({
 			level: this.state.level+1
 		});
@@ -65,6 +62,7 @@ class App extends Component {
 		let increaseLevel = this.increaseLevel;
 		let level = this.processLevelData();
 		let restart = this.restart;
+		console.log('App: render: gameOver:false newLevel:false level:' + level);
 
 		return (
 			<div className = "body">
