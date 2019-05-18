@@ -90,7 +90,7 @@ class Board extends Component {
 		} 
 	}
 	
-	paint(targetx, targety, monster) {
+	paint(targetx, targety) {
 		const tiles = this.state.tiles;
 
 		for (let row of tiles) {
@@ -103,10 +103,8 @@ class Board extends Component {
 							tile.touchedA = true;
 							tile.touchedM = false;
 							this.updateTouchCount(1);
-							// let utc = this.props.updateTouchCount;
-// 							utc();	
 							//}
-					}
+					} 
 				} else {
 					tile.target = false;
 				}
@@ -127,8 +125,6 @@ class Board extends Component {
 					if (tile.touchedA) {
 						tile.touchedA = false;
 						this.updateTouchCount(-1);
-						// let ltc = this.props.lowerTouchCount;
-// 						ltc();
 					} 
 				} 
 			}
@@ -255,7 +251,7 @@ class Board extends Component {
 		this.setState({
 			targetx: x,
 			targety: y,
-			tiles: this.paint(x, y, monster)
+			tiles: this.paint(x, y)
 		});
 	}
 	

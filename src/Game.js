@@ -30,7 +30,8 @@ class Game extends Component {
 	}
 
 	handleClick(e) {
-		const statusCode = e.target.getAttribute('data-statuscode');
+		//const statusCode = e.target.getAttribute('data-statuscode');
+		const statusCode = this.state.statusCode;
 		console.log('Game: handleClick: ' + statusCode);
 		this.handleUserDidSomething(statusCode);
 	}
