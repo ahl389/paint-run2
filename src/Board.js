@@ -111,15 +111,15 @@ class Board extends Component {
 			// moving up
 			targetx = parseInt(currentx);
 			targety = parseInt(currenty) - 1;
-		} else if (dir === 'n' ||dir === 'N') {
-			// Goto next level
-			let ugs = this.props.updateGameStatus;
-			ugs(
-				true,
-				"Super Power Activated: Skip to Next Level!",
-				"Next Level",
-				'next-level'
-			);
+		// } else if (dir === 'n' ||dir === 'N') {
+		// 	// Goto next level
+		// 	let ugs = this.props.updateGameStatus;
+		// 	ugs(
+		// 		true,
+		// 		"Super Power Activated: Skip to Next Level!",
+		// 		"Next Level",
+		// 		'next-level'
+		// 	);
 		}
 			  
 		return({targetx: targetx, targety: targety})

@@ -55,8 +55,6 @@ class Game extends Component {
 				break;
 			case ' ':     // Spacebar
 			case 'Enter': // Enter/Return key
-			case 'n':
-			case 'N':
 				this.handleUserDidSomething(statusCode);
 				break;
 		}
