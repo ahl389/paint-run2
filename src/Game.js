@@ -4,7 +4,7 @@ import Time from './Time.js';
 import Tutorial from './Tutorial.js';
 
 const gameName    = 'Paint Run';
-const gameVersion = '1.0.3';
+const gameVersion = '1.0.4';
 const gameHome    = 'https://github.com/ahl389/paint-run2';
 
 class Game extends Component {
@@ -53,8 +53,10 @@ class Game extends Component {
 		switch (e.key) {
 			default:
 				break;
-			case ' ': // Spacebar
-			case 'Enter':
+			case ' ':     // Spacebar
+			case 'Enter': // Enter/Return key
+			case 'n':
+			case 'N':
 				this.handleUserDidSomething(statusCode);
 				break;
 		}

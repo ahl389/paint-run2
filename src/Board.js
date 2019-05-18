@@ -99,19 +99,28 @@ class Board extends Component {
 			// moving right
 			targetx = parseInt(currentx) + 1;
 			targety = parseInt(currenty);
-		  } else if (dir === '2' || dir === "ArrowDown" || dir === 's' || dir === 'S') {
+		} else if (dir === '2' || dir === "ArrowDown" || dir === 's' || dir === 'S') {
 			// moving down
 			targetx = parseInt(currentx);
 			targety = parseInt(currenty) + 1;
-		  } else if (dir === '3' || dir === "ArrowLeft" || dir === 'a' || dir === 'A') {
+		} else if (dir === '3' || dir === "ArrowLeft" || dir === 'a' || dir === 'A') {
 			// moving left
 			targetx = parseInt(currentx) - 1;
 			targety = parseInt(currenty);
-		  } else if (dir === '4' || dir === "ArrowUp" || dir === 'w' || dir === 'W') {
+		} else if (dir === '4' || dir === "ArrowUp" || dir === 'w' || dir === 'W') {
 			// moving up
 			targetx = parseInt(currentx);
 			targety = parseInt(currenty) - 1;
-		  }
+		} else if (dir === 'n' ||dir === 'N') {
+			// Goto next level
+			let ugs = this.props.updateGameStatus;
+			ugs(
+				true,
+				"Super Power Activated: Skip to Next Level!",
+				"Next Level",
+				'next-level'
+			);
+		}
 			  
 		return({targetx: targetx, targety: targety})
 	}
