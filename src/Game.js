@@ -107,7 +107,11 @@ class Game extends Component {
 		let sm = '';
 		let bm ='';
 		let sc = '';
-		if (lives > 0) {
+		if (lives === 0) {
+            		sm = `Out of time, you have 1 life remaining!`;
+            		bm = 'Try again.';
+            		sc = 'same-level';
+		} else if (lives > 0) {
 			sm = `Out of time, you have ${lives} lives remaining!`;
 			bm = 'Try again.';
 			sc = 'same-level';
