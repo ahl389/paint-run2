@@ -33,7 +33,7 @@ npm install
 git checkout -b <your-branch-name>
 ```
 
-To see the app locally, from the project's root directory run:
+5) To see the app locally, from the project's root directory run:
 
 ```bash
 npm start
@@ -42,21 +42,22 @@ npm start
 Then visit http://localhost:3000/
 
 
-When you're ready to stage and commit your changes, do so with:
+6) When you're ready to stage and commit your changes, do so with:
 
 ```bash
 git add .
 git commit -m '<your commit message here>'
 ```
 
-Push them to your branch:
+7) Then, push them to your branch:
 
 ```bash
 git push origin <your-branch-name>
 ```
 
+8) Come back to the repo here, and create a pull request by hitting the `New Pull Request` button toward the top. Select your branch from the list.
 
-Come back to the repo here, and create a pull request by hitting the `New Pull Request` button toward the top. Select your branch from the list.
+9) Don't forget - regularly stage and commit your changes. Also, it's good practice to regularly pull down from master to make sure you have the most up to date version of the code. With several contributors, things can get confusing quickly! Do your best to write useful comments where appropriate so other people know what your code is doing!
 
 
 
