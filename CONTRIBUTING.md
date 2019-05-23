@@ -4,7 +4,7 @@ Any and all help is appreciated on this game. If you contribute, please update t
 
 ## Creating Issues
 
-If you see something that needs a fix but don't have the time or interest to get to, please create a new issue! There are several issue tags available - add the ones you think are more relevant. If it's a small, easy fix, go ahead and add the "good first issue" tag to encourage new people to the project or new developers to participate!
+If you see something that needs a fix, or you have an idea but don't have the time or interest to get to it, please create a new issue! There are several issue tags available - add the ones you think are most relevant. If it's a small, easy fix, be sure to add the "good first issue" tag to encourage folx that are to the project or are new developers to participate!
 
 
 ## Getting Started & Workflow
