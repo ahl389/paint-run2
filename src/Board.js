@@ -20,13 +20,11 @@ class Board extends Component {
 	}
 
 	componentDidMount() {
-		console.log('Board: componentDidMount: addEventListener: keydown');
 		document.addEventListener("keydown", this.move, false);
 		this.monsterRunID = setInterval(this.monsterRun, 1000);
 	}
 
 	componentWillUnmount() {
-		console.log('Board: componentWillUnmount: removeEventListener: keydown');
 		document.removeEventListener("keydown", this.move, false);
 		clearInterval(this.monsterRunID);
 	}
@@ -99,19 +97,28 @@ class Board extends Component {
 			// moving right
 			targetx = parseInt(currentx) + 1;
 			targety = parseInt(currenty);
-		  } else if (dir === '2' || dir === "ArrowDown" || dir === 's' || dir === 'S') {
+		} else if (dir === '2' || dir === "ArrowDown" || dir === 's' || dir === 'S') {
 			// moving down
 			targetx = parseInt(currentx);
 			targety = parseInt(currenty) + 1;
-		  } else if (dir === '3' || dir === "ArrowLeft" || dir === 'a' || dir === 'A') {
+		} else if (dir === '3' || dir === "ArrowLeft" || dir === 'a' || dir === 'A') {
 			// moving left
 			targetx = parseInt(currentx) - 1;
 			targety = parseInt(currenty);
-		  } else if (dir === '4' || dir === "ArrowUp" || dir === 'w' || dir === 'W') {
+		} else if (dir === '4' || dir === "ArrowUp" || dir === 'w' || dir === 'W') {
 			// moving up
 			targetx = parseInt(currentx);
 			targety = parseInt(currenty) - 1;
-		  }
+		// } else if (dir === 'n' ||dir === 'N') {
+		// 	// Goto next level
+		// 	let ugs = this.props.updateGameStatus;
+		// 	ugs(
+		// 		true,
+		// 		"Super Power Activated: Skip to Next Level!",
+		// 		"Next Level",
+		// 		'next-level'
+		// 	);
+		}
 			  
 		return({targetx: targetx, targety: targety})
 	}
@@ -175,7 +182,7 @@ class Board extends Component {
 			monsterState: allMons.filter(mon => mon.lives > 0)
 		});
 
-		console.log('Board: updateMonster: id:' + id + ' lives:' + monster.lives + ' stillAlive:' + stillAlive);
+		//console.log('Board: updateMonster: id:' + id + ' lives:' + monster.lives + ' stillAlive:' + stillAlive);
 		return stillAlive;
 	}
 	
@@ -185,7 +192,7 @@ class Board extends Component {
 		let currentx = avatar.getAttribute('data-x');
 		let currenty = avatar.getAttribute('data-y');
 		
-		console.log('Board: move: e.key: ' + e.key + ' x:' + currentx + ' y:' + currenty);
+		//console.log('Board: move: e.key: ' + e.key + ' x:' + currentx + ' y:' + currenty);
 
 		let targetLoc = this.calculateTargetLoc(e.key, currentx, currenty);
 		let target = document.querySelector(`.tile[data-loc="${targetLoc.targetx}-${targetLoc.targety}"]`);
@@ -194,7 +201,7 @@ class Board extends Component {
 			let hasMonster = target.querySelector('.monster');
 			if (hasMonster != null) { // you smooshed the monster!
 				let id = hasMonster.getAttribute('data-id');
-				console.log('Board: move: you smooshed the monster! id:' + id + ' x:' + currentx + ' y:' + currenty);
+				//console.log('Board: move: you smooshed the monster! id:' + id + ' x:' + currentx + ' y:' + currenty);
 				monster = this.updateMonster(id)
 			}
 			
