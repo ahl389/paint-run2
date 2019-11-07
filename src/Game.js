@@ -10,6 +10,7 @@ const gameHome    = 'https://github.com/ahl389/paint-run2';
 class Game extends Component {
 	constructor(props) {
 		super(props);
+        
 		this.state = {
 			name: gameName,
 			version: gameVersion,
@@ -107,6 +108,7 @@ class Game extends Component {
 		let sm = '';
 		let bm ='';
 		let sc = '';
+        
 		if (lives === 1) {
     		sm = `Out of time, you have 1 life remaining!`;
     		bm = 'Try again.';
