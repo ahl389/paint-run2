@@ -12,37 +12,38 @@ class Game extends Component {
 		super(props);
         
 		this.state = {
-			name: gameName,
-			version: gameVersion,
-			home: gameHome,
+            // name: gameName,
+            // version: gameVersion,
+            // home: gameHome,
 			lives: 3,
-			gameOver: true,
-			buttonMessage: "Begin Game!",
+            gameState: {
+                statusCode: 'new-game',
+                buttonMessage: "Begin Game!",
+                inPlay: false,
+            },
 			seconds: this.props.level.time,
-			statusCode: 'new-game',
 			statusMessage: 'Paint Run',
 			tutorial: false
 		};
 		
-		
-		//this.monsters = this.getInitialMonsterState(this.props.tiles)
+        // Bind this to methods
 		this.endLevel = this.endLevel.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 		this.handleKeyPress = this.handleKeyPress.bind(this);
 	}
 	
 	componentDidMount() {
+        // Add event listener to keyboard
 		document.addEventListener("keydown", this.handleKeyPress);
     }
 
 	componentWillUnmount() {
+        // Remove event listener from keyboard
 		document.removeEventListener("keydown", this.handleKeyPress);
 	}
 
-	handleClick(e) {
-		const statusCode = this.state.statusCode;
-		//console.log('Game: handleClick: ' + statusCode);
-		this.handleUserDidSomething(statusCode);
+	handleClick() {
+		this.handleUserAction(this.state.statusCode);
 	}
 
 	handleKeyPress(e) {
@@ -58,15 +59,16 @@ class Game extends Component {
 		}
 	}
 
-	handleUserDidSomething(statusCode) {
+	handleUserAction(statusCode) {
 		console.log('Game: handleUserDidSomething: ' + statusCode);
+        
 		if (statusCode === 'new-game') {
 			this.setState({
-				gameOver: false
+				inPlay: false
 			});
 		} else if (statusCode === 'same-level') {
 			this.setState({
-				gameOver: false,
+				inPlay: true,
 				touched: 1
 			});
 		} else if (statusCode === 'next-level') {
@@ -75,13 +77,13 @@ class Game extends Component {
 
 			this.setState({
 				lives: Math.min(this.state.lives + 2, 4),
-				gameOver: false,
+				inPlay: false,
 				touched: 1
 			});
 		} else if (statusCode === 'restart') {
 			this.setState({
 				lives: 3,
-				gameOver: false,
+				inPlay: false,
 				touched: 1
 			});
 
@@ -90,9 +92,9 @@ class Game extends Component {
 		}
 	}
 
-	updateGameStatus(gameOver, sm, bm, sc, lives=this.state.lives) {
+	updateGameStatus(inPlay, sm, bm, sc, lives=this.state.lives) {
 		this.setState({
-			gameOver: gameOver,
+			inPlay: inPlay,
 			statusMessage: sm,
 			buttonMessage: bm,
 			lives: lives,
@@ -103,7 +105,7 @@ class Game extends Component {
 
 	endLevel() {
 		const lives = this.state.lives - 1;
-		const gameOver = true;
+		const inPlay = false;
 
 		let sm = '';
 		let bm ='';
@@ -123,7 +125,7 @@ class Game extends Component {
 			sc = 'restart';
 		}
 		
-		this.updateGameStatus(gameOver, sm, bm, sc, lives)
+		this.updateGameStatus(inPlay, sm, bm, sc, lives)
 	}
 	
 	getTileState(locs) {
@@ -213,9 +215,10 @@ class Game extends Component {
 						<a href={this.state.home} target="_blank" rel="noopener noreferrer">{this.state.name} v{this.state.version}</a>
 					</div>
 				</div>
+            
 				<div className = "clear"></div>
 
-				{ ! this.state.gameOver 
+				{ ! this.state.gameStatus.inPlay 
 				  ? <Board
 						monsters={initialMonsters}
 						tiles={initialTiles}

@@ -7,7 +7,7 @@ import './Tutorial.css';
 import Game from './Game.js';
 import levels from './levels.js'
 
-class Frame extends Component {
+class AppProgress extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
@@ -85,7 +85,7 @@ class Frame extends Component {
 		return (
 			<div className = "body">
 				<Game 
-					gameOver={false}
+					inPlay={false}
 					level={level}
 					increaseLevel={increaseLevel.bind(this)}
 					restart={restart.bind(this)}/>
@@ -94,4 +94,4 @@ class Frame extends Component {
 	}
 }
 
-export default Frame;
+export default AppProgress;
