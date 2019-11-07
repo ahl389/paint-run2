@@ -7,7 +7,7 @@ import './Tutorial.css';
 import Game from './Game.js';
 import levels from './levels.js'
 
-class App extends Component {
+class Frame extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
@@ -79,4 +79,4 @@ class App extends Component {
 	}
 }
 
-export default App;
+export default Frame;
