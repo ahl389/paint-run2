@@ -16,12 +16,20 @@ class App extends Component {
 		};
 	}
 	
+    /**
+     * Updates the state of the App component to set the level to 1, effectively restarting
+     * the game.
+     */
 	restart() {
 		this.setState({
 			level: 1
 		});
 	}
 	
+    /**
+     * Reads level data from JSON level file and creates object containing robust level information
+     * @return {Obj} Object holding information regarding the current level
+     */
 	processLevelData() {
 		let currentLevelIndex = this.state.level - 1;
 		if (currentLevelIndex >= levels.length) {
@@ -46,6 +54,10 @@ class App extends Component {
 		};
 	}
 	
+    /**
+     * Calculates and returns number of monsters for a given level
+     * @return {number} Number of monsters in the level
+     */
 	getMonsterNum() {
 		if (this.state.level > 4) {
 			return Math.floor(this.state.level/5 + 5)
@@ -56,6 +68,9 @@ class App extends Component {
 		}
 	}
 
+    /**
+     * Updates state of the App component to increase the level of the user
+     */
 	increaseLevel() {
 		this.setState({
 			level: this.state.level+1
