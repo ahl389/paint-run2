@@ -15,14 +15,14 @@ class Game extends Component {
             // name: gameName,
             // version: gameVersion,
             // home: gameHome,
-			lives: 3,
-            gameState: {
+            
+            inPlay: false,
+            messaging: {
                 statusCode: 'new-game',
                 buttonMessage: "Begin Game!",
-                inPlay: false,
+    			statusMessage: 'Paint Run',
             },
 			seconds: this.props.level.time,
-			statusMessage: 'Paint Run',
 			tutorial: false
 		};
 		
@@ -43,28 +43,26 @@ class Game extends Component {
 	}
 
 	handleClick() {
-		this.handleUserAction(this.state.statusCode);
+		this.handleUserAction(this.state.messaging.statusCode);
 	}
 
 	handleKeyPress(e) {
-		const statusCode = this.state.statusCode;
+		const statusCode = this.state.messaging.statusCode;
 		//console.log('Game: handleKeyPress: e.key: ' + e.key + '  statusCode: ' + statusCode);
 		switch (e.key) {
 			default:
 				break;
 			case ' ':     // Spacebar
 			case 'Enter': // Enter/Return key
-				this.handleUserDidSomething(statusCode);
+				this.handleUserAction(statusCode);
 				break;
 		}
 	}
 
 	handleUserAction(statusCode) {
-		console.log('Game: handleUserDidSomething: ' + statusCode);
-        
 		if (statusCode === 'new-game') {
 			this.setState({
-				inPlay: false
+				inPlay: true
 			});
 		} else if (statusCode === 'same-level') {
 			this.setState({
@@ -92,19 +90,24 @@ class Game extends Component {
 		}
 	}
 
-	updateGameStatus(inPlay, sm, bm, sc, lives=this.state.lives) {
+	updateGameStatus(inPlay, sm, bm, sc, lives=this.props.lives) {
 		this.setState({
 			inPlay: inPlay,
-			statusMessage: sm,
-			buttonMessage: bm,
-			lives: lives,
-			statusCode: sc
+            messaging: {
+    			statusMessage: sm,
+    			buttonMessage: bm,
+    			statusCode: sc
+            },
+			lives: lives
 		});
+        
+        let updateLives = this.props.updateLives;
+        updateLives(lives);
 	}
 
 
 	endLevel() {
-		const lives = this.state.lives - 1;
+		const lives = this.props.lives - 1;
 		const inPlay = false;
 
 		let sm = '';
@@ -215,26 +218,25 @@ class Game extends Component {
 						<a href={this.state.home} target="_blank" rel="noopener noreferrer">{this.state.name} v{this.state.version}</a>
 					</div>
 				</div>
-            
-				<div className = "clear"></div>
+				<div className="clear"></div>
 
-				{ ! this.state.gameStatus.inPlay 
+				{ this.state.inPlay 
 				  ? <Board
 						monsters={initialMonsters}
 						tiles={initialTiles}
-						lives={this.state.lives}
+						lives={this.props.lives}
 						level={this.props.level}
 						time={this.props.level.time}
 						endLevel={endLevel.bind(this)}
 						updateGameStatus={ugs.bind(this)}
 						/> 
 		  		  : <div className = "gameover">
-						<h1>{this.state.statusMessage}</h1>
+						<h1>{this.state.messaging.statusMessage}</h1>
 						<button
 							className="button"
 							onClick={this.handleClick}
-							data-statuscode={this.state.statusCode}>
-				        	{this.state.buttonMessage}
+							data-statuscode={this.state.messaging.statusCode}>
+				        	{this.state.messaging.buttonMessage}
 				     	</button>
 					</div>
 				}

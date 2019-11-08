@@ -12,6 +12,7 @@ class AppProgress extends Component {
 		super(props);
 		this.state = {
 			level: 1,
+			lives: 3,
 			newLevel: true
 		};
 	}
@@ -69,11 +70,20 @@ class AppProgress extends Component {
 	}
 
     /**
-     * Updates state of the App component to increase the level of the user
+     * Updates state of the AppProgress component to increase the level of the user
      */
 	increaseLevel() {
 		this.setState({
 			level: this.state.level+1
+		});
+	}
+    
+    /**
+     * Updates state of the AppProgress component to change the number of lives remaining
+     */
+	updateLives(lives) {
+		this.setState({
+			lives: lives
 		});
 	}
 
@@ -81,14 +91,17 @@ class AppProgress extends Component {
 		let increaseLevel = this.increaseLevel;
 		let level = this.processLevelData();
 		let restart = this.restart;
+        let updateLives = this.updateLives;
 
 		return (
 			<div className = "body">
 				<Game 
 					inPlay={false}
 					level={level}
+                    lives={this.state.lives}
 					increaseLevel={increaseLevel.bind(this)}
-					restart={restart.bind(this)}/>
+					restart={restart.bind(this)}
+                    updateLives={updateLives.bind(this)}/>
 			</div>
 		);
 	}
