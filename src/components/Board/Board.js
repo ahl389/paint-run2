@@ -87,85 +87,59 @@ class Board extends Component {
 	}
 	
 	calculateTargetLoc(dir, currentx, currenty) {
-		let targetx;
-		let targety;
-		if (typeof dir !== 'string') {
-			dir = dir.toString(); // always use string comparisons
-		}
-		if (dir === '1' || dir === "ArrowRight" || dir === 'd' || dir === 'D') {
-			// moving right
-			targetx = parseInt(currentx) + 1;
-			targety = parseInt(currenty);
-		} else if (dir === '2' || dir === "ArrowDown" || dir === 's' || dir === 'S') {
-			// moving down
-			targetx = parseInt(currentx);
-			targety = parseInt(currenty) + 1;
-		} else if (dir === '3' || dir === "ArrowLeft" || dir === 'a' || dir === 'A') {
-			// moving left
-			targetx = parseInt(currentx) - 1;
-			targety = parseInt(currenty);
-		} else if (dir === '4' || dir === "ArrowUp" || dir === 'w' || dir === 'W') {
-			// moving up
-			targetx = parseInt(currentx);
-			targety = parseInt(currenty) - 1;
-		// } else if (dir === 'n' ||dir === 'N') {
-		// 	// Goto next level
-		// 	let ugs = this.props.updateGameStatus;
-		// 	ugs(
-		// 		true,
-		// 		"Super Power Activated: Skip to Next Level!",
-		// 		"Next Level",
-		// 		'next-level'
-		// 	);
-		}
-			  
-		return({targetx: targetx, targety: targety})
+        let x = parseInt(currentx)
+        let y = parseInt(currenty)
+        
+        if (typeof dir !== 'string') {
+            dir = dir.toString().toLowerCase(); // always use string comparisons
+        }
+        
+        const directions = [
+            { direction: 'right', values: ['1', 'ArrowRight', 'd'], response: {x: x+1, y: y} },
+            { direction: 'left', values: ['3', 'ArrowLeft', 'a'], response: {x: x-1, y: y} },
+            { direction: 'up', values: ['4', 'ArrowUp', 'w'], response: {x: x, y: y-1} },
+            { direction: 'down', values: ['2', 'ArrowDown', 's'], response: {x: x, y: y+1} }
+        ]
+
+        return directions.find( direction => direction.values.includes(dir) ).response;
 	}
 	
 	monsterRun() {
-		let monsters = document.querySelectorAll('.monster');
-		let updated = [];
-		
-		for (let monster of monsters) {
-			let dir = parseInt(monster.getAttribute('data-prevdir'));
-			let prevDir = dir;
-			let id = monster.getAttribute('data-id');
-			let currentx = monster.getAttribute('data-x');
-			let currenty = monster.getAttribute('data-y');
+        let monsters = this.state.monsterState;
+        let tiles = this.props.tiles;
+		let flat = tiles.reduce(function(a,b) { return a.concat(b);  });
+		let validTiles = flat.filter(loc => loc.type == 'tile')
+        
+        for (let monster of monsters) {
+            let targetLoc = this.calculateTargetLoc(monster.dir, monster.x, monster.y);
+            
+            // check if target location is a valid tile
+            let targetTile = validTiles.find(tile => 
+                tile.x === targetLoc.x && tile.y === targetLoc.y
+            );
+            
+            monster.prevDir = monster.dir;
+            
+            // if tile doesnt exist at target location, pick new direction
+            if (targetTile === undefined) {
+                monster.dir = Math.ceil(Math.random() * 4);
+            } else {
+                monster.x = targetLoc.x
+                monster.y = targetLoc.y
+            }
 
-			let targetLoc = this.calculateTargetLoc(dir, currentx, currenty);
-			let target = document.querySelector(`.tile[data-loc="${targetLoc.targetx}-${targetLoc.targety}"]`);
-			let targetx = targetLoc.targetx;
-			let targety = targetLoc.targety;
-			
-			if (target != null) { // if target exists
-				if (updated.some(mon => mon.mtargetx === targetx && mon.mtargety === targety)) { // if no other monster is aleady heading to this target
-					dir = Math.ceil(Math.random() * 4); // proposed tile isn't valid, pick a random new direction
-					targetx = currentx;
-					targety = currenty;
-				} 
-			} else {
-				dir = Math.ceil(Math.random() * 4); // proposed tile isn't valid, pick a random new direction
-				targetx = currentx;
-				targety = currenty;
-			}
-			
-
-			let rm = this.state.monsterState.find(mon => mon.id == id);
-			rm.mtargetx = targetx;
-			rm.mtargety = targety;
-			rm.prevDir = prevDir;
-			rm.dir = dir;
-
-			updated.push(rm);
-			this.updateBoardStateM(targetx, targety);
-		}
-
+            this.updateBoardStateM(monster.x, monster.y);
+        }
+        
 		this.setState({
-			monsterState: updated
+			monsterState: monsters
 		});
-	}
-	
+    }
+
+        
+		
+    
+    
 	updateMonster(id) {
 		const allMons = this.state.monsterState;
 		let stillAlive = true;
@@ -194,7 +168,7 @@ class Board extends Component {
 		//console.log('Board: move: e.key: ' + e.key + ' x:' + currentx + ' y:' + currenty);
 
 		let targetLoc = this.calculateTargetLoc(e.key, currentx, currenty);
-		let target = document.querySelector(`.tile[data-loc="${targetLoc.targetx}-${targetLoc.targety}"]`);
+		let target = document.querySelector(`.tile[data-loc="${targetLoc.x}-${targetLoc.y}"]`);
 
 		if (target != null) {
 			let hasMonster = target.querySelector('.monster');
@@ -204,7 +178,7 @@ class Board extends Component {
 				monster = this.updateMonster(id)
 			}
 			
-			this.updateBoardState(targetLoc.targetx, targetLoc.targety, monster);
+			this.updateBoardState(targetLoc.x, targetLoc.y, monster);
 		}
 	}
 	
@@ -256,7 +230,7 @@ class Board extends Component {
 			<div>
 				<div className = "details-tab">
 					<div className="lives">{this.props.lives}<br></br><span>lives</span></div>
-					<div className="status">{this.state.touched}/{this.props.level.tiles}<br></br><span>tiles</span></div>
+					<div className="status">{this.state.touched}/{this.props.level.numTiles}<br></br><span>tiles</span></div>
 					<Time time={this.props.time} updateGame={this.props.updateGame}/>
 				</div>
 			

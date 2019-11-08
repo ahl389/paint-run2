@@ -64,6 +64,7 @@ class Game extends Component {
      */
 	processLevelData() {
 		let currentLevelIndex = this.state.level - 1;
+        
 		if (currentLevelIndex >= levels.length) {
 			// @TODO - no more levels, tell user they won!
 			this.restart();
@@ -71,17 +72,18 @@ class Game extends Component {
 		}
 
 		let data = levels[currentLevelIndex].tiles;
-		let tiles = data.reduce(function(a,b) { return a.concat(b);  })
-  	 				.filter(function(elem) { return elem })
-					.length;
+        let locs = data.reduce(function(a,b) { return a.concat(b);  });
+        let tiles = locs.filter(loc => loc!=0);
 
+		
 		return {
 			levelNum: this.state.level,
 			grid: data,
 			rows: data.length,
 			cols: data[0].length,
-			tiles: tiles,
-			time: tiles * 750,
+            locs: locs, 
+			numTiles: tiles.length,
+			time: tiles.length * 750,
 			monsters: this.getMonsterNum()
 		};
 	}

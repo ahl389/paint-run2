@@ -48,7 +48,7 @@ class Tile extends Component {
 	
 	renderMonster(key, mon){
 		return (
-			<Monster key={key} mon={mon} x={mon.mtargetx} y={mon.mtargety} prevDir={mon.prevDir}/>
+			<Monster key={key} mon={mon} x={mon.x} y={mon.y} prevDir={mon.prevDir}/>
 		);
 	}
 	
