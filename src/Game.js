@@ -22,8 +22,7 @@ class Game extends Component {
                 buttonMessage: "Begin Game!",
     			statusMessage: 'Paint Run',
             },
-			seconds: this.props.level.time,
-			tutorial: false
+			seconds: this.props.level.time
 		};
 		
         // Bind this to methods
@@ -144,19 +143,6 @@ class Game extends Component {
 				let target = (x == 0 && y == 0) ? true: false;
 				let touchedA = (x == 0 && y == 0) ? true: false;
 				let touchedM = false;
-				
-				
-				
-				// for (let loc of locs) {
-// 					if (loc.x === x && loc.y === y) {
-// 						if (loc.t === 'a') {
-// 							touchedA = true;
-// 							target = true;
-// 						} else {
-// 							touchedM = true;
-// 						}
-// 					}
-// 				}
 
 				r.push({	x: x,
 							y: y,
