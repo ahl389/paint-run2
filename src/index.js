@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import AppProgress from './App';
+import Game from './Game';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<AppProgress />, document.getElementById('root'));
+ReactDOM.render(<Game />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

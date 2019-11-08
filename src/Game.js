@@ -12,8 +12,7 @@ class Game extends Component {
 		super(props);
 		this.state = {
 			level: 1,
-			lives: 3,
-			newLevel: true
+			lives: 3
 		};
 	}
 	
@@ -23,9 +22,44 @@ class Game extends Component {
      */
 	restart() {
 		this.setState({
-			level: 1
+			level: 1,
+            lives: 3
 		});
 	}
+    
+    /**
+     * Updates state of the Game component to update the level of the user
+     */
+	updateLevel() {
+		this.setState({
+			level: this.state.level+1
+		});
+	}
+    
+    /**
+     * Updates state of the Game component to change the number of lives remaining
+     */
+	updateLives(lives) {
+		this.setState({
+			lives: lives
+		});
+	}
+    
+    /**
+     * Calls appropriate update state functions when a level is won
+     */
+    levelWon() {
+        this.updateLevel();
+        this.updateLives(Math.min(this.state.lives + 2, 4))
+    }
+    
+    /**
+     * Calls appropriate update state functions when a level is lost
+     */
+    levelLost() {
+        const newLives = this.state.lives - 1;
+        newLives > 0 ? this.updateLives(newLives) : this.restart();
+    }
 	
     /**
      * Reads level data from JSON level file and creates object containing robust level information
@@ -69,39 +103,23 @@ class Game extends Component {
 		}
 	}
 
-    /**
-     * Updates state of the Game component to update the level of the user
-     */
-	updateLevel() {
-		this.setState({
-			level: this.state.level+1
-		});
-	}
-    
-    /**
-     * Updates state of the Game component to change the number of lives remaining
-     */
-	updateLives(lives) {
-		this.setState({
-			lives: lives
-		});
-	}
+
 
 	render() {
 		let updateLevel = this.updateLevel;
 		let level = this.processLevelData();
 		let restart = this.restart;
         let updateLives = this.updateLives;
+        let levelWon = this.levelWon;
+        let levelLost = this.levelLost;
 
 		return (
 			<div className = "body">
 				<Level 
-					inPlay={false}
 					data={level}
                     lives={this.state.lives}
-					updateLevel={updateLevel.bind(this)}
-					restart={restart.bind(this)}
-                    updateLives={updateLives.bind(this)}/>
+					levelWon={levelWon.bind(this)}
+                    levelLost={levelLost.bind(this)}/>
 			</div>
 		);
 	}

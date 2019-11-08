@@ -18,15 +18,12 @@ class Level extends Component {
             
             inPlay: false,
             messaging: {
-                statusCode: 'new-game',
                 buttonMessage: "Begin Game!",
     			statusMessage: 'Paint Run',
-            },
-			seconds: this.props.data.time
+            }
 		};
 		
         // Bind this to methods
-		this.endLevel = this.endLevel.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 		this.handleKeyPress = this.handleKeyPress.bind(this);
 	}
@@ -42,93 +39,48 @@ class Level extends Component {
 	}
 
 	handleClick() {
-		this.handleUserAction(this.state.messaging.statusCode);
+		this.resumePlay();
 	}
 
 	handleKeyPress(e) {
-		const statusCode = this.state.messaging.statusCode;
-		//console.log('Game: handleKeyPress: e.key: ' + e.key + '  statusCode: ' + statusCode);
 		switch (e.key) {
-			default:
-				break;
 			case ' ':     // Spacebar
 			case 'Enter': // Enter/Return key
-				this.handleUserAction(statusCode);
+				this.resumePlay();
+				break;
+			default:
 				break;
 		}
 	}
-
-	handleUserAction(statusCode) {
-		if (statusCode === 'new-game') {
-			this.setState({
-				inPlay: true
-			});
-		} else if (statusCode === 'same-level') {
-			this.setState({
-				inPlay: true,
-				touched: 1
-			});
-		} else if (statusCode === 'next-level') {
-			let updateLevel = this.props.updateLevel;
-			updateLevel();
-
-			this.setState({
-				lives: Math.min(this.state.lives + 2, 4),
-				inPlay: false,
-				touched: 1
-			});
-		} else if (statusCode === 'restart') {
-			this.setState({
-				lives: 3,
-				inPlay: false,
-				touched: 1
-			});
-
-			let restart = this.props.restart;
-			restart();
-		}
-	}
-
-	updateGameStatus(inPlay, sm, bm, sc, lives=this.props.lives) {
+    
+    resumePlay() {
 		this.setState({
-			inPlay: inPlay,
-            messaging: {
-    			statusMessage: sm,
-    			buttonMessage: bm,
-    			statusCode: sc
-            },
-			lives: lives
+			inPlay: true
 		});
-        
-        let updateLives = this.props.updateLives;
-        updateLives(lives);
+    }
+
+	pausePlay(messaging) {
+		this.setState({
+			inPlay: false,
+            messaging: messaging
+		});
 	}
-
-
-	endLevel() {
-		const lives = this.props.lives - 1;
-		const inPlay = false;
-
-		let sm = '';
-		let bm ='';
-		let sc = '';
-        
-		if (lives === 1) {
-    		sm = `Out of time, you have 1 life remaining!`;
-    		bm = 'Try again.';
-    		sc = 'same-level';
-		} else if (lives > 1) {
-			sm = `Out of time, you have ${lives} lives remaining!`;
-			bm = 'Try again.';
-			sc = 'same-level';
-		} else {
-			sm = `Game Over`;
-			bm = 'Play again';
-			sc = 'restart';
-		}
-		
-		this.updateGameStatus(inPlay, sm, bm, sc, lives)
-	}
+    
+    updateGame(statusCode) {
+        if (statusCode == 'level-won') {
+            this.pausePlay({ buttonMessage: "Next Level", statusMessage: "Level Won" })
+            this.props.levelWon();
+        } else {
+            const lives = this.props.lives - 1;
+            
+            this.pausePlay({ 
+                buttonMessage: "Try Again", 
+                statusMessage: `Out of time, you have ${lives} ${lives === 1 ? 'life' : 'lives'} remaining!`
+            });
+            
+            this.props.levelLost();
+        }
+    }
 	
 	getTileState(locs) {
 		const grid = this.props.data.grid;
@@ -188,9 +140,7 @@ class Level extends Component {
 	render() {
 		const initialTiles = this.getTileState(this.props.data.grid);
 		const initialMonsters = this.getMonsterState(initialTiles);
-
-		const ugs = this.updateGameStatus;
-		const endLevel = this.endLevel;
+		const updateGame = this.updateGame;
 
 		return (
 			<div className="game-board">
@@ -213,8 +163,7 @@ class Level extends Component {
 						lives={this.props.lives}
 						level={this.props.data}
 						time={this.props.data.time}
-						endLevel={endLevel.bind(this)}
-						updateGameStatus={ugs.bind(this)}
+						updateGame={updateGame.bind(this)}
 						/> 
 		  		  : <div className = "gameover">
 						<h1>{this.state.messaging.statusMessage}</h1>
