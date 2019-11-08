@@ -103,7 +103,7 @@ class Level extends Component {
         }
     }
 	
-	getTileState(locs) {
+	getTileState() {
 		const grid = this.props.data.grid;
 		let tileState = [];
 
@@ -141,13 +141,13 @@ class Level extends Component {
 
 		for (let i = 0; i < num; i++) {
 			const target = potentialTargets[
-				Math.floor(Math.random() * this.props.data.tiles/2)
-				+ Math.floor(this.props.data.tiles/2)
+				Math.floor(Math.random() * this.props.data.numTiles/2)
+				+ Math.floor(this.props.data.numTiles/2)
 			];
 			
 			monsters.push({
-				mtargetx: target.x,
-				mtargety: target.y,
+				x: target.x,
+				y: target.y,
 				dir: 4,
 				prevDir: 4,
 				lives: 3,
@@ -155,11 +155,12 @@ class Level extends Component {
 			});
 		}
 		
+        console.log(monsters)
 		return monsters;
 	}
 
 	render() {
-		const initialTiles = this.getTileState(this.props.data.grid);
+		const initialTiles = this.getTileState();
 		const initialMonsters = this.getMonsterState(initialTiles);
 		const updateGame = this.updateGame;
 

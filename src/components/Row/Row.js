@@ -35,13 +35,13 @@ class Row extends Component {
 			let rm = [];
 			
 			for (let monster of monsters) {
-				if (typeof monster.mtargetx !== 'number') {
-					monster.mtargetx = parseInt(monster.mtargetx);
+				if (typeof monster.x !== 'number') {
+					monster.x = parseInt(monster.x);
 				}
-				if (typeof monster.mtargety !== 'number') {
-					monster.mtargety = parseInt(monster.mtargety);
+				if (typeof monster.y !== 'number') {
+					monster.y = parseInt(monster.y);
 				}
-				if (y === monster.mtargety && x === monster.mtargetx) {
+				if (y === monster.y && x === monster.x) {
 					monsterTarget = true;
 					mc++;
 					rm.push(monster)
