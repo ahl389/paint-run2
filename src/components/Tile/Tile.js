@@ -1,6 +1,6 @@
 import React, { Component } from 'react'; 
-import Avatar from './Avatar.js';
-import Monster from './Monster.js';
+import Avatar from '../Avatar/Avatar';
+import Monster from '../Monster/Monster';
 
 class Tile extends Component {	
 	constructor(props) {

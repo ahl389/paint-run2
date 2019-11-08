@@ -1,5 +1,5 @@
 import React, { Component } from 'react'; 
-import Tile from './Tile.js';
+import Tile from '../Tile/Tile';
 
 class Row extends Component {
 	// renderTile(key, tile, target, monsterTarget, mtx, mty, mc) {
