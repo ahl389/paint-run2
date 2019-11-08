@@ -87,39 +87,58 @@ class Board extends Component {
 	}
 	
 	calculateTargetLoc(dir, currentx, currenty) {
-		let targetx;
-		let targety;
-		if (typeof dir !== 'string') {
-			dir = dir.toString(); // always use string comparisons
-		}
-		if (dir === '1' || dir === "ArrowRight" || dir === 'd' || dir === 'D') {
-			// moving right
-			targetx = parseInt(currentx) + 1;
-			targety = parseInt(currenty);
-		} else if (dir === '2' || dir === "ArrowDown" || dir === 's' || dir === 'S') {
-			// moving down
-			targetx = parseInt(currentx);
-			targety = parseInt(currenty) + 1;
-		} else if (dir === '3' || dir === "ArrowLeft" || dir === 'a' || dir === 'A') {
-			// moving left
-			targetx = parseInt(currentx) - 1;
-			targety = parseInt(currenty);
-		} else if (dir === '4' || dir === "ArrowUp" || dir === 'w' || dir === 'W') {
-			// moving up
-			targetx = parseInt(currentx);
-			targety = parseInt(currenty) - 1;
-		// } else if (dir === 'n' ||dir === 'N') {
-		// 	// Goto next level
-		// 	let ugs = this.props.updateGameStatus;
-		// 	ugs(
-		// 		true,
-		// 		"Super Power Activated: Skip to Next Level!",
-		// 		"Next Level",
-		// 		'next-level'
-		// 	);
-		}
-			  
-		return({targetx: targetx, targety: targety})
+		// let targetx;
+//         let targety;
+        
+        let x = parseInt(currentx)
+        let y = parseInt(currenty)
+        
+        if (typeof dir !== 'string') {
+            dir = dir.toString().toLowerCase(); // always use string comparisons
+        }
+//
+//         if (dir === '1' || dir === "ArrowRight" || dir === 'd') {
+//             // moving right
+//             targetx = parseInt(currentx) + 1;
+//             targety = parseInt(currenty);
+//         } else if (dir === '2' || dir === "ArrowDown" || dir === 's') {
+//             // moving down
+//             targetx = parseInt(currentx);
+//             targety = parseInt(currenty) + 1;
+//         } else if (dir === '3' || dir === "ArrowLeft" || dir === 'a') {
+//             // moving left
+//             targetx = parseInt(currentx) - 1;
+//             targety = parseInt(currenty);
+//         } else if (dir === '4' || dir === "ArrowUp" || dir === 'w') {
+//             // moving up
+//             targetx = parseInt(currentx);
+//             targety = parseInt(currenty) - 1;
+//         // } else if (dir === 'n' ||dir === 'N') {
+//         //     // Goto next level
+//         //     let ugs = this.props.updateGameStatus;
+//         //     ugs(
+//         //         true,
+//         //         "Super Power Activated: Skip to Next Level!",
+//         //         "Next Level",
+//         //         'next-level'
+//         //     );
+//         }
+        
+        const directions = [
+            { direction: 'right', values: ['1', 'ArrowRight', 'd'], response: {x: x+1, y: y} },
+            { direction: 'left', values: ['3', 'ArrowLeft', 'a'], response: {x: x-1, y: y} },
+            { direction: 'up', values: ['4', 'ArrowUp', 'w'], response: {x: x, y: y-1} },
+            { direction: 'down', values: ['2', 'ArrowDown', 's'], response: {x: x, y: y+1} }
+        ]
+        console.log(directions.find( direction => direction.values.includes(dir) ))
+        return directions.find( direction => direction.values.includes(dir) ).response;
+        
+        // const right =   {x: x+1,    y: y}
+//         const left =    {x: x-1,    y: y}
+//         const up =      {x: x,      y: y-1}
+//         const down =    {x: x,      y: y+1}
+//
+//         return({targetx: targetx, targety: targety})
 	}
 	
 	monsterRun() {
@@ -134,9 +153,9 @@ class Board extends Component {
 			let currenty = monster.getAttribute('data-y');
 
 			let targetLoc = this.calculateTargetLoc(dir, currentx, currenty);
-			let target = document.querySelector(`.tile[data-loc="${targetLoc.targetx}-${targetLoc.targety}"]`);
-			let targetx = targetLoc.targetx;
-			let targety = targetLoc.targety;
+			let target = document.querySelector(`.tile[data-loc="${targetLoc.x}-${targetLoc.y}"]`);
+			let targetx = targetLoc.x;
+			let targety = targetLoc.y;
 			
 			if (target != null) { // if target exists
 				if (updated.some(mon => mon.mtargetx === targetx && mon.mtargety === targety)) { // if no other monster is aleady heading to this target
@@ -194,7 +213,7 @@ class Board extends Component {
 		//console.log('Board: move: e.key: ' + e.key + ' x:' + currentx + ' y:' + currenty);
 
 		let targetLoc = this.calculateTargetLoc(e.key, currentx, currenty);
-		let target = document.querySelector(`.tile[data-loc="${targetLoc.targetx}-${targetLoc.targety}"]`);
+		let target = document.querySelector(`.tile[data-loc="${targetLoc.x}-${targetLoc.y}"]`);
 
 		if (target != null) {
 			let hasMonster = target.querySelector('.monster');
@@ -204,7 +223,7 @@ class Board extends Component {
 				monster = this.updateMonster(id)
 			}
 			
-			this.updateBoardState(targetLoc.targetx, targetLoc.targety, monster);
+			this.updateBoardState(targetLoc.x, targetLoc.y, monster);
 		}
 	}
 	
