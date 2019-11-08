@@ -29,7 +29,7 @@ class Time extends Component {
 		});
 		
 		if (remaining < 0) {
-			endLevel();
+			this.props.updateGame('level-lost');
 		}
 	}
 	

@@ -38,9 +38,8 @@ class Board extends Component {
 	}
 	
 	checkForWin() {
-		let ugs = this.props.updateGameStatus;
 		if (this.state.touched === this.props.level.tiles) {
-			ugs(true, "Level Won", "Next Level", 'next-level')
+            this.props.updateGame('level-won');
 		} 
 	}
 	
@@ -258,7 +257,7 @@ class Board extends Component {
 				<div className = "details-tab">
 					<div className="lives">{this.props.lives}<br></br><span>lives</span></div>
 					<div className="status">{this.state.touched}/{this.props.level.tiles}<br></br><span>tiles</span></div>
-					<Time time={this.props.time} endLevel={this.props.endLevel}/>
+					<Time time={this.props.time} updateGame={this.props.updateGame}/>
 				</div>
 			
 				<div className = "board">
