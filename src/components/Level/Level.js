@@ -38,10 +38,16 @@ class Level extends Component {
 		document.removeEventListener("keydown", this.handleKeyPress);
 	}
 
+    /**
+     * When user clicks button, play is resumed
+     */
 	handleClick() {
 		this.resumePlay();
 	}
 
+    /**
+     * When user presses space or enter, play is resumed
+     */
 	handleKeyPress(e) {
 		switch (e.key) {
 			case ' ':     // Spacebar
@@ -53,12 +59,20 @@ class Level extends Component {
 		}
 	}
     
+    /**
+     * Updates state of Level component to unpause the game and enable active playing
+     */
     resumePlay() {
 		this.setState({
 			inPlay: true
 		});
     }
 
+    /**
+     * Updates state of Level component to pause the game and disable active playing
+     * Also sets new messaging to be displayed during the pause screen
+     * @param: {Obj} messaging - an object containg text for button and headline
+     */
 	pausePlay(messaging) {
 		this.setState({
 			inPlay: false,
@@ -66,6 +80,13 @@ class Level extends Component {
 		});
 	}
     
+    /**
+     * Determines messaging based on statusCode and then calls pausePlay method with
+     * new messaging. Also calls Game component methods that update the Game component
+     * with new values for lives and level.
+     * @param: {string} statusCode - a string containing a status code that dictates the 
+     * Game and Level components' next state
+     */
     updateGame(statusCode) {
         if (statusCode == 'level-won') {
             this.pausePlay({ buttonMessage: "Next Level", statusMessage: "Level Won" })
