@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 
-import './App.css';
-import './Tile.css';
-import './button.css';
-import './Tutorial.css';
+import './App.scss';
 import Level from './components/Level/Level.js';
-import levels from 'levels.js'
+import levels from './levels.js'
 
 class Game extends Component {
 	constructor(props){
