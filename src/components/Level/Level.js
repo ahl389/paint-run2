@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Board from './Board.js';
-import Time from './Time.js';
-import Tutorial from './Tutorial.js';
+import Board from '../Board/Board';
+import Time from '../Time/Time';
+import Tutorial from '../Tutorial/Tutorial';
 
 const gameName    = 'Paint Run';
 const gameVersion = '1.0.4';

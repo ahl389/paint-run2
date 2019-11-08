@@ -1,6 +1,6 @@
 import React, { Component } from 'react'; 
-import Row from './Row.js';
-import Time from './Time.js';
+import Row from '../Row/Row';
+import Time from '../Time/Time';
 
 class Board extends Component {
 	constructor(props) {
