@@ -79,7 +79,6 @@ class Game extends Component {
 		
 		return {
 			levelNum: this.state.level,
-			//grid: data,
 			rows: data.length,
 			cols: data[0].length,
             gridObjects: locationObjects,
@@ -160,10 +159,7 @@ class Game extends Component {
 	}
 
 	render() {
-		let updateLevel = this.updateLevel;
 		let level = this.processLevelData();
-		let restart = this.restart;
-        let updateLives = this.updateLives;
         let levelWon = this.levelWon;
         let levelLost = this.levelLost;
 

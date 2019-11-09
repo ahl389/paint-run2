@@ -103,34 +103,6 @@ class Level extends Component {
         }
     }
 	
-	// getTileState() {
-//         const grid = this.props.data.grid;
-//         let tileState = [];
-//
-//         for (let y = 0; y < grid.length; y++) {
-//             let row = grid[y];
-//             let r = [];
-//
-//             for (let x = 0; x < row.length; x++) {
-//                 let type = row[x] ? 'tile' : 'space';
-//                 let target = (x == 0 && y == 0) ? true: false;
-//                 let touchedA = (x == 0 && y == 0) ? true: false;
-//                 let touchedM = false;
-//
-//                 r.push({    x: x,
-//                             y: y,
-//                             type: type,
-//                             target: target,
-//                             touchedA: touchedA,
-//                             touchedM: touchedM
-//                         });
-//             }
-//
-//             tileState.push(r)
-//         }
-//
-//         return tileState;
-//     }
 
 	getMonsterState(tiles) {
 		const num = this.props.data.monsters;
