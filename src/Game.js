@@ -74,18 +74,19 @@ class Game extends Component {
 		let data = levels[currentLevelIndex].tiles;
         let locationObjects = this.getLocationObjects(data);
         let flatLocs = locationObjects.reduce(function(a,b) { return a.concat(b);  });
-        let validTiles = flatLocs.filter(loc => loc.type === 'tile');
+		let validTileObjects = flatLocs.filter(loc => loc.type === 'tile');
+		let monsterObjects = this.getMonsterObjects(validTileObjects);
 
 		
 		return {
 			levelNum: this.state.level,
 			rows: data.length,
 			cols: data[0].length,
-            gridObjects: locationObjects,
-            validTileObjects: validTiles, 
-			numTiles: validTiles.length,
-			time: validTiles.length * 750,
-			monsters: this.getMonsterNum()
+            locationObjects: locationObjects,
+			validTileObjects: validTileObjects,
+			monsterObjects: monsterObjects, 
+			numTiles: validTileObjects.length,
+			time: validTileObjects.length * 750
 		};
 	}
 	
@@ -93,7 +94,7 @@ class Game extends Component {
      * Calculates and returns number of monsters for a given level
      * @return {number} Number of monsters in the level
      */
-	getMonsterNum() {
+	getNumMonsters() {
 		if (this.state.level > 4) {
 			return Math.floor(this.state.level/5 + 5)
 		} else if (this.state.level > 3) {
@@ -131,19 +132,19 @@ class Game extends Component {
 		return locationObjects;
 	}
 
-	getMonsterState(tiles) {
-		const num = this.props.data.monsters;
+	getMonsterObjects(tiles) {
+		const num = this.getNumMonsters();
 		
 		let monsters = [];
-		let flat = tiles.reduce(function(a,b) { return a.concat(b);  });
-		let potentialTargets = flat.filter(loc => loc.type == 'tile')
-
+		
 		for (let i = 0; i < num; i++) {
-			const target = potentialTargets[
-				Math.floor(Math.random() * this.props.data.numTiles/2)
-				+ Math.floor(this.props.data.numTiles/2)
+			// generate random location to render monster
+			const target = tiles[
+				Math.floor(Math.random() * tiles.length/2)
+				+ Math.floor(tiles.length/2)
 			];
 			
+			// create monster object
 			monsters.push({
 				x: target.x,
 				y: target.y,
@@ -153,8 +154,7 @@ class Game extends Component {
 				id: i
 			});
 		}
-		
-        console.log(monsters)
+
 		return monsters;
 	}
 
