@@ -103,64 +103,36 @@ class Level extends Component {
         }
     }
 	
-	// getTileState() {
-//         const grid = this.props.data.grid;
-//         let tileState = [];
-//
-//         for (let y = 0; y < grid.length; y++) {
-//             let row = grid[y];
-//             let r = [];
-//
-//             for (let x = 0; x < row.length; x++) {
-//                 let type = row[x] ? 'tile' : 'space';
-//                 let target = (x == 0 && y == 0) ? true: false;
-//                 let touchedA = (x == 0 && y == 0) ? true: false;
-//                 let touchedM = false;
-//
-//                 r.push({    x: x,
-//                             y: y,
-//                             type: type,
-//                             target: target,
-//                             touchedA: touchedA,
-//                             touchedM: touchedM
-//                         });
-//             }
-//
-//             tileState.push(r)
-//         }
-//
-//         return tileState;
-//     }
 
-	getMonsterState(tiles) {
-		const num = this.props.data.monsters;
+	// getMonsterState(tiles) {
+	// 	const num = this.props.data.monsters;
 		
-		let monsters = [];
-		let flat = tiles.reduce(function(a,b) { return a.concat(b);  });
-		let potentialTargets = flat.filter(loc => loc.type == 'tile')
+	// 	let monsters = [];
+	// 	let flat = tiles.reduce(function(a,b) { return a.concat(b);  });
+	// 	let potentialTargets = flat.filter(loc => loc.type == 'tile')
 
-		for (let i = 0; i < num; i++) {
-			const target = potentialTargets[
-				Math.floor(Math.random() * this.props.data.numTiles/2)
-				+ Math.floor(this.props.data.numTiles/2)
-			];
+	// 	for (let i = 0; i < num; i++) {
+	// 		const target = potentialTargets[
+	// 			Math.floor(Math.random() * this.props.data.numTiles/2)
+	// 			+ Math.floor(this.props.data.numTiles/2)
+	// 		];
 			
-			monsters.push({
-				x: target.x,
-				y: target.y,
-				dir: 4,
-				prevDir: 4,
-				lives: 3,
-				id: i
-			});
-		}
+	// 		monsters.push({
+	// 			x: target.x,
+	// 			y: target.y,
+	// 			dir: 4,
+	// 			prevDir: 4,
+	// 			lives: 3,
+	// 			id: i
+	// 		});
+	// 	}
 		
-        console.log(monsters)
-		return monsters;
-	}
+    //     console.log(monsters)
+	// 	return monsters;
+	// }
 
 	render() {
-		const initialMonsters = this.getMonsterState(this.props.data.gridObjects);
+		// const initialMonsters = this.getMonsterState(this.props.data.gridObjects);
 		const updateGame = this.updateGame;
 
 		return (
@@ -179,7 +151,7 @@ class Level extends Component {
 
 				{ this.state.inPlay 
 				  ? <Board
-						monsters={initialMonsters}
+						//monsters={initialMonsters}
 						lives={this.props.lives}
 						level={this.props.data}
 						time={this.props.data.time}
