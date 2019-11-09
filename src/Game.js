@@ -76,7 +76,7 @@ class Game extends Component {
         let flatLocs = locationObjects.reduce(function(a,b) { return a.concat(b);  });
 		let validTileObjects = flatLocs.filter(loc => loc.type === 'tile');
 		let monsterObjects = this.getMonsterObjects(validTileObjects);
-
+		let avatarObject = this.getAvatarObject();
 		
 		return {
 			levelNum: this.state.level,
@@ -85,6 +85,7 @@ class Game extends Component {
             locationObjects: locationObjects,
 			validTileObjects: validTileObjects,
 			monsterObjects: monsterObjects, 
+			avatarObject: avatarObject,
 			numTiles: validTileObjects.length,
 			time: validTileObjects.length * 750
 		};
@@ -156,6 +157,13 @@ class Game extends Component {
 		}
 
 		return monsters;
+	}
+
+	getAvatarObject() {
+		return {
+			x: 0,
+			y: 0
+		}
 	}
 
 	render() {
