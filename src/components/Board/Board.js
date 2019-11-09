@@ -88,6 +88,7 @@ class Board extends Component {
 	}
 	
 	calculateTargetLoc(dir, currentx, currenty) {
+		console.log(dir, currentx, currenty)
         let x = parseInt(currentx)
         let y = parseInt(currenty)
         
@@ -135,49 +136,43 @@ class Board extends Component {
     }
 
     
-	updateMonster(id) {
-		const allMons = this.state.monsterState;
-		let stillAlive = true;
-		
-		const monster = allMons.find(mon => mon.id == id);
-		monster.lives = monster.lives - 1;
-		
-		if (monster.lives === 0) {
-			stillAlive = false;
-		} 
+	updateMonster() {
+		const monsters = this.state.monsterState;
 
 		this.setState({
-			monsterState: allMons.filter(mon => mon.lives > 0)
+			monsterState: monsters.filter(mon => mon.lives > 0)
 		});
-
-		//console.log('Board: updateMonster: id:' + id + ' lives:' + monster.lives + ' stillAlive:' + stillAlive);
-		return stillAlive;
 	}
-	
+
 	move(e) {
-		let monster = false;
-		let avatar = document.querySelector('.avatar');
-		let currentx = avatar.getAttribute('data-x');
-		let currenty = avatar.getAttribute('data-y');
-		
-		//console.log('Board: move: e.key: ' + e.key + ' x:' + currentx + ' y:' + currenty);
+		let tiles = this.props.level.validTileObjects;
+		let avatar = this.state.avatarState;
 
-		let targetLoc = this.calculateTargetLoc(e.key, currentx, currenty);
-		let target = document.querySelector(`.tile[data-loc="${targetLoc.x}-${targetLoc.y}"]`);
+		// calculate target location
+		let targetLoc = this.calculateTargetLoc(e.key, avatar.x, avatar.y);
 
-		if (target != null) {
-			let hasMonster = target.querySelector('.monster');
-			if (hasMonster != null) { // you smooshed the monster!
-				let id = hasMonster.getAttribute('data-id');
-				//console.log('Board: move: you smooshed the monster! id:' + id + ' x:' + currentx + ' y:' + currenty);
-				monster = this.updateMonster(id)
+		// check if target is valid tile
+		let targetTile = tiles.find(tile => 
+			tile.x === targetLoc.x && tile.y === targetLoc.y
+		);
+
+		// if tile is valid, check if there is a monster at this tile
+		if (targetTile !== undefined) {
+			const monsters = this.state.monsterState;
+			const monsterAtLoc = monsters.find(monster => monster.x === targetTile.x && monster.y === targetTile.y)
+
+			// if monster exists at the target tile, take life from monster
+			if (monsterAtLoc !== undefined) { 
+				monsterAtLoc.lives = monsterAtLoc.lives - 1;
+				this.updateMonster();
 			}
 			
-			this.updateBoardState(targetLoc.x, targetLoc.y, monster);
+			this.updateBoardState(targetLoc.x, targetLoc.y);
 		}
 	}
+
 	
-	updateBoardState(targetx, targety, monster) {
+	updateBoardState(targetx, targety) {
 		// avatar moved, updating board
 		const x = parseInt(targetx);
 		const y = parseInt(targety);
@@ -185,7 +180,8 @@ class Board extends Component {
 		this.setState({
 			targetx: x,
 			targety: y,
-			tileState: this.paint(x, y)
+			avatarState: {x:x, y:y},
+			locationState: this.paint(x, y)
 		});
 	}
 	
@@ -195,7 +191,7 @@ class Board extends Component {
 		const y = parseInt(targety);
 		
 		this.setState({
-			tileState: this.unpaint(x, y)
+			locationState: this.unpaint(x, y)
 		});
 	}
 
