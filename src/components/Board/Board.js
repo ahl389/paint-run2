@@ -10,7 +10,7 @@ class Board extends Component {
 			targety: 0,
 			touched: 1,
 			monsterState: this.props.monsters,
-			tileState: this.props.tiles
+			tileState: this.props.level.gridObjects
 		};
 
 		this.move = this.move.bind(this);
@@ -27,7 +27,8 @@ class Board extends Component {
 	componentWillUnmount() {
 		document.removeEventListener("keydown", this.move, false);
 		clearInterval(this.monsterRunID);
-	}
+	}    
+    
 	
 	updateTouchCount(count) {
 		this.setState({
@@ -38,7 +39,7 @@ class Board extends Component {
 	}
 	
 	checkForWin() {
-		if (this.state.touched === this.props.level.tiles) {
+		if (this.state.touched === this.props.level.numTiles) {
             this.props.updateGame('level-won');
 		} 
 	}
@@ -106,19 +107,17 @@ class Board extends Component {
 	
 	monsterRun() {
         let monsters = this.state.monsterState;
-        let tiles = this.props.tiles;
-		let flat = tiles.reduce(function(a,b) { return a.concat(b);  });
-		let validTiles = flat.filter(loc => loc.type == 'tile')
+        console.log(this.props)
+        let tiles = this.props.level.validTileObjects;
         
         for (let monster of monsters) {
-            let targetLoc = this.calculateTargetLoc(monster.dir, monster.x, monster.y);
+            monster.prevDir = monster.dir;
+            let targetLoc = this.calculateTargetLoc(monster.prevDir, monster.x, monster.y);
             
             // check if target location is a valid tile
-            let targetTile = validTiles.find(tile => 
+            let targetTile = tiles.find(tile => 
                 tile.x === targetLoc.x && tile.y === targetLoc.y
             );
-            
-            monster.prevDir = monster.dir;
             
             // if tile doesnt exist at target location, pick new direction
             if (targetTile === undefined) {
@@ -190,7 +189,7 @@ class Board extends Component {
 		this.setState({
 			targetx: x,
 			targety: y,
-			tiles: this.paint(x, y)
+			tileState: this.paint(x, y)
 		});
 	}
 	
