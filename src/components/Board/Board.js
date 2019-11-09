@@ -9,6 +9,7 @@ class Board extends Component {
 			targetx: 0,
 			targety: 0,
 			touched: 1,
+			avatarState: this.props.level.avatarObject,
 			monsterState: this.props.level.monsterObjects,
 			locationState: this.props.level.locationObjects
 		};
