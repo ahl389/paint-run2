@@ -9,6 +9,7 @@ class Board extends Component {
 			targetx: 0,
 			targety: 0,
 			touched: 1,
+			avatarState: this.props.avatar,
 			monsterState: this.props.monsters,
 			tileState: this.props.level.gridObjects
 		};
@@ -107,7 +108,6 @@ class Board extends Component {
 	
 	monsterRun() {
         let monsters = this.state.monsterState;
-        console.log(this.props)
         let tiles = this.props.level.validTileObjects;
         
         for (let monster of monsters) {
@@ -135,9 +135,6 @@ class Board extends Component {
 		});
     }
 
-        
-		
-    
     
 	updateMonster(id) {
 		const allMons = this.state.monsterState;

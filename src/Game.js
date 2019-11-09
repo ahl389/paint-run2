@@ -137,7 +137,7 @@ class Game extends Component {
 		
 		let monsters = [];
 		let flat = tiles.reduce(function(a,b) { return a.concat(b);  });
-		let potentialTargets = flat.filter(loc => loc.type == 'tile')
+		let potentialTargets = flat.filter(loc => loc.type === 'tile')
 
 		for (let i = 0; i < num; i++) {
 			const target = potentialTargets[
