@@ -123,10 +123,8 @@ class Level extends Component {
 
 				{ this.state.inPlay 
 				  ? <Board
-						//monsters={initialMonsters}
 						lives={this.props.lives}
 						level={this.props.data}
-						time={this.props.data.time}
 						updateGame={updateGame.bind(this)}
 						/> 
 		  		  : <div className = "gameover">

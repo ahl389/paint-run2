@@ -225,7 +225,7 @@ class Board extends Component {
 				<div className = "details-tab">
 					<div className="lives">{this.props.lives}<br></br><span>lives</span></div>
 					<div className="status">{this.state.touched}/{this.props.level.numTiles}<br></br><span>tiles</span></div>
-					<Time time={this.props.time} updateGame={this.props.updateGame}/>
+					<Time time={this.props.level.time} updateGame={this.props.updateGame}/>
 				</div>
 			
 				<div className = "board">
