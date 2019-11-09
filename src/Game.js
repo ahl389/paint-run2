@@ -72,18 +72,20 @@ class Game extends Component {
 		}
 
 		let data = levels[currentLevelIndex].tiles;
-        let locs = data.reduce(function(a,b) { return a.concat(b);  });
-        let tiles = locs.filter(loc => loc!=0);
+        let locationObjects = this.getLocationObjects(data);
+        let flatLocs = locationObjects.reduce(function(a,b) { return a.concat(b);  });
+        let validTiles = flatLocs.filter(loc => loc.type === 'tile');
 
 		
 		return {
 			levelNum: this.state.level,
-			grid: data,
+			//grid: data,
 			rows: data.length,
 			cols: data[0].length,
-            locs: locs, 
-			numTiles: tiles.length,
-			time: tiles.length * 750,
+            gridObjects: locationObjects,
+            validTileObjects: validTiles, 
+			numTiles: validTiles.length,
+			time: validTiles.length * 750,
 			monsters: this.getMonsterNum()
 		};
 	}
@@ -101,8 +103,61 @@ class Game extends Component {
 			return this.state.level;
 		}
 	}
+    
+	getLocationObjects(data) {
+		let locationObjects = [];
 
+		for (let y = 0; y < data.length; y++) {
+			let row = data[y];
+			let r = [];
 
+			for (let x = 0; x < row.length; x++) {
+				let type = row[x] ? 'tile' : 'space';
+				let target = (x == 0 && y == 0) ? true: false;
+				let touchedA = (x == 0 && y == 0) ? true: false;
+				let touchedM = false;
+
+				r.push({	x: x,
+							y: y,
+							type: type,
+							target: target,
+							touchedA: touchedA,
+							touchedM: touchedM
+						});
+			}
+
+			locationObjects.push(r)
+		}
+
+		return locationObjects;
+	}
+
+	getMonsterState(tiles) {
+		const num = this.props.data.monsters;
+		
+		let monsters = [];
+		let flat = tiles.reduce(function(a,b) { return a.concat(b);  });
+		let potentialTargets = flat.filter(loc => loc.type == 'tile')
+
+		for (let i = 0; i < num; i++) {
+			const target = potentialTargets[
+				Math.floor(Math.random() * this.props.data.numTiles/2)
+				+ Math.floor(this.props.data.numTiles/2)
+			];
+			
+			monsters.push({
+				x: target.x,
+				y: target.y,
+				dir: 4,
+				prevDir: 4,
+				lives: 3,
+				id: i
+			});
+		}
+		
+        console.log(monsters)
+		return monsters;
+	}
 
 	render() {
 		let updateLevel = this.updateLevel;
