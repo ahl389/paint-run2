@@ -9,9 +9,8 @@ class Board extends Component {
 			targetx: 0,
 			targety: 0,
 			touched: 1,
-			avatarState: this.props.avatar,
-			monsterState: this.props.monsters,
-			tileState: this.props.level.gridObjects
+			monsterState: this.props.level.monsterObjects,
+			locationState: this.props.level.locationObjects
 		};
 
 		this.move = this.move.bind(this);
@@ -30,7 +29,6 @@ class Board extends Component {
 		clearInterval(this.monsterRunID);
 	}    
     
-	
 	updateTouchCount(count) {
 		this.setState({
 			touched: parseInt(this.state.touched) + count
@@ -46,7 +44,7 @@ class Board extends Component {
 	}
 	
 	paint(targetx, targety) {
-		const tiles = this.state.tileState;
+		const tiles = this.state.locationState;
 
 		for (let row of tiles) {
 			for (let tile of row) {
@@ -70,7 +68,7 @@ class Board extends Component {
 	}
 	
 	unpaint(targetx, targety) {
-		const tiles = this.state.tileState;
+		const tiles = this.state.locationState;
 		
 		for (let row of tiles) {
 			for (let tile of row) {
@@ -204,7 +202,7 @@ class Board extends Component {
 	renderRows() {
 		let rows = [];
 		let id = 0;
-		for (let row of this.state.tileState) {
+		for (let row of this.state.locationState) {
 			rows.push(<Row 	
 						key={id} 
 						rid={id} 
